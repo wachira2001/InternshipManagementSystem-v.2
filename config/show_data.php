@@ -130,7 +130,7 @@ function getroomall($conn) {
         $sqlRoom = "SELECT room.*,student.S_fname,student.S_lname,teacher.T_fname ,teacher.T_lname,student.S_enrollment_year
             FROM room
             LEFT JOIN student ON room.R_ID = student.R_ID
-            LEFT JOIN teacher ON room.R_ID = teacher.R_ID
+            LEFT JOIN teacher ON room.T_ID = teacher.T_ID
                                                 ";
 
         $stmtRoom = $conn->prepare($sqlRoom);
