@@ -102,7 +102,7 @@ $conn = null;
                 <div class="sidebarMenuScroll">
                     <ul>
                         <li class="active">
-                            <a href="index.php ">
+                            <a href="index.php">
                                 <i class="bi bi-house"></i>
                                 <span class="menu-text" >หน้าแรก</span>
                             </a>
@@ -189,7 +189,7 @@ $conn = null;
                                     <span class="user-name d-none d-md-block"><?php echo $user['T_fname']; ?></span>
                                     <!-- รูปประจำตัว -->
                                     <span class="avatar">
-                                    <img src="../teacher/img/<?php echo $user['T_img'];?>" alt="Admin Templates">
+                                    <img src="img/<?php echo $user['T_img'];?>" alt="Admin Templates">
                                         <!-- สถานะออนไลน์ -->
                                     <span class="status online"></span>
                                 </span>

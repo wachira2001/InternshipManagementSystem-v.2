@@ -3,6 +3,7 @@ include_once 'services_student/conndb.php';
 include_once '../config/show_data.php';
 $getTeacher = getTeacher($conn);
 $getroom = getroomall($conn);
+$getmajor = getmajor($conn);
 ?>
 
 <!doctype html>
@@ -19,7 +20,7 @@ $getroom = getroomall($conn);
     <meta property="og:type" content="Website">
     <meta property="og:site_name" content="Bootstrap Gallery">
     <title>สมัครสมาชิกนักศึกษา</title>
-    <link rel="icon" type="image/png" href="../img/software.png">
+    <link rel="icon" type="image/png" href="../upload_img/<?php echo $getmajor['M_img']; ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mitr&display=swap" rel="stylesheet">
@@ -110,7 +111,9 @@ $getroom = getroomall($conn);
                         <!-- ป้ายชื่อสำหรับฟิลด์วันเกิด -->
                         <label for="S_birthday" class="form-label">วันเดือนปีเกิด</label>
                         <!-- ฟิลด์ข้อมูลสำหรับเลือกวันเกิด -->
-                        <input type="date" id="S_birthday" class="form-control" name="S_birthday" required>
+                        <input type="date" id="T_birthday" class="form-control" name="S_birthday" required
+                               min="1950-01-01" max="2015-01-01">
+                        <p id="demo"></p>
                     </div>
                     <div class="col-md-3">
                         <label for="S_phone" class="form-label">เบอร์โทรศัพท์</label>
@@ -118,13 +121,13 @@ $getroom = getroomall($conn);
                                placeholder="เบอร์มือถือที่สามารถติดต่อได้" required>
                     </div>
                     <div class="col-md-3">
-                        <label for="S_email" class="form-label">E-gmail</label>
+                        <label for="S_email" class="form-label">E-mail</label>
                         <input type="email" class="form-control" id="S_email" name="S_email" maxlength="100"
                                placeholder="E-gmail" required>
                     </div>
                     <div class="col-md-12 input-group">
                         <span class="input-group-text">ที่อยู่ปัจจุบัน</span>
-                        <textarea class="form-control" aria-label="With textarea" id="S_address"
+                        <textarea class="form-control" aria-label="With textarea" id="S_address" placeholder="ที่อยู่ปัจจุบัน"
                                   name="S_address" required></textarea>
                     </div>
 
@@ -160,7 +163,7 @@ $getroom = getroomall($conn);
                     </div>
                     <div class="col-md-12 input-group">
                         <span class="input-group-text">ข้อมูลสุขภาพ</span>
-                        <textarea class="form-control" aria-label="With textarea" name="S_health"
+                        <textarea class="form-control" aria-label="With textarea" name="S_health" placeholder="ข้อมูลสุขภาพ"
                                   required></textarea>
                     </div>
                     <div class="col-md-6">
@@ -194,7 +197,7 @@ $getroom = getroomall($conn);
                         <select name="R_ID" id="R_ID" class="form-select" required>
                             <option value="">-- เลือกครู --</option>
                             <?php foreach ($getroom as $room) : ?>
-                                <option value="<?php echo $room['R_ID']; ?>"><?php echo $room['R_level']; ?>. <?php echo $room['R_room']; ?> ห้อง <?php echo $room['R_level_number']; ?></option>
+                                <option value="<?php echo $room['R_ID']; ?>"><?php echo $room['R_level']; ?> <?php echo $room['R_room']; ?> ห้อง <?php echo $room['R_level_number']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>

@@ -86,7 +86,7 @@ try {
             <script>
                 Swal.fire({
                     title: 'สำเร็จ',
-                    text: 'บันทึกข้อมูลบริษัทเรียบร้อยแล้ว',
+                    text: 'ลงทะเบียนสถานประการเรียบร้อยแล้ว',
                     icon: 'success',
                     showConfirmButton: false,
                     timer: 5000

@@ -160,13 +160,13 @@ $conn = null;
 
                                     ?>
                                     <li>
-                                        <a href="showdata_room.php" class="current-page">ข้อมูลห้องเรียน</a>
+                                        <a href="showdata_room.php" >ข้อมูลห้องเรียน</a>
                                     </li>
                                     <li>
                                         <a href="showdata_student.php" >ข้อมูลนักศึกษา</a>
                                     </li>
                                     <li>
-                                        <a href="showdata_request.php" >อนุมัติคำร้อง</a>
+                                        <a href="showdata_request.php" class="current-page">อนุมัติคำร้อง</a>
                                     </li>
                                     <?php
                                 }
@@ -193,7 +193,7 @@ $conn = null;
                     <i class="bi bi-folder2"></i>
                     <a href="../../index.php">ข้อมูลทั่วไป</a>
                 </li>
-                <li class="breadcrumb-item breadcrumb-active" aria-current="page">ข้อมูลห้องเรียน</li>
+                <li class="breadcrumb-item breadcrumb-active" aria-current="page">อนุมัตคำร้อง</li>
             </ol>
             <div class="header-actions-container">
                 <!-- เริ่มต้นของการกระทำของส่วนหัวเรื่อง -->
@@ -333,6 +333,7 @@ $conn = null;
                                                             <td>
                                                                 <button type="button" class="btn btn-danger" onclick="Cancel(<?= $requestall['request_id']; ?>)">ยกเลิก ไม่อนุมัติคำร้อง</button>
                                                             </td>
+
                                                         <?php }?>
                                                     </tr>
                                                     <!-- Modal -->
@@ -398,7 +399,7 @@ $conn = null;
     <script src="../../assets/js/modernizr.js"></script>
     <script src="../../assets/js/moment.js"></script>
 
-<!--     เริ่มต้นของไฟล์ JavaScript ของ Vendor -->-->
+<!--     เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
 <!--    <script src="../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>-->
 <!--    <script src="../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>-->
 <!--    <script src="../../assets/vendor/apex/apexcharts.min.js"></script>-->

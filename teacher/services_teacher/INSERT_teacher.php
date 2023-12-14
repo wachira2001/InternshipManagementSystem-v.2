@@ -96,7 +96,7 @@ try {
             <script>
                 Swal.fire({
                     title: 'สำเร็จ',
-                    text: 'บันทึกข้อมูลครูเรียนร้อยแล้ว',
+                    text: 'ลงทะเบียนเรียบร้อยแล้ว',
                     icon: 'success',
                     showConfirmButton: false,
                     timer: 5000
@@ -111,7 +111,7 @@ try {
             <script>
                 Swal.fire({
                     title: 'ผิดพลาด',
-                    text: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
+                    text: 'เกิดข้อผิดพลาดในลงทะเบียน',
                     icon: 'error',
                     showConfirmButton: true
                 });

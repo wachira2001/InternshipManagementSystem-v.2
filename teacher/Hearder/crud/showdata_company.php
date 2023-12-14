@@ -138,6 +138,9 @@ $conn = null;
                                     <li>
                                         <a href="showdata_company.php" class="current-page">ข้อมูลสถานประกอบการ</a>
                                     </li>
+                                    <li>
+                                        <a href="showdata_request.php" >อนุมัติคำร้อง</a>
+                                    </li>
 
                                     <?php
                                 }else{

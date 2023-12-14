@@ -15,16 +15,45 @@
     <title>login</title>
     <link rel="icon" type="image/png" href="upload_img/1.jpg">
     <link rel="stylesheet" href="assets/fonts/bootstrap/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr&display=swap" rel="stylesheet">
+    <style>
+        #fonts{
+            font-family: 'Mitr', sans-serif;
+        }
+        #fonts_b{
+            font-family: 'Mitr', sans-serif;
+            font-weight: bolder;
+        }
+        body {
+            background-image: url('img/0c330780791341.5cebec82264ac.jpg');
+            background-size: 100% 100%; /* ปรับขนาดให้เต็ม 100% ของ element */
+            background-attachment: fixed;
+             /* เบลอภาพ */
+            /* สามารถเพิ่มคุณสมบัติ CSS อื่น ๆ ที่นี่ */
+        }
+
+
+
+    </style>
 </head>
 
-<body>
+<body id="fonts">
 
-<div class="card m-5">
-    <div class="card-header">
-        Featured
+<div class="card" style="margin-top: auto;margin-right: 500px;margin-left: 500px">
+    <div class="card-header text-center">
+        เข้าสู่ระบบ
     </div>
+
+    <div class="text-center my-2">
+        <img src="upload_img/1.jpg" width="150px">
+    </div>
+    <p style="font-size: 20px;font-weight: bolder; text-align: center">ระบบจัดการออกฝึกประสอบการวิชาชีพ</p>
+    <p style="font-size: 18px;font-weight: bolder; text-align: center">กรณีศึกษา แผนกเทคโนโลยีธุรกิจดิจิทัล</p>
+    <p style="font-size: 18px;font-weight: bolder; text-align: center">วิทยาลัยการอาชีพขอนแก่น</p>
     <div class="card-body">
-        <div class="card mx-auto my-5 text-left" style="width: 30rem;">
+        <div class="card mx-auto my-2 text-left" >
 
             <form method="post" class="m-3">
                 <div class="mb-3">
@@ -42,7 +71,12 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary" onclick="login()">Submit</button>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="button" class="btn btn-primary" onclick="login()">เข้าสู่ระบบ</button>
+
+                </div>
+                <a href="register.php">สมัครสมาชิก</a>
+
             </form>
         </div>
     </div>
@@ -51,18 +85,6 @@
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-<script>
-    // Your existing JavaScript code
-    function togglePasswordVisibility() {
-        // ...
-    }
-
-    function NOTApproved() {
-        // ...
-    }
-</script>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
     // กำหนดฟังก์ชันชื่อ togglePasswordVisibility
@@ -126,12 +148,6 @@
             }
         });
     }
-
-
 </script>
-
 </body>
 </html>
-<?php
-//include 'config/login.php'
-//?>

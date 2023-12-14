@@ -167,13 +167,13 @@ function getroom($conn,$R_ID) {
 
 
 }
-function getroomToRID($conn, $R_ID,$search = '') {
+function getroomToRID($conn, $T_ID,$search = '') {
     try {
         $sql = "SELECT room.*, student.S_fname, student.S_lname, student.S_major, student.S_ID, student.S_enrollment_year, teacher.T_fname, teacher.T_lname
             FROM room
             LEFT JOIN student ON room.R_ID = student.R_ID
             LEFT JOIN teacher ON student.T_ID = teacher.T_ID
-            WHERE room.R_ID = :R_ID";
+            WHERE room.T_ID = :T_ID";
 
         // เพิ่มเงื่อนไขค้นหาจากชื่อนักศึกษา
         if (!empty($search)) {
@@ -183,7 +183,7 @@ function getroomToRID($conn, $R_ID,$search = '') {
         $sql .= " ORDER BY R_room ASC";
 
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':R_ID', $R_ID, PDO::PARAM_INT);
+        $stmt->bindParam(':T_ID', $T_ID, PDO::PARAM_STR);
 
         // ผูกค่าค้นหาจากชื่อนักศึกษา
         if (!empty($search)) {
@@ -422,7 +422,7 @@ function getrequestTOTeacher($conn, $T_ID, $search = ''){
         $stmt = $conn->prepare($sql);
 
         // ผูกค่า T_ID
-        $stmt->bindParam(':T_ID', $T_ID, PDO::PARAM_INT);
+        $stmt->bindParam(':T_ID', $T_ID, PDO::PARAM_STR);
 
         // ผูกค่าค้นหาถ้ามี
         if (!empty($search)) {

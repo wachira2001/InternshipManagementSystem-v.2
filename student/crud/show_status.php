@@ -27,7 +27,7 @@ $user = getuserS($conn, $_SESSION['username']);
 $major = getmajor($conn);
 $S_ID = $_SESSION['data']['S_ID'];
 $request = getrequest($conn,$S_ID);
-print_r($request);
+//print_r($request);
 
 if (isset($_GET['search']) && $_GET['search'] != '') {
     // ประกาศตัวแปรรับค่าจากฟอร์ม
@@ -153,10 +153,16 @@ $conn = null;
                                     <span class="menu-text">ลงทะเบียนสถานประกอบการ</span>
                                 </a>
                             </li>
-                            <li class="active-page-link">
+                            <li class="">
                                 <a href="addFrom_request.php">
                                     <i class="bi bi-send-plus"></i>
                                     <span class="menu-text">ยื่นคำร้องออกฝึกประสบการณ์วิชาชีพ</span>
+                                </a>
+                            </li>
+                            <li class="active-page-link">
+                                <a href="show_status.php">
+                                    <i class="bi bi-clock-history"></i>
+                                    <span class="menu-text">เช็คสถานะ</span>
                                 </a>
                             </li>
 
@@ -178,8 +184,8 @@ $conn = null;
                 <!-- ส่วนเริ่มต้นของการหลีกเลี่ยงข้อผิดพลาด -->
                 <ol class="breadcrumb d-md-flex d-none">
                     <li class="breadcrumb-item">
-                        <i class="bi bi-send-plus"></i>
-                        <a href="#">ยื่นคำร้องออกฝึกประสบการณ์วิชาชีพ</a>
+                        <i class="bi bi-clock-history"></i>
+                        <a href="#">เช็คสถานะการยื่นคำร้อง</a>
                     </li>
                 </ol>
                 <div class="header-actions-container">
@@ -231,7 +237,7 @@ $conn = null;
                             <div class="d-flex justify-content-center">
                                 <h3>สถานะ</h3>
                             </div>
-
+                            <?php if (!empty($request)) {?>
                             <?php if ($request['RE_status'] == '1' && $request['RE_teacher_opinion'] != '1') { ?>
                                 <div class="card-body">
                                     <div class="custom-tabs-container">
@@ -419,7 +425,21 @@ $conn = null;
                                     </div>
                                 </div>
                             <?php } ?>
+                            <?php } else {?>
+                            <div class="card-body">
+                                <div class="custom-tabs-container">
+                                        <div class="tab-pane fade show active" id="threeAA" role="tabpanel" aria-labelledby="tab-threeAA">
+                                            <div class="d-flex justify-content-center">
+                                                <img class="" src="../../img/will.gif" alt="Verified Image" height="320">
+                                            </div>
+                                            <p style="font-size: 20px;text-align: center">กรุณายื่นคำร้องออกฝึกประสบการณ์วิชาชีพ</p>
+                                            <a href="addFrom_request.php"> <button class="btn btn-success "> ยื่นคำร้องออกฝึกประสบการณ์วิชาชีพ </button></a>
 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
                         </div>
                     </div>
                     <!-- ส่วนจบของคอนเทนเนอร์ -->
@@ -443,13 +463,13 @@ $conn = null;
             <script src="../../assets/js/modernizr.js"></script>
             <script src="../../assets/js/moment.js"></script>
 
-            <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
-            <script src="../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
-            <script src="../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
-            <script src="../../assets/vendor/apex/apexcharts.min.js"></script>
-            <script src="../../assets/vendor/apex/custom/sales/salesGraph.js"></script>
-            <script src="../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>
-            <script src="../../assets/vendor/apex/custom/sales/taskGraph.js"></script>
+<!--            <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
+<!--            <script src="../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>-->
+<!--            <script src="../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>-->
+<!--            <script src="../../assets/vendor/apex/apexcharts.min.js"></script>-->
+<!--            <script src="../../assets/vendor/apex/custom/sales/salesGraph.js"></script>-->
+<!--            <script src="../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>-->
+<!--            <script src="../../assets/vendor/apex/custom/sales/taskGraph.js"></script>-->
 
             <!-- ไฟล์ JavaScript หลัก -->
             <script src="../../assets/js/main.js"></script>

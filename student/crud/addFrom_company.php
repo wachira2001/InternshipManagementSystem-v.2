@@ -138,6 +138,12 @@ $conn = null;
                                     <span class="menu-text">ยื่นคำร้องออกฝึกประสบการณ์วิชาชีพ</span>
                                 </a>
                             </li>
+                            <li class="">
+                                <a href="show_status.php">
+                                    <i class="bi bi-clock-history"></i>
+                                    <span class="menu-text">เช็คสถานะ</span>
+                                </a>
+                            </li>
 
                             <?php
                         }
@@ -320,13 +326,13 @@ $conn = null;
         <script src="../../assets/js/modernizr.js"></script>
         <script src="../../assets/js/moment.js"></script>
 
-        <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
-        <script src="../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
-        <script src="../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
-        <script src="../../assets/vendor/apex/apexcharts.min.js"></script>
-        <script src="../../assets/vendor/apex/custom/sales/salesGraph.js"></script>
-        <script src="../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>
-        <script src="../../assets/vendor/apex/custom/sales/taskGraph.js"></script>
+<!--        <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
+<!--        <script src="../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>-->
+<!--        <script src="../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>-->
+<!--        <script src="../../assets/vendor/apex/apexcharts.min.js"></script>-->
+<!--        <script src="../../assets/vendor/apex/custom/sales/salesGraph.js"></script>-->
+<!--        <script src="../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>-->
+<!--        <script src="../../assets/vendor/apex/custom/sales/taskGraph.js"></script>-->
 
         <!-- ไฟล์ JavaScript หลัก -->
         <script src="../../assets/js/main.js"></script>
@@ -334,13 +340,13 @@ $conn = null;
             function showConfirmation() {
                 // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
                 Swal.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
+                    title: 'คุฯต้องการลงทะเบียนสถานประกอบการใช่หรือไม?',
                     text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'ใช่, ยกเลิก!',
+                    confirmButtonText: 'ใช่, ฉันต้องการ!',
                     cancelButtonText: 'ยกเลิก'
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -357,7 +363,7 @@ $conn = null;
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'ใช่, บันทึก!',
+                    confirmButtonText: 'ใช่, ลงทะเบียน!',
                     cancelButtonText: 'ยกเลิก'
                 }).then((result) => {
                     if (result.isConfirmed) {

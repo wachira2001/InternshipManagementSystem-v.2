@@ -37,9 +37,9 @@ try {
         $count_company_id = $result_company_id['count_company_id'];
 
         $stmt = $conn->prepare("SELECT COUNT(*) as count FROM request WHERE request_id = :request_id AND RE_status = '0'");
-        $stmt1 = $conn->prepare("SELECT COUNT(*) as count FROM request WHERE RE_status = :RE_status");
+        $stmt1 = $conn->prepare("SELECT COUNT(*) as count FROM request WHERE request_id = :request_id");
         $stmt->execute(array(':request_id' => $request_id));
-        $stmt1->execute(array(':RE_status' => $RE_status));
+        $stmt1->execute(array(':request_id' => $request_id));
 
         if ($stmt->fetchColumn() > 0) {
             // แสดง SweetAlert2 สำหรับข้อมูลที่ซ้ำ
@@ -84,7 +84,7 @@ try {
                     icon: 'warning',
                     showConfirmButton: true
                 }).then(function () {
-                    window.location.href = '../CRUD/addFrom_request.php';
+                    window.location.href = '../crud/show_status.php';
                 });
             </script>";
             return;
@@ -124,7 +124,7 @@ try {
                     showConfirmButton: false,
                     timer: 5000
                 }).then(function () {
-                    window.location.href = '../index.php';
+                    window.location.href = '../crud/show_status.php';
                 });
             </script>";
         } else {

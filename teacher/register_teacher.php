@@ -2,6 +2,7 @@
 include_once '../config/conndb.php';
 include_once '../config/show_data.php';
 $getroom = getroomall($conn);
+$getmajor = getmajor($conn);
 ?>
 
 <!doctype html>
@@ -18,20 +19,22 @@ $getroom = getroomall($conn);
     <meta property="og:type" content="Website">
     <meta property="og:site_name" content="Bootstrap Gallery">
     <title>สมัครสมาชิกสำหรับบุคลากร</title>
-    <link rel="icon" type="image/png" href="#">
+    <link rel="icon" type="image/png" href="../upload_img/<?php echo $getmajor['M_img']; ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mitr&display=swap" rel="stylesheet">
     <style>
-        #fonts{
+        #fonts {
             font-family: 'Mitr', sans-serif;
         }
-        #fonts_b{
+
+        #fonts_b {
             font-family: 'Mitr', sans-serif;
             font-weight: bolder;
         }
     </style>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.3.4/sweetalert2.min.css">
     <link rel="stylesheet" href="../assets/fonts/bootstrap/bootstrap-icons.css">
     <link rel="stylesheet" href="../assets/css/main.min.css?v=9999">
@@ -60,10 +63,13 @@ $getroom = getroomall($conn);
         <nav class="navbar navbar-expand-lg navbar-light bg-white py-2">
             <div class="container px-0">
                 <a class="navbar-brand" href="index.php"><span class="fw-bolder text-primary">ระบบจัดการออกฝึกประสบการณ์วิชาชีพ</span></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+                </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
-                        <li class="nav-item" ><a class="nav-link " href="../index.php">หน้าแรก</a></li>
+                        <li class="nav-item"><a class="nav-link " href="../index.php">หน้าแรก</a></li>
                         <li class="nav-item"><a class="nav-link" href="../about.php">เกี่ยวกับเรา</a></li>
                         <li class="nav-item"><a class="nav-link " href="../register.php">สมัครสมาชิก</a></li>
                         <li class="nav-item"><a class="nav-link" href="../login.php">เข้าสู่ระบบ</a></li>
@@ -73,15 +79,16 @@ $getroom = getroomall($conn);
             </div>
         </nav>
     </div>
-</div>
+
     <!-- เริ่มต้นของ เนื้อหา content -->
-    <div class="content py-3" >
-        <div class="card m-5 mx-5 ms-5 my-5 ">
-            <div class="text-center py-2">
-                <h1>สมัครสมาชิกสำหรับบุคลากร</h1>
-            </div>
-            <div class="card-body">
-                    <form method="post" class="row g-4 m-auto" enctype="multipart/form-data">
+    <div class="content-wrapper py-3">
+        <div class="content py-3">
+            <div class="card m-5 mx-5 ms-5 my-5 ">
+                <div class="text-center py-2">
+                    <h1>สมัครสมาชิกสำหรับบุคลากร</h1>
+                </div>
+                <div class="card-body">
+                    <form id="Formteacher" method="post" class="row g-4 m-auto" enctype="multipart/form-data">
 
                         <div class=" col-md-4 ">
                             <label for="T_ID" class="form-label">รหัสบุคลากร</label>
@@ -135,22 +142,26 @@ $getroom = getroomall($conn);
                         </div>
 
                         <input type="hidden" class="form-control date-own" id="T_status" name="T_status"
-                               value="0" >
+                               value="0">
 
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label for="formFile" class="form-label">อัพรูปภาพตัวเอง</label>
-                            <input class="form-control" type="file" id="T_img" name="T_img"  accept="image/jpeg, image/png, image/jpg" required>
+                            <input class="form-control" type="file" id="T_img" name="T_img"
+                                   accept="image/jpeg, image/png, image/jpg" required>
                             <!--                    <input class="form-control" type="text" id="T_img" name="T_img">-->
                         </div>
-<!--                        <div class="col-md-6">-->
-<!--                            <label for="R_ID" class="form-label">ห้องประจำชั้น</label>-->
-<!--                            <select name="R_ID" id="R_ID" class="form-select" required>-->
-<!--                                <option value="">-- เลือกครู --</option>-->
-<!--                                --><?php //foreach ($getroom as $room) : ?>
-<!--                                    <option value="--><?php //echo $room['R_ID']; ?><!--">--><?php //echo $room['R_level']; ?><!--. --><?php //echo $room['R_room']; ?><!-- ห้อง --><?php //echo $room['R_level_number']; ?><!--</option>-->
-<!--                                --><?php //endforeach; ?>
-<!--                            </select>-->
-<!--                        </div>-->
+                        <!--                        <div class="col-md-6">-->
+                        <!--                            <label for="R_ID" class="form-label">ห้องประจำชั้น</label>-->
+                        <!--                            <select name="R_ID" id="R_ID" class="form-select" required>-->
+                        <!--                                <option value="">-- เลือกครู --</option>-->
+                        <!--                                --><?php //foreach ($getroom as $room) : ?>
+                        <!--                                    <option value="-->
+                        <?php //echo $room['R_ID']; ?><!--">--><?php //echo $room['R_level']; ?><!--. -->
+                        <?php //echo $room['R_room']; ?><!-- ห้อง -->
+                        <?php //echo $room['R_level_number']; ?><!--</option>-->
+                        <!--                                --><?php //endforeach; ?>
+                        <!--                            </select>-->
+                        <!--                        </div>-->
 
                         <div class="container-fluid py-3">
                             <center>
@@ -165,51 +176,46 @@ $getroom = getroomall($conn);
                                    maxlength="15"
                                    placeholder="ชื่อผู้ใช้" required>
                         </div>
-<!--                        <div class="col-md-12">-->
-<!--                            <label for="S_password" class="form-label">รหัสผ่าน</label>-->
-<!--                            <input type="password" class="form-control" id="T_password" name="T_password"-->
-<!--                                   maxlength="15"-->
-<!--                                   placeholder="รหัสผ่าน" required>-->
-<!--                        </div>-->
+                        <!--                        <div class="col-md-12">-->
+                        <!--                            <label for="S_password" class="form-label">รหัสผ่าน</label>-->
+                        <!--                            <input type="password" class="form-control" id="T_password" name="T_password"-->
+                        <!--                                   maxlength="15"-->
+                        <!--                                   placeholder="รหัสผ่าน" required>-->
+                        <!--                        </div>-->
                         <div class="col-md-12">
                             <label for="exampleInputPassword1" class="form-label">รหัสผ่าน</label>
                             <div class="input-group">
-                                <input type="password" class="form-control" id="password" name="T_password" placeholder="รหัสผ่าน" required minlength="10" maxlength="15">
+                                <input type="password" class="form-control" id="password" name="T_password"
+                                       placeholder="รหัสผ่าน" required minlength="10" maxlength="15">
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-outline-secondary password-toggle-button" onclick="togglePasswordVisibility()">
+                                    <button type="button" class="btn btn-outline-secondary password-toggle-button"
+                                            onclick="togglePasswordVisibility()">
                                         <i id="eye-icon" class="bi bi-eye"></i>
                                     </button>
                                 </div>
-                                <div id="emailHelp" class="form-text col-md-12" >ป้อนขันต่ำ 10 ตัวอักษร และไม่เกิน 15 ตัวอักษร</div>
+                                <div id="emailHelp" class="form-text col-md-12">ป้อนขันต่ำ 10 ตัวอักษร และไม่เกิน 15
+                                    ตัวอักษร
+                                </div>
                             </div>
                         </div>
                         <div style="text-align: center" class="g-4 py-4">
                             <button type="button" class="btn btn-danger" onclick="showConfirmation()">ยกเลิก</button>
-                            <button type="submit" class="btn btn-primary">บันทึก</button>
+                            <button type="submit" class="btn btn-primary" id="submitBtn">บันทึก</button>
 
                         </div>
                     </form>
-            </div>
+                </div>
 
+            </div>
         </div>
-        <!-- เริ่มต้นของ App Footer -->
-        <div class="app-footer">
-            <span>สาขาเทคโนโลยีธุรกิจดิจิทัล</span>
-        </div>
-        <!-- ส่วนจบของ App Footer -->
+
     </div>
     <!-- ส่วนจบของ เนื้อหา content -->
 
-
-
-
-
-
-
-
-
 </div>
-
+<div class="app-footer">
+    <span>สาขาเทคโนโลยีธุรกิจดิจิทัล</span>
+</div>
 <!-- ส่วนจบของคอนเทนเนอร์ -->
 
 <!-- ส่วนจบของหน้า -->
@@ -230,8 +236,12 @@ $getroom = getroomall($conn);
 
 <!-- ไฟล์ JavaScript หลัก -->
 <script src="../assets/js/main.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="../check.js"></script>
@@ -239,8 +249,8 @@ $getroom = getroomall($conn);
     function showConfirmation() {
         // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
         Swal.fire({
-            title: 'คุณแน่ใจหรือไม่?',
-            text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',
+            title: 'คุณแน่ใจหรือไม่? ที่จะยกเลิกการสมัครสมาชิก',
+            // text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -254,6 +264,40 @@ $getroom = getroomall($conn);
             }
         });
     }
+
+    // function INSERT_teacher(){
+    //     $(document).ready(function () {
+    //         $('#submitBtn').on('click', function () {
+    //             var formData = new FormData($('#Formteacher')[0]);
+    //
+    //             $.ajax({
+    //                 type: 'POST',
+    //                 url: 'services_teacher/INSERT_teacher.php', // Adjust the path to your PHP file
+    //                 data: formData,
+    //                 contentType: false,
+    //                 processData: false,
+    //                 success: function (response) {
+    //                     console.log(response)
+    //                     if (response === 'success') {
+    //                         Swal.fire({
+    //                             icon: 'success',
+    //                             title: 'ลงทะเบียนสำเร็จ',
+    //                             showConfirmButton: false,
+    //                             timer: 1500
+    //                         });
+    //                         // Additional actions after successful registration
+    //                     } else {
+    //                         Swal.fire({
+    //                             icon: 'error',
+    //                             title: 'เกิดข้อผิดพลาดในการลงทะเบียน',
+    //                             text: response
+    //                         });
+    //                     }
+    //                 }
+    //             });
+    //         });
+    //     });
+    // }
 
 </script>
 <?php

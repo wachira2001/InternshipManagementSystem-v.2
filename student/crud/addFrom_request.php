@@ -158,9 +158,9 @@ $conn = null;
                                     <span class="menu-text">ยื่นคำร้องออกฝึกประสบการณ์วิชาชีพ</span>
                                 </a>
                             </li>
-                            <li class="active-page-link">
+                            <li class="">
                                 <a href="show_status.php">
-                                    <i class="bi bi-send-plus"></i>
+                                    <i class="bi bi-clock-history"></i>
                                     <span class="menu-text">เช็คสถานะ</span>
                                 </a>
                             </li>
@@ -427,15 +427,15 @@ $conn = null;
             <script src="../../assets/js/modernizr.js"></script>
             <script src="../../assets/js/moment.js"></script>
 
-            <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
-            <script src="../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
-            <script src="../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
-            <script src="../../assets/vendor/apex/apexcharts.min.js"></script>
-            <script src="../../assets/vendor/apex/custom/sales/salesGraph.js"></script>
-            <script src="../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>
-            <script src="../../assets/vendor/apex/custom/sales/taskGraph.js"></script>
-            <script src="../../assets/vendor/daterange/daterange.js"></script>
-            <script src="../../assets/vendor/daterange/custom-daterange.js"></script>
+<!--            <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
+<!--            <script src="../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>-->
+<!--            <script src="../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>-->
+<!--            <script src="../../assets/vendor/apex/apexcharts.min.js"></script>-->
+<!--            <script src="../../assets/vendor/apex/custom/sales/salesGraph.js"></script>-->
+<!--            <script src="../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>-->
+<!--            <script src="../../assets/vendor/apex/custom/sales/taskGraph.js"></script>-->
+<!--            <script src="../../assets/vendor/daterange/daterange.js"></script>-->
+<!--            <script src="../../assets/vendor/daterange/custom-daterange.js"></script>-->
 
             <!-- ไฟล์ JavaScript หลัก -->
             <script src="../../assets/js/main.js"></script>

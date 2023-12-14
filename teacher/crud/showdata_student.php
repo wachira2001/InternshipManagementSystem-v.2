@@ -126,7 +126,7 @@ $conn = null;
             <div class="sidebarMenuScroll">
                 <ul>
                     <li class="">
-                        <a href="../../index.php">
+                        <a href="../index.php">
                             <i class="bi bi-house"></i>
                             <span class="menu-text">หน้าแรก</span>
                         </a>
@@ -138,8 +138,6 @@ $conn = null;
                         </a>
                         <div class="sidebar-submenu">
                             <ul>
-
-
                                 <?php
                                 if ($userT['T_status'] == '1' ) {
                                     ?>
@@ -165,10 +163,10 @@ $conn = null;
 
                                     ?>
                                     <li>
-                                        <a href="showdata_room.php">ข้อมูลห้องเรียน</a>
+                                        <a href="showdata_student.php" class="current-page">ข้อมูลนักศึกษา</a>
                                     </li>
                                     <li>
-                                        <a href="showdata_student.php" class="current-page">ข้อมูลนักศึกษา</a>
+                                        <a href="showdata_room.php">ข้อมูลห้องเรียน</a>
                                     </li>
                                     <li>
                                         <a href="showdata_request.php" >อนุมัติคำร้อง</a>

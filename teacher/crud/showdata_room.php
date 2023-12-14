@@ -32,11 +32,11 @@ $stmtD = getmajor($conn);
 if (isset($_GET['search']) && $_GET['search'] != '') {
     // ประกาศตัวแปรรับค่าจากฟอร์ม
     $search = "%" . $_GET['search'] . "%";
-    $room = getroomToRID($conn,$_SESSION['data']['R_ID'],$search);
+    $room = getroomToRID($conn,$_SESSION['data']['T_ID'],$search);
 } else {
     // คิวรี่ข้อมูลมาแสดงตามปกติ *แสดงทั้งหมด
     $search = '';
-    $room = getroomToRID($conn,$_SESSION['data']['R_ID'],$search);
+    $room = getroomToRID($conn,$_SESSION['data']['T_ID'],$search);
 }
 
 $conn = null;
@@ -155,11 +155,12 @@ $conn = null;
 
                                     ?>
                                     <li>
-                                        <a href="showdata_room.php" class="current-page">ข้อมูลห้องเรียน</a>
-                                    </li>
-                                    <li>
                                         <a href="showdata_student.php" >ข้อมูลนักศึกษา</a>
                                     </li>
+                                    <li>
+                                        <a href="showdata_room.php" class="current-page">ข้อมูลห้องเรียน</a>
+                                    </li>
+
                                     <li>
                                         <a href="showdata_request.php" >อนุมัติคำร้อง</a>
                                     </li>
@@ -304,9 +305,9 @@ $conn = null;
 <!--                                        <a href="editFrom_room.php?R_ID=--><?php //=$rooms['R_ID'];?><!--"><button class="btn btn-primary">แก้ไข</button></a>-->
                                     </td>
                                 </tr>
-                                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#scrollable">
-                                        Scrolling Content Modal
-                                    </button>
+<!--                                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#scrollable">-->
+<!--                                        Scrolling Content Modal-->
+<!--                                    </button>-->
                                     <div class="modal fade" id="scrollable" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="scrollableLabel" style="display: none;" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-scrollable">
                                             <div class="modal-content">
