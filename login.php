@@ -42,7 +42,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary" onclick="NOTApproved()">Submit</button>
+                <button type="button" class="btn btn-primary" onclick="login()">Submit</button>
             </form>
         </div>
     </div>
@@ -90,7 +90,7 @@
             eyeIcon.classList.add("bi-eye");
         }
     }
-    function NOTApproved() {
+    function login() {
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
 

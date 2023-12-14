@@ -316,7 +316,7 @@ $conn = null;
                                                             $selected = ($getroom['R_ID'] == $room['R_ID']) ? 'selected' : '';
                                                             ?>
                                                             <option name="R_ID" value="<?php echo $room['R_ID']; ?>" <?php echo $selected; ?>>
-                                                                <?php echo $room['R_level']; ?>. <?php echo $room['R_room']; ?> ห้อง <?php echo $room['R_level_numder']; ?>
+                                                                <?php echo $room['R_level']; ?>. <?php echo $room['R_room']; ?> ห้อง <?php echo $room['R_level_number']; ?>
                                                             </option>
                                                         <?php endforeach; ?>
                                                     </select>
@@ -332,7 +332,7 @@ $conn = null;
                                                         // เช็คว่า T_ID ของครูนี้เท่ากับ T_ID ที่ต้องการให้เป็นค่าเริ่มต้นหรือไม่
                                                         $selected = ($user['T_ID'] == $room['R_ID']) ? 'selected' : '';
                                                         ?>
-                                                        <option value="<?php echo $room['R_ID']; ?>"><?php echo $room['R_level']; ?>. <?php echo $room['R_room']; ?> ห้อง <?php echo $room['R_level_numder']; ?></option>
+                                                        <option value="<?php echo $room['R_ID']; ?>"><?php echo $room['R_level']; ?>. <?php echo $room['R_room']; ?> ห้อง <?php echo $room['R_level_number']; ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>

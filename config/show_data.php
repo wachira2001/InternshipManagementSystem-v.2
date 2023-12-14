@@ -153,7 +153,7 @@ function getroom($conn,$R_ID) {
        student.S_major, student.S_ID, teacher.T_fname,teacher.T_lname
             FROM room
             LEFT JOIN student ON room.R_ID = student.R_ID
-            LEFT JOIN teacher ON room.R_ID = teacher.R_ID
+            LEFT JOIN teacher ON room.T_ID = teacher.T_ID
             WHERE room.R_ID = $R_ID";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
@@ -333,7 +333,7 @@ function getselect($conn) {
     // สร้าง SQL query เพื่อดึงข้อมูล
     $sqlRoomID = "SELECT DISTINCT R_ID FROM room";
     $sqlLevel = "SELECT DISTINCT R_level FROM room";
-    $sqlLevelNumber = "SELECT DISTINCT R_level_numder FROM room";
+    $sqlLevelNumber = "SELECT DISTINCT R_level_number FROM room";
     $sqlRoom = "SELECT DISTINCT R_room FROM room";
 
 // ประมวลผลและแสดงผล Room ID
@@ -355,7 +355,7 @@ function getselect($conn) {
     $resultLevelNumber = $conn->query($sqlLevelNumber);
     $optionsLevelNumber = '';
     foreach ($resultLevelNumber as $row) {
-        $optionsLevelNumber .= '<option value="' . $row['R_level_numder'] . '">' . $row['R_level_numder'] . '</option>';
+        $optionsLevelNumber .= '<option value="' . $row['R_level_number'] . '">' . $row['R_level_number'] . '</option>';
     }
 
 // ประมวลผลและแสดงผล Room

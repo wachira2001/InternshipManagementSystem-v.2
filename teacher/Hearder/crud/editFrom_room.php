@@ -27,7 +27,8 @@ $user = getuserT($conn,$_SESSION['username']);
 $major = getmajor($conn);
 $R_ID = $_GET['R_ID'];
 $room = getroom($conn,$R_ID);
-$teachers = getTeacher($conn);
+print_r($room);
+$getTeacher = getTeacher($conn);
 // ปิดการเชื่อมต่อ
 $conn = null;
 //print_r($teachers);
@@ -231,49 +232,71 @@ $conn = null;
                                     <div class="card-header">
                                         <div class="card-title">แก้ไขข้อมูล</div>
                                     </div>
-                                    <form method="post">
+
                                         <div class="card-body">
-
-                                            <!-- Row start -->
                                             <div class="row">
-                                                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12">
-                                                    <div class="mb-3">
-                                                        <label for="inputName" class="form-label">รหัสห้อง</label>
-                                                        <input type="text" class="form-control" id="inputName" placeholder="Enter Name" name="R_ID"
-                                                               value="<?php echo $room['R_ID'];?>" readonly>
+                                                <div class="col-sm-3 col-12">
+                                                    <div class="m-0">
+                                                        <label class="form-label">เลือกชั้น</label>
+                                                        <select class="form-select" aria-label="Default select example" id="R_level">
+                                                            <option selected="">-- เลือกชั้น --</option>
+                                                            <option value="ปวช." <?php echo ($room['R_level'] == 'ปวช.') ? 'selected' : ''; ?>>ปวช.</option>
+                                                            <option value="ปวส." <?php echo ($room['R_level'] == 'ปวส.') ? 'selected' : ''; ?>>ปวส.</option>
+                                                        </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12">
-                                                    <div class="mb-3">
-                                                        <label for="inputEmail" class="form-label">ชั้น</label>
-                                                        <input type="email" class="form-control" id="inputEmail" placeholder="Enter Email" name="R_level"
-                                                               value="<?php echo $room['R_level'];?>" required>
+                                                <div class="col-sm-3 col-12">
+                                                    <div class="m-0">
+                                                        <label class="form-label">เลือกชั้น</label>
+                                                        <select class="form-select" aria-label="Default select example" id="R_level_number">
+                                                            <option selected="">-- เลือกชั้น --</option>
+                                                            <option value="1" <?php echo ($room['R_level_number'] == '1' && $room['R_level'] == 'ปวช.') ? 'selected' : ''; ?>>ปวช.1</option>
+                                                            <option value="2" <?php echo ($room['R_level_number'] == '2' && $room['R_level'] == 'ปวช.') ? 'selected' : ''; ?>>ปวช.2</option>
+                                                            <option value="3" <?php echo ($room['R_level_number'] == '3' && $room['R_level'] == 'ปวช.') ? 'selected' : ''; ?>>ปวช.3</option>
+                                                            <option value="1" <?php echo ($room['R_level_number'] == '1' && $room['R_level'] == 'ปวส.') ? 'selected' : ''; ?>>ปวส.1</option>
+                                                            <option value="2" <?php echo ($room['R_level_number'] == '2' && $room['R_level'] == 'ปวส.') ? 'selected' : ''; ?>>ปวส.2</option>
+                                                        </select>
                                                     </div>
+
                                                 </div>
-                                                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12">
-                                                    <div class="mb-3">
-                                                        <label for="inputNumber" class="form-label">ระดับชั้น</label>
-                                                        <input type="text" class="form-control" id="inputNumber" placeholder="Enter Phone Number" name="R_level_numder"
-                                                               value="<?php echo $room['R_level_numder'];?> " required>
+                                                <div class="col-sm-3 col-12">
+                                                    <div class="m-0">
+                                                        <label class="form-label">เลือกห้อง</label>
+                                                        <select class="form-select" aria-label="Default select example" id="R_room">
+                                                            <option selected="">-- เลือกห้อง --</option>
+                                                            <?php
+                                                            // ในที่นี้เริ่มต้นที่ห้อง 1 และสิ้นสุดที่ห้อง 15
+                                                            for ($i = 1; $i <= 15; $i++) {
+                                                                $value = $i;
+                                                                $selected = ($room['R_room'] == $value) ? 'selected' : '';
+                                                                echo "<option value=\"$value\" $selected>ห้อง $value</option>";
+                                                            }
+                                                            ?>
+                                                        </select>
                                                     </div>
                                                 </div>
 
+                                                    <div class="col-sm-3 col-12">
+                                                    <div class="m-0">
+                                                        <label class="form-label">เลือกครูประจำห้อง</label>
+                                                        <select class="form-select" aria-label="Default select example" id="T_ID">
+                                                            <option selected="">-- ครูประจำห้อง --</option>
+                                                            <?php foreach ($getTeacher as $teacher) : ?>
+                                                                <option value="<?php echo $teacher['T_ID']; ?>" <?php echo ($room['T_ID'] == $teacher['T_ID'] ) ? 'selected' : ''; ?>><?php echo $teacher['T_fname']; ?></option>
+<!--                                                                <option value="--><?php //echo $teacher['T_ID']; ?><!--">--><?php //echo $teacher['T_fname']; ?><!--</option>-->
+                                                            <?php endforeach; ?>
 
-                                                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12">
-                                                    <div class="mb-3">
-                                                        <label for="inputNumber" class="form-label">ห้อง</label>
-                                                        <input type="text" class="form-control" id="inputNumber" placeholder="Enter Phone Number" name="R_room"
-                                                               value="<?php echo $room['R_room'];?>"  required>
+                                                        </select>
                                                     </div>
                                                 </div>
-                                                <div class="form-actions-footer">
-                                                    <button class="btn btn-light" type="button" onclick="showConfirmation()">ยกเลิก</button>
-                                                    <button class="btn btn-success" type="button" onclick="saveData()">บันทึก</button>
+                                                <div class="py-5">
+                                                    <div class="form-actions-footer">
+                                                        <button class="btn btn-light" onclick="showConfirmation()">ยกเลิก</button>
+                                                        <button class="btn btn-success" onclick="saveData(<?php echo $room['R_ID']; ?>)">บันทึก</button>
+                                                    </div>
                                                 </div>
+
                                             </div>
-                                        </div>
-                                    </form>
-
                                     <!-- Card end -->
 
                                 </div>
@@ -282,14 +305,15 @@ $conn = null;
 
                         </div>
                     </div>
+                        <div class="app-footer">
+                            <span>สาขาเทคโนโลยีธุรกิจดิจิทัล</span>
+                        </div>
 
                 </div>
                 <!-- ส่วนจบของคอนเทนเนอร์ -->
 
                 <!-- เริ่มต้นของ App Footer -->
-                <div class="app-footer">
-                    <span>สาขาเทคโนโลยีธุรกิจดิจิทัล</span>
-                </div>
+
                 <!-- ส่วนจบของ App Footer -->
             </div>
 
@@ -305,13 +329,13 @@ $conn = null;
         <script src="../../../assets/js/modernizr.js"></script>
         <script src="../../../assets/js/moment.js"></script>
 
-        <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
-        <script src="../../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
-        <script src="../../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
-        <script src="../../../assets/vendor/apex/apexcharts.min.js"></script>
-        <script src="../../../assets/vendor/apex/custom/sales/salesGraph.js"></script>
-        <script src="../../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>
-        <script src="../../../assets/vendor/apex/custom/sales/taskGraph.js"></script>
+<!--        <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->-->
+<!--        <script src="../../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>-->
+<!--        <script src="../../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>-->
+<!--        <script src="../../../assets/vendor/apex/apexcharts.min.js"></script>-->
+<!--        <script src="../../../assets/vendor/apex/custom/sales/salesGraph.js"></script>-->
+<!--        <script src="../../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>-->
+<!--        <script src="../../../assets/vendor/apex/custom/sales/taskGraph.js"></script>-->
 
         <!-- ไฟล์ JavaScript หลัก -->
         <script src="../../../assets/js/main.js"></script>
@@ -334,19 +358,68 @@ $conn = null;
                     }
                 });
             }
-            function saveData() {
-                Swal.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'ที่จะบันทึกการแก้ไขข้อมูล',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'ใช่, บันทึก!',
-                    cancelButtonText: 'ยกเลิก'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.querySelector('form').submit();
+            function saveData(R_ID) {
+                var R_level = document.getElementById('R_level').value;
+                var R_level_number = document.getElementById('R_level_number').value;
+                var R_room = document.getElementById('R_room').value;
+                var T_ID = document.getElementById('T_ID').value;
+
+                if ($.trim(R_level) === '' || $.trim(R_level_number) === '' || $.trim(R_room) === '' || $.trim(T_ID) === '') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'กรุณากรอกข้อมูลห้องให้ครบ',
+                        showConfirmButton: true,
+                    });
+                    return;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '../../services_teacher/update_room.php',
+                    data: {
+                        R_ID: R_ID,
+                        R_level: R_level,
+                        R_level_number: R_level_number,
+                        R_room: R_room,
+                        T_ID: T_ID,
+                    },
+
+                    success: function (response) {
+                        // การจัดการผลลัพธ์
+                        console.log(response);
+                        if (response === 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'เพิ่มข้อมูลห้องสำเร็จ',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                window.location.href = 'showdata_room.php';
+                                // location.reload();
+                            });
+                        } else if (response === 'duplicate') {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'ข้อมูลนี้มีอยู่แล้ว',
+                                text: 'โปรดตรวจสอบว่าป้อนข้อมูลห้องนี้ มีอยู่แล้วหรือไม่',
+                            });
+
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'เกิดข้อผิดพลาดในการเพิ่มข้อมูล',
+                                text: 'โปรดติดต่อผู้ดูแลระบบ',
+                            });
+                        }
+                    },
+
+                    error: function (xhr, status, error) {
+                        // การจัดการข้อผิดพลาดจาก Ajax
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด',
+                            text: 'ไม่สามารถยกเลิกไม่อนุมัติคำร้องได้',
+                        });
                     }
                 });
             }

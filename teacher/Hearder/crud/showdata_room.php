@@ -1,6 +1,7 @@
 <?php
 require_once '../../services_teacher/conndb.php';
 require_once '../../../config/show_data.php';
+
 // ตรวจสอบ session
 session_start();
 echo '
@@ -28,6 +29,7 @@ $user = getuserT($conn,$_SESSION['username']);
 $stmtD = getmajor($conn);
 //$room = getroomall($conn);
 $getselect = getselect($conn);
+$getTeacher = getTeacher($conn);
 
 // กำหนดค่าในอาร์เรย์เพื่อเก็บเงื่อนไข
 $conditions = array();
@@ -41,8 +43,8 @@ if (isset($_GET['R_level']) && $_GET['R_level'] != '') {
     $conditions[] = "room.R_level = :R_level";
 }
 
-if (isset($_GET['R_level_numder']) && $_GET['R_level_numder'] != '') {
-    $conditions[] = "room.R_level_numder = :R_level_numder";
+if (isset($_GET['R_level_number']) && $_GET['R_level_number'] != '') {
+    $conditions[] = "room.R_level_number = :R_level_number";
 }
 
 if (isset($_GET['R_room']) && $_GET['R_room'] != '') {
@@ -53,7 +55,7 @@ if (isset($_GET['R_room']) && $_GET['R_room'] != '') {
 $sql = "SELECT room.*, student.S_fname, student.S_lname, teacher.T_fname, teacher.T_lname, student.S_enrollment_year
         FROM room
         LEFT JOIN student ON room.R_ID = student.R_ID
-        LEFT JOIN teacher ON room.R_ID = teacher.R_ID";
+        LEFT JOIN teacher ON room.T_ID = teacher.T_ID";
 
 // เพิ่ม WHERE clause หากมีเงื่อนไข
 if (!empty($conditions)) {
@@ -306,12 +308,12 @@ if (count($room) > 0) {
                         </div>
                         <div class="col-2 mb-3">
                             <label for="inputIndustryType2" class="form-label">เลือกรหัสระดับชั้น</label>
-                            <select class="form-select" id="inputIndustryType2" name="R_level_numder">
+                            <select class="form-select" id="inputIndustryType2" name="R_level_number">
                                 <option value="">เลือกรหัสระดับชั้น</option>
                                 <?php
-                                // ตรวจสอบว่า R_level_numder จาก GET ตรงกับตัวเลือกหรือไม่ ถ้าใช่ ให้ตั้งค่าเป็น selected
-                                //                                    if (!empty($_GET['R_level_numder'])) {
-                                //                                        echo '<option value="' . $_GET['R_level_numder'] . '" selected>' . $_GET['R_level_numder'] . '</option>';
+                                // ตรวจสอบว่า R_level_number จาก GET ตรงกับตัวเลือกหรือไม่ ถ้าใช่ ให้ตั้งค่าเป็น selected
+                                //                                    if (!empty($_GET['R_level_number'])) {
+                                //                                        echo '<option value="' . $_GET['R_level_number'] . '" selected>' . $_GET['R_level_number'] . '</option>';
                                 //                                    }
                                 echo $getselect['2'];
                                 ?>
@@ -332,7 +334,7 @@ if (count($room) > 0) {
                         </div>
                         <div class="col-3 mb-3 py-4">
                             <button class="btn btn-light  bi bi-folder2" type="submit"> ค้นหา</button> &nbsp;
-                            <button type="button" class="btn btn-primary bi bi-plus-circle" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <button type="button" class="btn btn-primary bi bi-plus-circle" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                 เพิ่มห้องเรียน
                             </button>
                         </div>
@@ -341,7 +343,7 @@ if (count($room) > 0) {
                 <p class="text-blue">
                     ผลการค้นหา รหัสห้องเรียน : <?php echo isset($_GET['R_ID']) && $_GET['R_ID'] !== "" ? $_GET['R_ID'] : 'ทุกรายการ'; ?>
                     ชั้น : <?php echo isset($_GET['R_level']) && $_GET['R_level'] !== "" ? $_GET['R_level'] : 'ทุกรายการ'; ?>
-                    ระดับชั้น : <?php echo isset($_GET['R_level_numder']) && $_GET['R_level_numder'] !== "" ? $_GET['R_level_numder'] : 'ทุกรายการ'; ?>
+                    ระดับชั้น : <?php echo isset($_GET['R_level_number']) && $_GET['R_level_number'] !== "" ? $_GET['R_level_number'] : 'ทุกรายการ'; ?>
                     ห้อง : <?php echo isset($_GET['R_room']) && $_GET['R_room'] !== "" ? $_GET['R_room'] : 'ทุกรายการ'; ?>
                 </p>
 
@@ -369,7 +371,7 @@ if (count($room) > 0) {
                                     <tr>
                                         <td><?= $rooms['R_ID']; ?></td>
                                         <td><?= $rooms['R_level']; ?></td>
-                                        <td><?= $rooms['R_level_numder']; ?></td>
+                                        <td><?= $rooms['R_level_number']; ?></td>
                                         <td><?= $rooms['R_room']; ?></td>
                                         <td><?= $rooms['S_enrollment_year']; ?></td>
                                         <td><?= $rooms['S_fname'] . ' ' . $rooms['S_lname']; ?></td>
@@ -391,6 +393,85 @@ if (count($room) > 0) {
                             echo '<h1 class="text-danger text-center py-5">ไม่พบข้อมูล</h1>';
                         }
                         ?>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-sm-3 col-12">
+                                                    <div class="m-0">
+                                                        <label class="form-label">เลือกชั้น</label>
+                                                        <select class="form-select" aria-label="Default select example" id="R_level">
+                                                            <option selected="">-- เลือกชั้น --</option>
+                                                            <option value="ปวช.">ปวช.</option>
+                                                            <option value="ปวส.">ปวส.</option>
+                                                        </select>
+                                                    </div>
+                                        </div>
+                                        <div class="col-sm-3 col-12">
+                                            <div class="m-0">
+                                                <label class="form-label">เลือกระดับชั้น</label>
+                                                <select class="form-select" aria-label="Default select example" id="R_level_number">
+                                                    <option selected="">-- เลือกระดับชั้น --</option>
+                                                    <option value="1">ปวช.1</option>
+                                                    <option value="2">ปวช.2</option>
+                                                    <option value="3">ปวช.3</option>
+                                                    <option value="1">ปวส.1</option>
+                                                    <option value="2">ปวส.2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-12">
+                                            <div class="m-0">
+                                                <label class="form-label">เลือกห้อง</label>
+                                                <select class="form-select" aria-label="Default select example" id="R_room">
+                                                    <option selected="">-- เลือกห้อง --</option>
+                                                    <option value="1">ห้อง 1</option>
+                                                    <option value="2">ห้อง 2</option>
+                                                    <option value="3">ห้อง 3</option>
+                                                    <option value="4">ห้อง 4</option>
+                                                    <option value="5">ห้อง 5</option>
+                                                    <option value="6">ห้อง 6</option>
+                                                    <option value="7">ห้อง 7</option>
+                                                    <option value="8">ห้อง 8</option>
+                                                    <option value="9">ห้อง 9</option>
+                                                    <option value="10">ห้อง 10</option>
+                                                    <option value="11">ห้อง 11</option>
+                                                    <option value="12">ห้อง 12</option>
+                                                    <option value="13">ห้อง 13</option>
+                                                    <option value="14">ห้อง 14</option>
+                                                    <option value="15">ห้อง 15</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-12">
+                                            <div class="m-0">
+                                                <label class="form-label">เลือกครูประจำห้อง</label>
+                                                <select class="form-select" aria-label="Default select example" id="T_ID">
+                                                    <option selected="">-- ครูประจำห้อง --</option>
+                                                    <?php foreach ($getTeacher as $teacher) : ?>
+                                                        <option value="<?php echo $teacher['T_ID']; ?>"><?php echo $teacher['T_fname']; ?></option>
+                                                    <?php endforeach; ?>
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="showConfirmation()">ยกเลิก</button>
+                                    <button type="button" class="btn btn-primary" onclick="Addroom()">เพิ่มห้อง</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -427,6 +508,7 @@ if (count($room) > 0) {
 
     <!-- ไฟล์ JavaScript หลัก -->
     <script src="../../../assets/js/main.js"></script>
+
     <script>
         function deleteUser(R_ID) {
             Swal.fire({
@@ -509,6 +591,70 @@ if (count($room) > 0) {
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.querySelector('#insert').submit();
+                }
+            });
+        }
+        function Addroom() {
+            var R_level = document.getElementById('R_level').value;
+            var R_level_number = document.getElementById('R_level_number').value;
+            var R_room = document.getElementById('R_room').value;
+            var T_ID = document.getElementById('T_ID').value;
+
+            if ($.trim(R_level) === '' || $.trim(R_level_number) === '' || $.trim(R_room) === '' || $.trim(T_ID) === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'กรุณากรอกข้อมูลห้องให้ครบ',
+                    showConfirmButton: true,
+                });
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '../../services_teacher/insert_room.php',
+                data: {
+                    R_level: R_level,
+                    R_level_number: R_level_number,
+                    R_room: R_room,
+                    T_ID: T_ID,
+                },
+
+                success: function (response) {
+                    // การจัดการผลลัพธ์
+                    console.log(response);
+                    if (response === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'เพิ่มข้อมูลห้องสำเร็จ',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            // window.location.href = 'showdata_room.php';
+                            location.reload();
+                        });
+                    } else if (response === 'duplicate') {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'ข้อมูลนี้มีอยู่แล้ว',
+                                text: 'โปรดตรวจสอบว่าป้อนข้อมูลห้องนี้ มีอยู่แล้วหรือไม่',
+                            });
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาดในการเพิ่มข้อมูล',
+                            text: 'โปรดติดต่อผู้ดูแลระบบ',
+                        });
+                    }
+                },
+
+                error: function (xhr, status, error) {
+                    // การจัดการข้อผิดพลาดจาก Ajax
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: 'ไม่สามารถยกเลิกไม่อนุมัติคำร้องได้',
+                    });
                 }
             });
         }

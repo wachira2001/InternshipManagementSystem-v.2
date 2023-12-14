@@ -344,7 +344,7 @@ $getroom = getroomall($conn);
                                                             $selected = ($student['R_ID'] == $room['R_ID']) ? 'selected' : '';
                                                             ?>
                                                             <option name="R_ID" value="<?php echo $room['R_ID']; ?>" <?php echo $selected; ?>>
-                                                                <?php echo $room['R_level']; ?>. <?php echo $room['R_room']; ?> ห้อง <?php echo $room['R_level_numder']; ?>
+                                                                <?php echo $room['R_level']; ?>. <?php echo $room['R_room']; ?> ห้อง <?php echo $room['R_level_number']; ?>
                                                             </option>
                                                         <?php endforeach; ?>
                                                     </select>

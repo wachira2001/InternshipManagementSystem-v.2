@@ -1,5 +1,5 @@
 <?php
-include_once '../config/conndb.php';
+include_once 'services_student/conndb.php';
 include_once '../config/show_data.php';
 $getTeacher = getTeacher($conn);
 $getroom = getroomall($conn);
@@ -194,7 +194,7 @@ $getroom = getroomall($conn);
                         <select name="R_ID" id="R_ID" class="form-select" required>
                             <option value="">-- เลือกครู --</option>
                             <?php foreach ($getroom as $room) : ?>
-                                <option value="<?php echo $room['R_ID']; ?>"><?php echo $room['R_level']; ?>. <?php echo $room['R_room']; ?> ห้อง <?php echo $room['R_level_numder']; ?></option>
+                                <option value="<?php echo $room['R_ID']; ?>"><?php echo $room['R_level']; ?>. <?php echo $room['R_room']; ?> ห้อง <?php echo $room['R_level_number']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
