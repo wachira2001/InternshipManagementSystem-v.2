@@ -326,7 +326,7 @@ $teachers = getTeachers($conn,$T_ID);
                                                 <div class="col-3 py-3">
 
                                                     <label for="inputName" class="form-label">เพศ</label>
-                                                    <select class="form-select" id="inputName" name="T_gender">
+                                                    <select class="form-select" id="inputName" name="T_gender" >
                                                         <option value="หญิง" <?= ($teachers['T_gender'] == 'หญิง') ? 'selected' : ''; ?>>
                                                             หญิง
                                                         </option>
@@ -442,8 +442,8 @@ $teachers = getTeachers($conn,$T_ID);
             function showConfirmation() {
                 // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
                 Swal.fire({
-                    title: 'คุณแน่ใจหรือไม่ ?',
-                    text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำอยู่ ',
+                    title: 'คุณต้องการยกเลิกการแก้ไขใช่ไหรือไม?',
+                    // text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำอยู่ ',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
@@ -459,8 +459,8 @@ $teachers = getTeachers($conn,$T_ID);
             }
             function saveData() {
                 Swal.fire({
-                    title: 'คุณแน่ใจหรือไม่ ?',
-                    text: 'การกระทำนี้จะบันทึกขั้นตอนที่คุณทำอยู่ ',
+                    title: 'คุณต้องการบันทึกการแก้ไขใช่หรือไม?',
+                    // text: 'การกระทำนี้จะบันทึกขั้นตอนที่คุณทำอยู่ ',
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

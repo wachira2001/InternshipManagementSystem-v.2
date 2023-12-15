@@ -124,16 +124,16 @@ $conn = null;
                                     ?>
 
                                     <li>
-                                        <a href="showdata_major.php">ข้อมูลแผนก</a>
-                                    </li>
-                                    <li>
                                         <a href="showdata_teacher.php" >ข้อมูลบุคลากร</a>
                                     </li>
                                     <li>
-                                        <a href="showdata_student.php">ข้อมูลนักศึกษา</a>
+                                        <a href="showdata_student.php" >ข้อมูลนักศึกษา</a>
                                     </li>
                                     <li>
-                                        <a href="showdata_room.php" >ข้อมูลห้องเรียน</a>
+                                        <a href="showdata_major.php">ข้อมูลแผนก</a>
+                                    </li>
+                                    <li>
+                                        <a href="showdata_room.php">ข้อมูลห้องเรียน</a>
                                     </li>
                                     <li>
                                         <a href="showdata_company.php" class="current-page">ข้อมูลสถานประกอบการ</a>

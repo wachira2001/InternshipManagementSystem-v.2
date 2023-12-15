@@ -26,6 +26,7 @@ try {
         $T_status = $_POST['T_status'];
         $T_phone = $_POST['T_phone'];
         $T_email = $_POST['T_email'];
+        $T_gender = $_POST['T_gender'];
         $T_username = $_POST['T_username'];
         $T_password = $_POST['T_password'];
 
@@ -41,7 +42,8 @@ try {
                               T_phone = :T_phone,
                               T_email = :T_email, 
                               T_username = :T_username,
-                              T_password = :T_password
+                              T_password = :T_password,
+                                T_gender = :T_gender
                           WHERE T_ID = :T_ID");
         // กำหนดค่าพารามิเตอร์
         $updateStmt->bindParam(':T_fname', $T_fname, PDO::PARAM_STR);
@@ -54,6 +56,7 @@ try {
         $updateStmt->bindParam(':T_email', $T_email, PDO::PARAM_STR);
         $updateStmt->bindParam(':T_username', $T_username, PDO::PARAM_STR);
         $updateStmt->bindParam(':T_password', $T_password, PDO::PARAM_STR);
+        $updateStmt->bindParam(':T_gender', $T_gender, PDO::PARAM_STR);
         $updateStmt->bindParam(':T_ID', $T_ID, PDO::PARAM_STR);
 
         // ทำการ execute คำสั่ง SQL
@@ -64,7 +67,7 @@ try {
             <script>
                 Swal.fire({
                     title: 'สำเร็จ',
-                    text: 'ปรับปรุงข้อมูลบุคลากรเรียบร้อยแล้ว',
+                    text: 'แก้ไขข้อมูลบุคลากรสำเร็จ',
                     icon: 'success',
                     showConfirmButton: false,
                     timer: 5000
@@ -80,7 +83,7 @@ try {
             <script>
                 Swal.fire({
                     title: 'ผิดพลาด',
-                    text: 'เกิดข้อผิดพลาดในการปรับปรุงข้อมูล',
+                    text: 'เกิดข้อผิดพลาดในการแก้ไขข้อมูลบุคลากร',
                     icon: 'error',
                     showConfirmButton: true
                 });

@@ -56,7 +56,7 @@ if (isset($_GET['search']) && $_GET['search'] != '') {
     <meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
     <meta property="og:type" content="Website">
     <meta property="og:site_name" content="Bootstrap Gallery">
-    <title>ข้อมูลห้องเรียน</title>
+    <title>อนุมัติคำร้อง</title>
     <link rel="icon" type="image/png" href="../../../upload_img/<?php echo $stmtD['M_img'];?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,23 +133,24 @@ if (isset($_GET['search']) && $_GET['search'] != '') {
                                 if ($user['T_status'] == '1' ) {
                                     ?>
 
-                                    <li>
-                                        <a href="showdata_major.php">ข้อมูลแผนก</a>
-                                    </li>
+
                                     <li>
                                         <a href="showdata_teacher.php" >ข้อมูลบุคลากร</a>
                                     </li>
                                     <li>
-                                        <a href="showdata_student.php">ข้อมูลนักศึกษา</a>
+                                        <a href="showdata_student.php" >ข้อมูลนักศึกษา</a>
                                     </li>
                                     <li>
-                                        <a href="showdata_room.php" class="current-page">ข้อมูลห้องเรียน</a>
+                                        <a href="showdata_major.php">ข้อมูลแผนก</a>
+                                    </li>
+                                    <li>
+                                        <a href="showdata_room.php">ข้อมูลห้องเรียน</a>
                                     </li>
                                     <li>
                                         <a href="showdata_company.php" >ข้อมูลสถานประกอบการ</a>
                                     </li>
                                     <li>
-                                        <a href="showdata_company.php" >อนุมัติคำร้อง</a>
+                                        <a href="showdata_request.php" class="current-page">อนุมัติคำร้อง</a>
                                     </li>
 
                                     <?php
@@ -184,7 +185,7 @@ if (isset($_GET['search']) && $_GET['search'] != '') {
                     <i class="bi bi-folder2"></i>
                     <a href="../../index.php">ข้อมูลทั่วไป</a>
                 </li>
-                <li class="breadcrumb-item breadcrumb-active" aria-current="page">ข้อมูลห้องเรียน</li>
+                <li class="breadcrumb-item breadcrumb-active" aria-current="page">รายการอนุมัติคำร้อง</li>
             </ol>
             <div class="header-actions-container">
                 <!-- เริ่มต้นของการกระทำของส่วนหัวเรื่อง -->

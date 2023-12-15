@@ -185,13 +185,13 @@ if (count($room) > 0) {
                                     ?>
 
                                     <li>
-                                        <a href="showdata_major.php">ข้อมูลแผนก</a>
-                                    </li>
-                                    <li>
                                         <a href="showdata_teacher.php" >ข้อมูลบุคลากร</a>
                                     </li>
                                     <li>
-                                        <a href="showdata_student.php">ข้อมูลนักศึกษา</a>
+                                        <a href="showdata_student.php" >ข้อมูลนักศึกษา</a>
+                                    </li>
+                                    <li>
+                                        <a href="showdata_major.php">ข้อมูลแผนก</a>
                                     </li>
                                     <li>
                                         <a href="showdata_room.php" class="current-page">ข้อมูลห้องเรียน</a>
