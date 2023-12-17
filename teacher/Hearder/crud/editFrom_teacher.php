@@ -111,14 +111,14 @@ $teachers = getTeachers($conn,$T_ID);
                         </li>
                         <li class="sidebar-dropdown active">
                             <a href="#">
-                                <i class="bi bi-handbag"></i>
+                                <i class="bi bi-folder2"></i>
                                 <span class="menu-text">ข้อมูลทั่วไป</span>
                             </a>
                             <div class="sidebar-submenu">
                                 <ul>
                                     <?php
                                     // เงื่อนไขเพื่อตรวจสอบบทบาท
-                                    if ($user['T_status'] == '1' ) {
+                                    if ($user['T_status'] == '1') {
                                         ?>
                                         <li>
                                             <a href="showdata_teacher.php" class="current-page">ข้อมูลบุคลากร</a>
@@ -133,17 +133,17 @@ $teachers = getTeachers($conn,$T_ID);
                                             <a href="showdata_room.php">ข้อมูลห้องเรียน</a>
                                         </li>
                                         <li>
-                                            <a href="showdata_company.php" >ข้อมูลสถานประกอบการ</a>
+                                            <a href="showdata_company.php">ข้อมูลสถานประกอบการ</a>
                                         </li>
                                         <li>
-                                            <a href="showdata_request.php" >อนุมัติคำร้อง</a>
+                                            <a href="showdata_request.php">อนุมัติคำร้อง</a>
                                         </li>
                                         <?php
-                                    }else{
+                                    } else {
 
                                         ?>
                                         <li>
-                                            <a href="../crud/showdata_student.php" >ข้อมูลนักศึกษา</a>
+                                            <a href="../crud/showdata_student.php">ข้อมูลนักศึกษา</a>
                                         </li>
                                         <li>
                                             <a href="../crud/showdata_room.php">ข้อมูลห้องเรียน</a>
@@ -172,7 +172,7 @@ $teachers = getTeachers($conn,$T_ID);
                 <!-- ส่วนเริ่มต้นของการหลีกเลี่ยงข้อผิดพลาด -->
                 <ol class="breadcrumb d-md-flex d-none" >
                     <li class="breadcrumb-item">
-                        <i class="bi bi-handbag"></i>
+                        <i class="bi bi-folder2"></i>
                         <a href="#">ข้อมูลทั่วไป</a>
                     </li>
                     <li class="breadcrumb-item breadcrumb-active" aria-current="page">
@@ -204,7 +204,7 @@ $teachers = getTeachers($conn,$T_ID);
                                     <!-- คำสั่งการดำเนินการในโปรไฟล์ -->
                                     <div class="header-profile-actions">
                                         <a href="../../crud/editFrom_profile.php">โปรไฟล์</a>
-                                        <a href="../../../config/logout.php">ออกจากระบบ</a>
+                                        <a href="#" onclick="showConfirmationLogout()">ออกจากระบบ</a>
                                     </div>
                                     <!-- ส่วนจบของคำสั่งการดำเนินการในโปรไฟล์ -->
                                 </div>
@@ -225,7 +225,7 @@ $teachers = getTeachers($conn,$T_ID);
                 <!-- ส่วนเริ่มต้นของคอนเทนเนอร์ -->
                 <div class="content-wrapper">
                     <div class="row">
-                        <form method="post" enctype="multipart/form-data">
+                        <form method="post" enctype="multipart/form-data" id="FromEditTeacher">
                                 <div class="col-12 ">
                                     <center>
                                         <img id="previewImage" src="../../img/<?php echo $teachers['T_img'] ?>" alt="Preview Image"
@@ -362,7 +362,7 @@ $teachers = getTeachers($conn,$T_ID);
                                                         <input type="password" class="form-control" id="password" name="T_password" placeholder="password"
                                                                value="<?= $teachers['T_password']; ?>" readonly>
                                                         <div class="input-group-append">
-                                                            <button type="button" class="btn btn-outline-secondary password-toggle-button" onclick="togglePasswordVisibility()">
+                                                            <button type="button" class="btn btn-outline-secondary password-toggle-button" onclick="Password()">
                                                                 <i id="eye-icon" class="bi bi-eye"></i>
                                                             </button>
                                                         </div>
@@ -394,7 +394,7 @@ $teachers = getTeachers($conn,$T_ID);
                                                 </button>
                                             </a>
                                             <a>
-                                                <button class="btn btn-primary" type="button" onclick="saveData()">บันทึก</button>
+                                                <button class="btn btn-primary" type="submit">บันทึก</button>
                                             </a>
                                         </div>
                                         <!-- Form actions footer end -->
@@ -428,85 +428,74 @@ $teachers = getTeachers($conn,$T_ID);
         <script src="../../../assets/js/modernizr.js"></script>
         <script src="../../../assets/js/moment.js"></script>
 
-<!--        <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
-<!--        <script src="../../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>-->
-<!--        <script src="../../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>-->
-<!--        <script src="../../../assets/vendor/apex/apexcharts.min.js"></script>-->
-<!--        <script src="../../../assets/vendor/apex/custom/sales/salesGraph.js"></script>-->
-<!--        <script src="../../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>-->
-<!--        <script src="../../../assets/vendor/apex/custom/sales/taskGraph.js"></script>-->
-
         <!-- ไฟล์ JavaScript หลัก -->
         <script src="../../../assets/js/main.js"></script>
-        <script>
-            function showConfirmation() {
-                // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
-                Swal.fire({
-                    title: 'คุณต้องการยกเลิกการแก้ไขใช่ไหรือไม?',
-                    // text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำอยู่ ',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'ใช่, ยกเลิก!',
-                    cancelButtonText: 'ยกเลิก'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // กระทำเมื่อยืนยัน
-                        window.location.href = 'showdata_department.php';
-                    }
-                });
-            }
-            function saveData() {
-                Swal.fire({
-                    title: 'คุณต้องการบันทึกการแก้ไขใช่หรือไม?',
-                    // text: 'การกระทำนี้จะบันทึกขั้นตอนที่คุณทำอยู่ ',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'ใช่, บันทึก!',
-                    cancelButtonText: 'ยกเลิก'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.querySelector('form').submit();
-                    }
-                });
-            }
-            // กำหนดฟังก์ชันชื่อ togglePasswordVisibility
-            function togglePasswordVisibility() {
-                // ดึงอิลิเมนต์ DOM ที่มี id "password" และเก็บไว้ในตัวแปร passwordField
-                var passwordField = document.getElementById("password");
-
-                // ดึงอิลิเมนต์ DOM ที่มี id "eye-icon" และเก็บไว้ในตัวแปร eyeIcon
-                var eyeIcon = document.getElementById("eye-icon");
-
-                // ตรวจสอบว่าแอตทริบิวต์ type ของฟิลด์รหัสผ่านในปัจจุบันตั้งค่าเป็น "password" หรือไม่
-                if (passwordField.type === "password") {
-                    // ถ้าใช่, เปลี่ยนแอตทริบิวต์ type เป็น "text" (เปิดเผยรหัสผ่าน)
-                    passwordField.type = "text";
-
-                    // ลบคลาส "bi-eye" ออกจากไอคอนตา และเพิ่มคลาส "bi-eye-slash"
-                    eyeIcon.classList.remove("bi-eye");
-                    eyeIcon.classList.add("bi-eye-slash");
-                } else {
-                    // ถ้าแอตทริบิวต์ไม่ได้เป็น "password" (เป็นไปได้ว่าเป็น "text"), เปลี่ยนกลับเป็น "password"
-                    passwordField.type = "password";
-
-                    // ลบคลาส "bi-eye-slash" ออกจากไอคอนตา และเพิ่มคลาส "bi-eye"
-                    eyeIcon.classList.remove("bi-eye-slash");
-                    eyeIcon.classList.add("bi-eye");
-                }
-            }
-
-        </script>
+        <script src="../../../Function/showdata_teacher.js"></script>
+<!--        <script>-->
+<!--            function showConfirmation() {-->
+<!--                // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก-->
+<!--                Swal.fire({-->
+<!--                    title: 'คุณต้องการยกเลิกการแก้ไขใช่ไหรือไม?',-->
+<!--                    // text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำอยู่ ',-->
+<!--                    icon: 'warning',-->
+<!--                    showCancelButton: true,-->
+<!--                    confirmButtonColor: '#d33',-->
+<!--                    cancelButtonColor: '#3085d6',-->
+<!--                    confirmButtonText: 'ใช่, ยกเลิก!',-->
+<!--                    cancelButtonText: 'ยกเลิก'-->
+<!--                }).then((result) => {-->
+<!--                    if (result.isConfirmed) {-->
+<!--                        // กระทำเมื่อยืนยัน-->
+<!--                        window.location.href = 'showdata_department.php';-->
+<!--                    }-->
+<!--                });-->
+<!--            }-->
+<!--            function saveData() {-->
+<!--                Swal.fire({-->
+<!--                    title: 'คุณต้องการบันทึกการแก้ไขใช่หรือไม?',-->
+<!--                    // text: 'การกระทำนี้จะบันทึกขั้นตอนที่คุณทำอยู่ ',-->
+<!--                    icon: 'question',-->
+<!--                    showCancelButton: true,-->
+<!--                    confirmButtonColor: '#3085d6',-->
+<!--                    cancelButtonColor: '#d33',-->
+<!--                    confirmButtonText: 'ใช่, บันทึก!',-->
+<!--                    cancelButtonText: 'ยกเลิก'-->
+<!--                }).then((result) => {-->
+<!--                    if (result.isConfirmed) {-->
+<!--                        document.querySelector('form').submit();-->
+<!--                    }-->
+<!--                });-->
+<!--            }-->
+<!--            // กำหนดฟังก์ชันชื่อ togglePasswordVisibility-->
+<!--            function togglePasswordVisibility() {-->
+<!--                // ดึงอิลิเมนต์ DOM ที่มี id "password" และเก็บไว้ในตัวแปร passwordField-->
+<!--                var passwordField = document.getElementById("password");-->
+<!---->
+<!--                // ดึงอิลิเมนต์ DOM ที่มี id "eye-icon" และเก็บไว้ในตัวแปร eyeIcon-->
+<!--                var eyeIcon = document.getElementById("eye-icon");-->
+<!---->
+<!--                // ตรวจสอบว่าแอตทริบิวต์ type ของฟิลด์รหัสผ่านในปัจจุบันตั้งค่าเป็น "password" หรือไม่-->
+<!--                if (passwordField.type === "password") {-->
+<!--                    // ถ้าใช่, เปลี่ยนแอตทริบิวต์ type เป็น "text" (เปิดเผยรหัสผ่าน)-->
+<!--                    passwordField.type = "text";-->
+<!---->
+<!--                    // ลบคลาส "bi-eye" ออกจากไอคอนตา และเพิ่มคลาส "bi-eye-slash"-->
+<!--                    eyeIcon.classList.remove("bi-eye");-->
+<!--                    eyeIcon.classList.add("bi-eye-slash");-->
+<!--                } else {-->
+<!--                    // ถ้าแอตทริบิวต์ไม่ได้เป็น "password" (เป็นไปได้ว่าเป็น "text"), เปลี่ยนกลับเป็น "password"-->
+<!--                    passwordField.type = "password";-->
+<!---->
+<!--                    // ลบคลาส "bi-eye-slash" ออกจากไอคอนตา และเพิ่มคลาส "bi-eye"-->
+<!--                    eyeIcon.classList.remove("bi-eye-slash");-->
+<!--                    eyeIcon.classList.add("bi-eye");-->
+<!--                }-->
+<!--            }-->
+<!---->
+<!--        </script>-->
 
 
 
 
     </body>
     </html>
-<?php
-require_once '../../services_teacher/update_teacher.php';
-$conn = null;
-?>

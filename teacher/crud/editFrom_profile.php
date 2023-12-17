@@ -73,6 +73,7 @@ $conn = null;
         <link rel="stylesheet" href="../../assets/vendor/overlay-scroll/OverlayScrollbars.min.css">
     </head>
 
+
     <body id="fonts">
 
     <!-- ส่วนเริ่มต้นของการโหลด -->
@@ -121,40 +122,16 @@ $conn = null;
                             <div class="sidebar-submenu">
                                 <ul>
 
-
-                                    <?php
-                                    if ($user['T_status'] == '1' ) {
-                                        ?>
-
                                         <li>
-                                            <a href="../Hearder/crud/showdata_major.php">ข้อมูลแผนก</a>
+                                            <a href="../crud/showdata_student.php">ข้อมูลนักศึกษา</a>
                                         </li>
                                         <li>
-                                            <a href="../Hearder/crud/showdata_teacher.php">ข้อมูลบุคลากร</a>
+                                            <a href="../crud/showdata_room.php">ข้อมูลห้องเรียน</a>
                                         </li>
                                         <li>
-                                            <a href="../Hearder/crud/showdata_student.php" >ข้อมูลนักศึกษา</a>
-                                        </li>
-                                        <li>
-                                            <a href="../Hearder/crud/showdata_room.php">ข้อมูลห้องเรียน</a>
-                                        </li>
-                                        <li>
-                                            <a href="../Hearder/crud/showdata_company.php" >ข้อมูลสถานประกอบการ</a>
+                                            <a href="../crud/showdata_request.php">อนุมัติคำร้อง</a>
                                         </li>
 
-                                        <?php
-                                    }else{
-
-                                        ?>
-                                        <li>
-                                            <a href="showdata_room.php" >ข้อมูลห้องเรียน</a>
-                                        </li>
-                                        <li>
-                                            <a href="showdata_student.php" >ข้อมูลนักศึกษา</a>
-                                        </li>
-                                        <?php
-                                    }
-                                    ?>
                                 </ul>
                             </div>
                         </li>
@@ -174,7 +151,7 @@ $conn = null;
                 <!-- ส่วนเริ่มต้นของการหลีกเลี่ยงข้อผิดพลาด -->
                 <ol class="breadcrumb d-md-flex d-none" >
                     <li class="breadcrumb-item">
-                        <i class="bi bi-folder2"></i>
+<!--                        <i class="bi bi-folder2"></i>-->
                         <a href="#">แก้ไขข้อมูลส่วนตัว</a>
                     </li>
                 </ol>
@@ -200,7 +177,7 @@ $conn = null;
                                     <!-- คำสั่งการดำเนินการในโปรไฟล์ -->
                                     <div class="header-profile-actions">
                                         <a href="editFrom_profile.php">โปรไฟล์</a>
-                                        <a href="../../config/logout.php">ออกจากระบบ</a>
+                                        <a href="#" onclick="showConfirmationLogout()">ออกจากระบบ</a>
                                     </div>
                                     <!-- ส่วนจบของคำสั่งการดำเนินการในโปรไฟล์ -->
                                 </div>
@@ -221,7 +198,7 @@ $conn = null;
                 <!-- ส่วนเริ่มต้นของคอนเทนเนอร์ -->
                 <div class="content-wrapper">
 
-                    <form method="post" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data" id="FormProfile">
                         <div class="row">
                             <div class="col-12">
                                 <div>
@@ -306,36 +283,7 @@ $conn = null;
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-4 py-2">
-                                                <div class="mb-3">
-                                                    <label for="R_ID" class="form-label">ห้องประจำชั้น</label>
-                                                    <select name="R_ID" id="R_ID" class="form-select" required>
-                                                        <?php foreach ($getroom as $room) : ?>
-                                                            <?php
-                                                            // เช็คว่า T_ID ของครูนี้เท่ากับ T_ID ที่ต้องการให้เป็นค่าเริ่มต้นหรือไม่
-                                                            $selected = ($getroom['R_ID'] == $room['R_ID']) ? 'selected' : '';
-                                                            ?>
-                                                            <option name="R_ID" value="<?php echo $room['R_ID']; ?>" <?php echo $selected; ?>>
-                                                                <?php echo $room['R_level']; ?>. <?php echo $room['R_room']; ?> ห้อง <?php echo $room['R_level_number']; ?>
-                                                            </option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-4 py-2">
-                                                <label for="R_ID" class="form-label">เลือกระดับชั้น</label>
-                                                <select name="R_ID" id="R_ID" class="form-select" required >
-                                                    <option value="">-- เลือกครู --</option>
 
-                                                    <?php foreach ($getroom as $room) : ?>
-                                                        <?php
-                                                        // เช็คว่า T_ID ของครูนี้เท่ากับ T_ID ที่ต้องการให้เป็นค่าเริ่มต้นหรือไม่
-                                                        $selected = ($user['T_ID'] == $room['R_ID']) ? 'selected' : '';
-                                                        ?>
-                                                        <option value="<?php echo $room['R_ID']; ?>"><?php echo $room['R_level']; ?>. <?php echo $room['R_room']; ?> ห้อง <?php echo $room['R_level_number']; ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </div>
                                             <div class="col-12 py-2">
                                                 <div class="">
                                                     <label for="inputName" class="form-label">ที่อยู่</label>
@@ -352,26 +300,18 @@ $conn = null;
                                                            value="<?=$user['T_username'];?>" >
                                                 </div>
                                             </div>
-<!--                                            <div class="col-12 py-2">-->
-<!--                                                <div class="">-->
-<!--                                                    <label for="inputNumber" class="form-label">Password</label>-->
-<!--                                                    <input type="text" class="form-control" id="inputNumber" placeholder="Password" name="T_password"-->
-<!--                                                           value="--><?php //=$user['T_password'];?><!--" >-->
-<!--                                                </div>-->
-<!--                                            </div>-->
+
                                             <div class="mb-3">
                                                 <label for="exampleInputPassword1" class="form-label">Password</label>
                                                 <div class="input-group">
                                                     <input type="password" class="form-control" id="password" name="T_password" placeholder="password" value="<?=$user['T_password'];?>">
                                                     <div class="input-group-append">
-                                                        <button type="button" class="btn btn-outline-secondary password-toggle-button" onclick="togglePasswordVisibility()">
+                                                        <button type="button" class="btn btn-outline-secondary password-toggle-button" onclick="Password()">
                                                             <i id="eye-icon" class="bi bi-eye"></i>
                                                         </button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <input type="hidden" class="form-control date-own" id="T_status" name="T_status"
-                                                   value="<?=$user['T_status'];?>" >
                                         </div>
                                         <br>
                                         <br>
@@ -381,7 +321,7 @@ $conn = null;
                                         <!-- Form actions footer start -->
                                         <div class="form-actions-footer">
                                             <a><button class="btn btn-danger" type="button" onclick="showConfirmation()">ยกเลิก</button></a>
-                                            <a><button class="btn btn-primary" type="button" onclick="saveData()">บันทึก</button></a>
+                                            <a><button class="btn btn-primary" type="submit">บันทึก</button></a>
                                         </div>
                                         <!-- Form actions footer end -->
 
@@ -413,108 +353,12 @@ $conn = null;
         <script src="../../assets/js/modernizr.js"></script>
         <script src="../../assets/js/moment.js"></script>
 
-        <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
-        <script src="../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
-        <script src="../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
-        <script src="../../assets/vendor/apex/apexcharts.min.js"></script>
-        <script src="../../assets/vendor/apex/custom/sales/salesGraph.js"></script>
-        <script src="../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>
-        <script src="../../assets/vendor/apex/custom/sales/taskGraph.js"></script>
-
         <!-- ไฟล์ JavaScript หลัก -->
         <script src="../../assets/js/main.js"></script>
+        <script src="../../Function/updateProfile_teacher.js"></script>
         <script>
-            document.getElementById('imageInput').addEventListener('change', function (e) {
-                var preview = document.getElementById('previewImage');
-                var file = e.target.files[0];
-                var reader = new FileReader();
-
-                reader.onloadend = function () {
-                    preview.src = reader.result;
-                };
-
-                if (file) {
-                    reader.readAsDataURL(file);
-                } else {
-                    preview.src = "#";
-                }
-            });
-
-            // เมื่อกดปุ่ม "บันทึก" หรือ "อัพโหลดใหม่"
-            function saveImage() {
-                // ส่งข้อมูลรูปภาพไปยังเซิร์ฟเวอร์
-                // ทำการอัพเดทในฐานข้อมูล
-                // หลังจากอัพเดทสำเร็จ, ทำการแทนที่รูปภาพเก่าด้วยรูปภาพใหม่
-                document.getElementById('currentImage').src = document.getElementById('previewImage').src;
-            }
-            function showConfirmation() {
-                // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
-                Swal.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'ใช่, ยกเลิก!',
-                    cancelButtonText: 'ยกเลิก'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // กระทำเมื่อยืนยัน
-                        window.location.href = '../index.php';
-                    }
-                });
-            }
-            function saveData() {
-                Swal.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'ที่จะแก้ไขข้อมูล',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'ใช่, บันทึก!',
-                    cancelButtonText: 'ยกเลิก'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.querySelector('form').submit();
-                    }
-                });
-            }
-
-
-
-
-            // กำหนดฟังก์ชันชื่อ togglePasswordVisibility
-            function togglePasswordVisibility() {
-                // ดึงอิลิเมนต์ DOM ที่มี id "password" และเก็บไว้ในตัวแปร passwordField
-                var passwordField = document.getElementById("password");
-
-                // ดึงอิลิเมนต์ DOM ที่มี id "eye-icon" และเก็บไว้ในตัวแปร eyeIcon
-                var eyeIcon = document.getElementById("eye-icon");
-
-                // ตรวจสอบว่าแอตทริบิวต์ type ของฟิลด์รหัสผ่านในปัจจุบันตั้งค่าเป็น "password" หรือไม่
-                if (passwordField.type === "password") {
-                    // ถ้าใช่, เปลี่ยนแอตทริบิวต์ type เป็น "text" (เปิดเผยรหัสผ่าน)
-                    passwordField.type = "text";
-
-                    // ลบคลาส "bi-eye" ออกจากไอคอนตา และเพิ่มคลาส "bi-eye-slash"
-                    eyeIcon.classList.remove("bi-eye");
-                    eyeIcon.classList.add("bi-eye-slash");
-                } else {
-                    // ถ้าแอตทริบิวต์ไม่ได้เป็น "password" (เป็นไปได้ว่าเป็น "text"), เปลี่ยนกลับเป็น "password"
-                    passwordField.type = "password";
-
-                    // ลบคลาส "bi-eye-slash" ออกจากไอคอนตา และเพิ่มคลาส "bi-eye"
-                    eyeIcon.classList.remove("bi-eye-slash");
-                    eyeIcon.classList.add("bi-eye");
-                }
-            }
 
         </script>
 
     </body>
     </html>
-<?php
-require_once '../services_teacher/update_profile.php';
-?>

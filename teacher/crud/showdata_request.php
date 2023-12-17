@@ -134,31 +134,6 @@ $conn = null;
                         <div class="sidebar-submenu">
                             <ul>
 
-
-                                <?php
-                                if ($user['T_status'] == '1' ) {
-                                    ?>
-
-                                    <li>
-                                        <a href="../Hearder/crud/showdata_major.php">ข้อมูลแผนก</a>
-                                    </li>
-                                    <li>
-                                        <a href="../Hearder/crud/showdata_teacher.php">ข้อมูลบุคลากร</a>
-                                    </li>
-                                    <li>
-                                        <a href="../Hearder/crud/showdata_student.php" >ข้อมูลนักศึกษา</a>
-                                    </li>
-                                    <li>
-                                        <a href="../Hearder/crud/showdata_room.php">ข้อมูลห้องเรียน</a>
-                                    </li>
-                                    <li>
-                                        <a href="../Hearder/crud/showdata_company.php" >ข้อมูลสถานประกอบการ</a>
-                                    </li>
-
-                                    <?php
-                                }else{
-
-                                    ?>
                                     <li>
                                         <a href="showdata_room.php" >ข้อมูลห้องเรียน</a>
                                     </li>
@@ -168,9 +143,7 @@ $conn = null;
                                     <li>
                                         <a href="showdata_request.php" class="current-page">อนุมัติคำร้อง</a>
                                     </li>
-                                    <?php
-                                }
-                                ?>
+
                             </ul>
                         </div>
                     </li>
@@ -399,15 +372,6 @@ $conn = null;
     <script src="../../assets/js/modernizr.js"></script>
     <script src="../../assets/js/moment.js"></script>
 
-<!--     เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
-<!--    <script src="../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>-->
-<!--    <script src="../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>-->
-<!--    <script src="../../assets/vendor/apex/apexcharts.min.js"></script>-->
-<!--    <script src="../../assets/vendor/apex/custom/sales/salesGraph.js"></script>-->
-<!--    <script src="../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>-->
-<!--    <script src="../../assets/vendor/apex/custom/sales/taskGraph.js"></script>-->
-
-
     <!-- ไฟล์ JavaScript หลัก -->
     <script src="../../assets/js/main.js"></script>
     <script>
@@ -446,7 +410,7 @@ $conn = null;
                     if (response === 'success') {
                         Swal.fire({
                             icon: 'success',
-                            title: 'ลบข้อมูลสำเร็จ',
+                            title: 'อนุมัติคำร้องสำเร็จ',
                             showConfirmButton: false,
                             timer: 1500
                         }).then(() => {

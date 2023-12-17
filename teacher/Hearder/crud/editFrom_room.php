@@ -27,7 +27,7 @@ $user = getuserT($conn,$_SESSION['username']);
 $major = getmajor($conn);
 $R_ID = $_GET['R_ID'];
 $room = getroom($conn,$R_ID);
-print_r($room);
+//print_r($room);
 $getTeacher = getTeacher($conn);
 // ปิดการเชื่อมต่อ
 $conn = null;
@@ -115,42 +115,30 @@ $conn = null;
                         </li>
                         <li class="sidebar-dropdown active">
                             <a href="#">
-                                <i class="bi bi-handbag"></i>
+                                <i class="bi bi-folder2"></i>
                                 <span class="menu-text">ข้อมูลทั่วไป</span>
                             </a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <?php
-                                    if ($user['T_status'] == '1' ) {
-                                        ?>
 
-                                        <li>
-                                            <a href="showdata_major.php" >ข้อมูลแผนก</a>
-                                        </li>
-                                        <li>
-                                            <a href="showdata_teacher.php">ข้อมูลบุคลากร</a>
-                                        </li>
-                                        <li>
-                                            <a href="showdata_student.php" >ข้อมูลนักศึกษา</a>
-                                        </li>
-                                        <li>
-                                            <a href="showdata_room.php" class="current-page">ข้อมูลห้องเรียน</a>
-                                        </li>
-                                        <li>
-                                            <a href="showdata_company.php" >ข้อมูลสถานประกอบการ</a>
-                                        </li>
-
-                                        <?php
-                                    }else{
-
-                                        ?>
-                                        <li>
-                                            <a href="showdata_student.php">ข้อมูลนักศึกษา</a>
-                                        </li>
-                                        <?php
-                                    }
-                                    ?>
-
+                                    <li>
+                                        <a href="showdata_teacher.php" >ข้อมูลบุคลากร</a>
+                                    </li>
+                                    <li>
+                                        <a href="showdata_student.php" >ข้อมูลนักศึกษา</a>
+                                    </li>
+                                    <li>
+                                        <a href="showdata_major.php" >ข้อมูลแผนก</a>
+                                    </li>
+                                    <li>
+                                        <a href="showdata_room.php" class="current-page">ข้อมูลห้องเรียน</a>
+                                    </li>
+                                    <li>
+                                        <a href="showdata_company.php" >ข้อมูลสถานประกอบการ</a>
+                                    </li>
+                                    <li>
+                                        <a href="showdata_request.php" >อนุมัติคำร้อง</a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
@@ -169,7 +157,7 @@ $conn = null;
                 <!-- ส่วนเริ่มต้นของการหลีกเลี่ยงข้อผิดพลาด -->
                 <ol class="breadcrumb d-md-flex d-none" >
                     <li class="breadcrumb-item">
-                        <i class="bi bi-house"></i>
+                        <i class="bi bi-folder2"></i>
                         <a href="#">ข้อมูลทั่วไป</a>
                     </li>
                     <li class="breadcrumb-item breadcrumb-active" aria-current="page">
@@ -177,7 +165,7 @@ $conn = null;
 
                     </li>
                     <li class="breadcrumb-item breadcrumb-active" aria-current="page">
-                        <a href="#">ข้อมูลห้องเรียน</a>
+                        <a href="#">แก้ไขข้อมูลห้องเรียน</a>
                     </li>
                 </ol>
                 <div class="header-actions-container">
@@ -329,7 +317,7 @@ $conn = null;
         <script src="../../../assets/js/modernizr.js"></script>
         <script src="../../../assets/js/moment.js"></script>
 
-<!--        <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->-->
+<!--        <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
 <!--        <script src="../../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>-->
 <!--        <script src="../../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>-->
 <!--        <script src="../../../assets/vendor/apex/apexcharts.min.js"></script>-->
@@ -339,94 +327,6 @@ $conn = null;
 
         <!-- ไฟล์ JavaScript หลัก -->
         <script src="../../../assets/js/main.js"></script>
-        <script>
-            function showConfirmation() {
-                // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
-                Swal.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'ใช่, ยกเลิก!',
-                    cancelButtonText: 'ยกเลิก'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // กระทำเมื่อยืนยัน
-                        window.location.href = 'showdata_room.php';
-                    }
-                });
-            }
-            function saveData(R_ID) {
-                var R_level = document.getElementById('R_level').value;
-                var R_level_number = document.getElementById('R_level_number').value;
-                var R_room = document.getElementById('R_room').value;
-                var T_ID = document.getElementById('T_ID').value;
-
-                if ($.trim(R_level) === '' || $.trim(R_level_number) === '' || $.trim(R_room) === '' || $.trim(T_ID) === '') {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'กรุณากรอกข้อมูลห้องให้ครบ',
-                        showConfirmButton: true,
-                    });
-                    return;
-                }
-
-                $.ajax({
-                    type: 'POST',
-                    url: '../../services_teacher/update_room.php',
-                    data: {
-                        R_ID: R_ID,
-                        R_level: R_level,
-                        R_level_number: R_level_number,
-                        R_room: R_room,
-                        T_ID: T_ID,
-                    },
-
-                    success: function (response) {
-                        // การจัดการผลลัพธ์
-                        console.log(response);
-                        if (response === 'success') {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'เพิ่มข้อมูลห้องสำเร็จ',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                window.location.href = 'showdata_room.php';
-                                // location.reload();
-                            });
-                        } else if (response === 'duplicate') {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'ข้อมูลนี้มีอยู่แล้ว',
-                                text: 'โปรดตรวจสอบว่าป้อนข้อมูลห้องนี้ มีอยู่แล้วหรือไม่',
-                            });
-
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'เกิดข้อผิดพลาดในการเพิ่มข้อมูล',
-                                text: 'โปรดติดต่อผู้ดูแลระบบ',
-                            });
-                        }
-                    },
-
-                    error: function (xhr, status, error) {
-                        // การจัดการข้อผิดพลาดจาก Ajax
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'เกิดข้อผิดพลาด',
-                            text: 'ไม่สามารถยกเลิกไม่อนุมัติคำร้องได้',
-                        });
-                    }
-                });
-            }
-
-        </script>
+        <script src="../../../Function/editFrom_room.js"></script>
     </body>
     </html>
-<?php
-require_once '../../services_teacher/update_room.php';
-?>

@@ -27,7 +27,8 @@ $user = getuserT($conn,$_SESSION['username']);
 $major = getmajor($conn);
 $S_ID = $_GET['S_ID'];
 $student = getstudent($conn,$S_ID);
-$getroom = getroomall($conn);
+$getroomall = getroomall($conn);
+
 // ปิดการเชื่อมต่อ
 
 //print_r($student);
@@ -207,7 +208,7 @@ $getroom = getroomall($conn);
                                     <!-- คำสั่งการดำเนินการในโปรไฟล์ -->
                                     <div class="header-profile-actions">
                                         <a href="../../crud/editFrom_profile.php">โปรไฟล์</a>
-                                        <a href="../../../config/logout.php">ออกจากระบบ</a>
+                                        <a href="#" onclick="showConfirmationLogout()">ออกจากระบบ</a>
                                     </div>
                                     <!-- ส่วนจบของคำสั่งการดำเนินการในโปรไฟล์ -->
                                 </div>
@@ -228,7 +229,7 @@ $getroom = getroomall($conn);
                 <!-- ส่วนเริ่มต้นของคอนเทนเนอร์ -->
                 <div class="content-wrapper">
                     <div class="row">
-                        <form method="post" enctype="multipart/form-data">
+                        <form method="post" enctype="multipart/form-data" id="FromEditStudent">
 
                             <div class="col-12 ">
                                 <center>
@@ -338,23 +339,26 @@ $getroom = getroomall($conn);
                                                 <div class="mb-3">
                                                     <label for="R_ID" class="form-label">ห้องประจำชั้น</label>
                                                     <select name="R_ID" id="R_ID" class="form-select" required>
-                                                        <?php foreach ($getroom as $room) : ?>
+                                                        <?php foreach ($getroomall as $room) : ?>
                                                             <?php
-                                                            // เช็คว่า T_ID ของครูนี้เท่ากับ T_ID ที่ต้องการให้เป็นค่าเริ่มต้นหรือไม่
+                                                            // เช็คว่า R_ID ของห้องนี้เท่ากับ R_ID ที่ต้องการให้เป็นค่าเริ่มต้นหรือไม่
                                                             $selected = ($student['R_ID'] == $room['R_ID']) ? 'selected' : '';
                                                             ?>
-                                                            <option name="R_ID" value="<?php echo $room['R_ID']; ?>" <?php echo $selected; ?>>
-                                                                <?php echo $room['R_level']; ?>. <?php echo $room['R_room']; ?> ห้อง <?php echo $room['R_level_number']; ?>
+                                                            <option name="R_ID" value="<?php echo $room['R_ID']?>" <?php echo $selected; ?>>
+                                                                <?php echo $room['R_level']; ?><?php echo $room['R_level_number']; ?>  ห้อง  <?php echo $room['R_room']; ?>
                                                             </option>
+
                                                         <?php endforeach; ?>
                                                     </select>
                                                 </div>
                                             </div>
 
+
                                             <div class="col-3 py-3">
                                                 <label for="inputName" class="form-label">ครูที่ปรึกษา</label>
                                                 <input type="text" class="form-control" id="inputName" name="advisor_teacher_name" placeholder="ครูที่ปรึกษา"
                                                        value="<?= ($student['T_fname'])?>  <?= ($student['T_lname'])?> " readonly>
+
                                                 <!-- ถ้า $student['T_ID'] เท่ากับ $studentT['T_ID'] จะให้ค่าเป็น $studentT['T_fname'] -->
                                             </div>
 
@@ -413,7 +417,7 @@ $getroom = getroomall($conn);
                                                 </button>
                                             </a>
                                             <a>
-                                                <button class="btn btn-primary" type="button" onclick="saveData()">บันทึก</button>
+                                                <button class="btn btn-primary" type="submit" >บันทึก</button>
                                             </a>
                                         </div>
                                         <!-- Form actions footer end -->
@@ -457,89 +461,6 @@ $getroom = getroomall($conn);
 
         <!-- ไฟล์ JavaScript หลัก -->
         <script src="../../../assets/js/main.js"></script>
-        <script>
-
-            function showConfirmation() {
-                // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
-                Swal.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'ใช่, ยกเลิก!',
-                    cancelButtonText: 'ยกเลิก'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // กระทำเมื่อยืนยัน
-                        window.location.href = 'showdata_student.php';
-                    }
-                });
-            }
-            function saveData() {
-                Swal.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'ที่จะบันทึกการแก้ไขข้อมูล',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'ใช่, บันทึก!',
-                    cancelButtonText: 'ยกเลิก'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.querySelector('form').submit();
-                    }
-                });
-            }
-
-        </script>
-        <script>
-            // ฟังก์ชันสำหรับลบข้อมูล
-            function deleteData(id) {
-                Swal.fire({
-                    title: 'คุณต้องการลบหรือไม่?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'ตกลง'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // ถ้ากดตกลง, ส่ง request ไปยังไฟล์ PHP ที่ใช้สำหรับการลบข้อมูล
-                        fetch('delete_data.php', {
-                            method: 'POST',
-                            body: new URLSearchParams('id=' + id),
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                            }
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    Swal.fire('ลบเรียบร้อยแล้ว!', '', 'success').then(() => {
-                                        // หลังจากลบเสร็จ, รีโหลดหน้าเพื่อแสดงข้อมูลอัพเดท
-                                        location.reload();
-                                    });
-                                } else {
-                                    Swal.fire('มีข้อผิดพลาดในการลบข้อมูล', '', 'error');
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                Swal.fire('มีข้อผิดพลาดในการลบข้อมูล', '', 'error');
-                            });
-                    }
-                });
-            }
-        </script>
-
-
-
+        <script src="../../../Function/showdata_student.js"></script>
     </body>
     </html>
-<?php
-require_once '../../services_teacher/update_student.php';
-$conn = null;
-?>

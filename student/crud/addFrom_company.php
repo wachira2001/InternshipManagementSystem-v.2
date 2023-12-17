@@ -109,23 +109,6 @@ $conn = null;
                                 <span class="menu-text">หน้าแรก</span>
                             </a>
                         </li>
-                        <?php
-                        // มื่อยืนคำร้องเสร็จ
-                        if ($user['S_status'] == '1') {
-                            ?>
-                            <li>
-                                <a href="CRUD/">ยื่นคำร้องออกฝึกงาน</a>
-                            </li>
-
-                            <?php
-                        } else if ($user['S_status'] == '2') {
-                            ?>
-                            <li>
-                                <a href="CRUD/">ยื่นคำร้องออกฝึกงาน</a>
-                            </li>
-                            <?php
-                        } else {
-                            ?>
                             <li class="active-page-link">
                                 <a href="addFrom_company.php">
                                     <i class="bi bi-file-earmark-plus"></i>
@@ -144,10 +127,7 @@ $conn = null;
                                     <span class="menu-text">เช็คสถานะ</span>
                                 </a>
                             </li>
-
-                            <?php
-                        }
-                        ?>
+                    </ul>
                         <!-- สิ้นสุดรายการเมนู -->
 
                 </div>
@@ -189,7 +169,7 @@ $conn = null;
                                     <!-- คำสั่งการดำเนินการในโปรไฟล์ -->
                                     <div class="header-profile-actions">
                                         <a href="editFrom_profile.php">โปรไฟล์</a>
-                                        <a href="../../config/logout.php">ออกจากระบบ</a>
+                                        <a href="#" onclick="showConfirmationLogout()">ออกจากระบบ</a>
                                     </div>
                                     <!-- ส่วนจบของคำสั่งการดำเนินการในโปรไฟล์ -->
                                 </div>
@@ -220,7 +200,7 @@ $conn = null;
                                     <div class="card-title">ลงทะเบียนสถานประกอบการที่นักศึกษาที่จะไปฝึกประสบการณ์</div>
                                 </div>
                                 <div class="card-body">
-                                    <form method="post" enctype="multipart/form-data">
+                                    <form method="post" enctype="multipart/form-data" id="FormAddCompany">
                                         <!-- Row start -->
                                         <div class="row m-auto">
                                             <div class="col-6">
@@ -281,19 +261,20 @@ $conn = null;
                                             <div class="col-4 py-2">
                                                 <label for="inputName" class="form-label">รูปบริษัท</label>
                                                 <input type="file" class="form-control" id="inputName"
-                                                       placeholder="กรุณาป้อนเบอร์ติดต่อผู้ฝึกสอนงาน" name="C_img" accept="image/jpeg, image/png, image/jpg" required>
+                                                        name="C_img" accept="image/jpeg, image/png, image/jpg" required>
                                             </div>
                                         </div>
                                         <!-- Row end -->
+                                        <!-- Form actions footer start -->
+                                        <div class="form-actions-footer">
+                                            <button class="btn btn-light" onclick="showConfirmation()">ยกเลิก</button>
+                                            <button class="btn btn-success" type="submit">ลงทะเบียน</button>
+                                        </div>
+                                        <!-- Form actions footer end -->
                                     </form>
 
 
-                                    <!-- Form actions footer start -->
-                                    <div class="form-actions-footer">
-                                        <button class="btn btn-light" onclick="showConfirmation()">ยกเลิก</button>
-                                        <button class="btn btn-success" onclick="saveData()">ลงทะเบียน</button>
-                                    </div>
-                                    <!-- Form actions footer end -->
+
 
                                 </div>
                             </div>
@@ -326,55 +307,49 @@ $conn = null;
         <script src="../../assets/js/modernizr.js"></script>
         <script src="../../assets/js/moment.js"></script>
 
-<!--        <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
-<!--        <script src="../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>-->
-<!--        <script src="../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>-->
-<!--        <script src="../../assets/vendor/apex/apexcharts.min.js"></script>-->
-<!--        <script src="../../assets/vendor/apex/custom/sales/salesGraph.js"></script>-->
-<!--        <script src="../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>-->
-<!--        <script src="../../assets/vendor/apex/custom/sales/taskGraph.js"></script>-->
+        <script src="../../Function/addFrom_company.js"></script>
 
         <!-- ไฟล์ JavaScript หลัก -->
         <script src="../../assets/js/main.js"></script>
-        <script>
-            function showConfirmation() {
-                // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
-                Swal.fire({
-                    title: 'คุฯต้องการลงทะเบียนสถานประกอบการใช่หรือไม?',
-                    text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'ใช่, ฉันต้องการ!',
-                    cancelButtonText: 'ยกเลิก'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // กระทำเมื่อยืนยัน
-                        window.location.href = '../index.php';
-                    }
-                });
-            }
-            function saveData() {
-                Swal.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'ที่จะลงทะเบียนสถานประกอบการ',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'ใช่, ลงทะเบียน!',
-                    cancelButtonText: 'ยกเลิก'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.querySelector('form').submit();
-                    }
-                });
-            }
-
-        </script>
+<!--        <script>-->
+<!--            function showConfirmation() {-->
+<!--                // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก-->
+<!--                Swal.fire({-->
+<!--                    title: 'คุฯต้องการลงทะเบียนสถานประกอบการใช่หรือไม?',-->
+<!--                    text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',-->
+<!--                    icon: 'warning',-->
+<!--                    showCancelButton: true,-->
+<!--                    confirmButtonColor: '#d33',-->
+<!--                    cancelButtonColor: '#3085d6',-->
+<!--                    confirmButtonText: 'ใช่, ฉันต้องการ!',-->
+<!--                    cancelButtonText: 'ยกเลิก'-->
+<!--                }).then((result) => {-->
+<!--                    if (result.isConfirmed) {-->
+<!--                        // กระทำเมื่อยืนยัน-->
+<!--                        window.location.href = '../index.php';-->
+<!--                    }-->
+<!--                });-->
+<!--            }-->
+<!--            function saveData() {-->
+<!--                Swal.fire({-->
+<!--                    title: 'คุณแน่ใจหรือไม่?',-->
+<!--                    text: 'ที่จะลงทะเบียนสถานประกอบการ',-->
+<!--                    icon: 'question',-->
+<!--                    showCancelButton: true,-->
+<!--                    confirmButtonColor: '#3085d6',-->
+<!--                    cancelButtonColor: '#d33',-->
+<!--                    confirmButtonText: 'ใช่, ลงทะเบียน!',-->
+<!--                    cancelButtonText: 'ยกเลิก'-->
+<!--                }).then((result) => {-->
+<!--                    if (result.isConfirmed) {-->
+<!--                        document.querySelector('form').submit();-->
+<!--                    }-->
+<!--                });-->
+<!--            }-->
+<!---->
+<!--        </script>-->
     </body>
     </html>
 <?php
-require_once '../services_student/insert_company.php';
-?>
+//require_once '../services_student/insert_company.php';
+//?>

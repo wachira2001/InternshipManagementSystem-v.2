@@ -130,23 +130,7 @@ $conn = null;
                                 <span class="menu-text">หน้าแรก</span>
                             </a>
                         </li>
-                        <?php
-                        // มื่อยืนคำร้องเสร็จ
-                        if ($user['S_status'] == '1') {
-                            ?>
-                            <li>
-                                <a href="CRUD/">ยื่นคำร้องออกฝึกงาน</a>
-                            </li>
 
-                            <?php
-                        } else if ($user['S_status'] == '2') {
-                            ?>
-                            <li>
-                                <a href="CRUD/">ยื่นคำร้องออกฝึกงาน</a>
-                            </li>
-                            <?php
-                        } else {
-                            ?>
                             <li class="">
                                 <a href="addFrom_company.php">
                                     <i class="bi bi-file-earmark-plus"></i>
@@ -166,10 +150,6 @@ $conn = null;
                                 </a>
                             </li>
 
-                            <?php
-                        }
-                        ?>
-                        <!-- สิ้นสุดรายการเมนู -->
 
                 </div>
             </div>
@@ -211,7 +191,7 @@ $conn = null;
                                     <!-- คำสั่งการดำเนินการในโปรไฟล์ -->
                                     <div class="header-profile-actions">
                                         <a href="editFrom_profile.php">โปรไฟล์</a>
-                                        <a href="../../config/logout.php">ออกจากระบบ</a>
+                                        <a href="#" onclick="showConfirmationLogout()">ออกจากระบบ</a>
                                     </div>
                                     <!-- ส่วนจบของคำสั่งการดำเนินการในโปรไฟล์ -->
                                 </div>
@@ -463,56 +443,27 @@ $conn = null;
             <script src="../../assets/js/modernizr.js"></script>
             <script src="../../assets/js/moment.js"></script>
 
-<!--            <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
-<!--            <script src="../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>-->
-<!--            <script src="../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>-->
-<!--            <script src="../../assets/vendor/apex/apexcharts.min.js"></script>-->
-<!--            <script src="../../assets/vendor/apex/custom/sales/salesGraph.js"></script>-->
-<!--            <script src="../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>-->
-<!--            <script src="../../assets/vendor/apex/custom/sales/taskGraph.js"></script>-->
-
             <!-- ไฟล์ JavaScript หลัก -->
             <script src="../../assets/js/main.js"></script>
             <script>
-                function showConfirmation() {
+                function showConfirmationLogout() {
                     // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
                     Swal.fire({
-                        title: 'คุณแน่ใจหรือไม่?',
-                        text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',
+                        title: 'คุณแน่ใจหรือไม ?',
+                        text: 'ออกจากระบบ',
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#d33',
                         cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'ใช่, ยกเลิก!',
+                        confirmButtonText: 'ออกจากระบบ',
                         cancelButtonText: 'ยกเลิก'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             // กระทำเมื่อยืนยัน
-                            window.location.href = '../crud/addFrom_request.php';
+                            window.location.href = '../../config/logout.php';
                         }
                     });
                 }
-
-                function saveData() {
-                    Swal.fire({
-                        title: 'คุณแน่ใจหรือไม่?',
-                        text: 'ที่จะแก้ไขข้อมูล',
-                        icon: 'question',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'ใช่, บันทึก!',
-                        cancelButtonText: 'ยกเลิก'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            document.querySelector('#forms').submit();
-                        }
-                    });
-                }
-
             </script>
     </body>
     </html>
-<?php
-require_once '../services_student/insert_request.php';
-?>

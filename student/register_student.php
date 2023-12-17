@@ -66,7 +66,7 @@ $getmajor = getmajor($conn);
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
                         <li class="nav-item" ><a class="nav-link " href="../../index.php">หน้าแรก</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.php">เกี่ยวกับเรา</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../about.php">เกี่ยวกับเรา</a></li>
                         <li class="nav-item"><a class="nav-link " href="../register.php">สมัครสมาชิก</a></li>
                         <li class="nav-item"><a class="nav-link" href="../login.php">เข้าสู่ระบบ</a></li>
 
@@ -79,7 +79,7 @@ $getmajor = getmajor($conn);
     <!-- เริ่มต้นของ เนื้อหา content -->
     <div class="content-wrapper py-3">
         <div class="container m-auto">
-            <form method="post" class="m-3" enctype="multipart/form-data">
+            <form method="post" class="m-3" enctype="multipart/form-data" id="Formstudent">
                 <!-- ตราบาป้อนข้อมูลส่วนตัวของนักเรียน -->
                 <div class="row g-4">
                     <div class=" col-md-4">
@@ -197,7 +197,7 @@ $getmajor = getmajor($conn);
                         <select name="R_ID" id="R_ID" class="form-select" required>
                             <option value="">-- เลือกครู --</option>
                             <?php foreach ($getroom as $room) : ?>
-                                <option value="<?php echo $room['R_ID']; ?>"><?php echo $room['R_level']; ?> <?php echo $room['R_room']; ?> ห้อง <?php echo $room['R_level_number']; ?></option>
+                                <option value="<?php echo $room['R_ID']; ?>"><?php echo $room['R_level']; ?> <?php echo $room['R_level_number']; ?> ห้อง <?php echo $room['R_room']; ?>  </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -265,78 +265,21 @@ $getmajor = getmajor($conn);
 <script src="../assets/js/modernizr.js"></script>
 <script src="../assets/js/moment.js"></script>
 
-<!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
-<script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
-<script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
-<script src="../assets/vendor/apex/apexcharts.min.js"></script>
-<script src="../assets/vendor/apex/custom/sales/salesGraph.js"></script>
-<script src="../assets/vendor/apex/custom/sales/revenueGraph.js"></script>
-<script src="../assets/vendor/apex/custom/sales/taskGraph.js"></script>
-
-<!-- ไฟล์ JavaScript หลัก -->
+<!--<!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
+<!--<script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>-->
+<!--<script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>-->
+<!--<script src="../assets/vendor/apex/apexcharts.min.js"></script>-->
+<!--<script src="../assets/vendor/apex/custom/sales/salesGraph.js"></script>-->
+<!--<script src="../assets/vendor/apex/custom/sales/revenueGraph.js"></script>-->
+<!--<script src="../assets/vendor/apex/custom/sales/taskGraph.js"></script>-->
+<!---->
+<!--<!-- ไฟล์ JavaScript หลัก -->
 <script src="../assets/js/main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-    function showConfirmation() {
-        // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
-        Swal.fire({
-            title: 'คุณแน่ใจหรือไม่?',
-            text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'ใช่, ยกเลิก!',
-            cancelButtonText: 'ยกเลิก'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // กระทำเมื่อยืนยัน
-                window.location.href = '../index.php';
-            }
-        });
-    }
-    function cancelAction() {
-        // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
-        Swal.fire({
-            title: 'คุณแน่ใจหรือไม่?',
-            text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'ใช่, ยกเลิก!',
-            cancelButtonText: 'ยกเลิก'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // กระทำเมื่อยืนยัน
-                console.log('Cancel action');
-            }
-        });
-    }
-    function submitForm() {
-        // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
-        Swal.fire({
-            title: 'คุณแน่ใจหรือไม่?',
-            text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'ใช่, ยกเลิก!',
-            cancelButtonText: 'ยกเลิก'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // กระทำเมื่อยืนยัน
-                console.log('Submit form action');
-            }
-        });
-    }
-</script>
-<?php
-include_once 'services_student/INSERT_student.php';
-?>
+<script src="../Function/register_student.js"></script>
+
 </body>
 </html>

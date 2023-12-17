@@ -400,7 +400,6 @@ if (isset($_GET['search']) && $_GET['search'] != '') {
 
     <!-- ไฟล์ JavaScript หลัก -->
     <script src="../../../assets/js/main.js"></script>
-    <script src="../../services_teacher/update_request.php"></script>
     <script>
         //อนุมัติคำร้อง
         function Approved(request_id) {

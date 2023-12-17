@@ -1,36 +1,55 @@
 <?php
 require_once 'conndb.php';
-
 try {
-    if (isset(
-        $_POST['M_ID'],
-        $_POST['M_Name'],
-        $_POST['M_college'],
-        $_FILES['M_img'], // ตรวจสอบเฉพาะในกรณีที่มีการอัปเดตภาพ
-        $_POST['M_address']
-    )) {
-        $M_ID = $_POST['M_ID'];
-        $M_Name = $_POST['M_Name'];
-        $M_college = $_POST['M_college'];
-        $M_address = $_POST['M_address'];
+    // ตรวจสอบว่ามีการส่งข้อมูลผ่าน POST request
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // ตรวจสอบข้อมูลที่ส่งมาจากฟอร์ม
+        if (
+            isset(
+                $_POST['M_ID'],
+                $_POST['M_Name'],
+                $_POST['M_college'],
+                $_FILES['M_img'], // ตรวจสอบเฉพาะในกรณีที่มีการอัปเดตภาพ
+                $_POST['M_address']
+            )
+        ) {
+            // ดึงข้อมูลจาก $_POST
+            $M_ID = $_POST['M_ID'];
+            $M_Name = $_POST['M_Name'];
+            $M_college = $_POST['M_college'];
+            $M_address = $_POST['M_address'];
+            $M_img = $_FILES['M_img'];
 
-        // ตรวจสอบว่ามีการเปลี่ยนแปลงในภาพหรือไม่
-        if (!empty($_FILES['M_img']['name'])) {
-            $filename = $_FILES['M_img']['name'];
-            $ext = pathinfo($filename, PATHINFO_EXTENSION);
-            $fileName = $M_ID.'.'.$ext;
-            $targetFilePath ='../../../upload_img/'.$fileName;
+                if (!empty($_FILES['M_img']['name'])) {
+                    // มีการแนบรูปภาพเข้ามา
+                    $timestamp = time();
+                    $date = date("Ymd_His", $timestamp);
 
-            // อัปโหลดไฟล์
-            move_uploaded_file($_FILES['M_img']['tmp_name'], $targetFilePath);
-        } else {
-            $sql = "SELECT * FROM major";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            $fileName =  $result['M_img'];
-        }
-        $updateStmt = $conn->prepare("UPDATE major 
+                    $filename = $_FILES['M_img']['name'];
+                    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+                    $fileNameN = $M_ID . '_' . $date . '.' . $ext;
+                    $targetFilePath = '../../upload_img/' . $fileNameN;
+
+                    // ลบรูปเก่า
+                    $filesToDelete = glob('../../upload_img/' . $M_ID . '_*');
+                    foreach ($filesToDelete as $fileToDelete) {
+                        unlink($fileToDelete);
+                    }
+
+                    // อัปโหลดรูปใหม่
+                    move_uploaded_file($_FILES['M_img']['tmp_name'], $targetFilePath);
+                } else {
+                    $sql = "SELECT M_ID, M_img FROM major WHERE M_ID = $M_ID";
+                    $result = $conn->query($sql);
+
+                    if ($result->rowCount() > 0) {
+                        $row = $result->fetch(PDO::FETCH_ASSOC);
+                        $fileNameN = $row['M_img'];
+                    }
+                }
+
+                $updateStmt = $conn->prepare("UPDATE major 
                                       SET 
                                           M_Name = :M_Name,
                                           M_college = :M_college,
@@ -38,55 +57,30 @@ try {
                                           M_address = :M_address
                                       WHERE M_ID = :M_ID");
 
-        // กำหนดค่าพารามิเตอร์
-        $updateStmt->bindParam(':M_Name', $M_Name, PDO::PARAM_STR);
-        $updateStmt->bindParam(':M_college', $M_college, PDO::PARAM_STR);
-        $updateStmt->bindParam(':M_img', $fileName, PDO::PARAM_STR);
-        $updateStmt->bindParam(':M_address', $M_address, PDO::PARAM_STR);
-        $updateStmt->bindParam(':M_ID', $M_ID, PDO::PARAM_STR);
+                // กำหนดค่าพารามิเตอร์
+                $updateStmt->bindParam(':M_Name', $M_Name, PDO::PARAM_STR);
+                $updateStmt->bindParam(':M_college', $M_college, PDO::PARAM_STR);
+                $updateStmt->bindParam(':M_img', $fileNameN, PDO::PARAM_STR);
+                $updateStmt->bindParam(':M_address', $M_address, PDO::PARAM_STR);
+                $updateStmt->bindParam(':M_ID', $M_ID, PDO::PARAM_STR);
 
-        // ทำการ execute คำสั่ง SQL
-        if ($updateStmt->execute()) {
-            // แสดง SweetAlert2 แจ้งว่าปรับปรุงข้อมูลสำเร็จ
-            echo "
-            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-            <script>
-                Swal.fire({
-                    title: 'สำเร็จ',
-                    text: 'ปรับปรุงข้อมูลแผนกเรียบร้อยแล้ว',
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 5000
-                }).then(function () {
-                    window.location.href = '../crud/showdata_major.php';
-                });
-            </script>";
-
+                // ทำการเพิ่มข้อมูล
+                if ($updateStmt->execute()) {
+                    // แสดง SweetAlert2 แจ้งว่าบันทึกข้อมูลสำเร็จ
+                    echo 'success';
+                } else {
+                    // แสดง SweetAlert2 กรณีเกิดข้อผิดพลาดในการบันทึกข้อมูล
+                    echo 'เกิดข้อผิดพลาดในการแก้ไข';
+                }
+            }
         } else {
-            // แสดง SweetAlert2 กรณีเกิดข้อผิดพลาดในการปรับปรุงข้อมูล
-            echo "
-            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-            <script>
-                Swal.fire({
-                    title: 'ผิดพลาด',
-                    text: 'เกิดข้อผิดพลาดในการปรับปรุงข้อมูล',
-                    icon: 'error',
-                    showConfirmButton: true
-                });
-            </script>";
+            // แสดง SweetAlert2 กรณีข้อมูลที่ส่งมาไม่ครบ
+            echo 'โปรดกรอกข้อมูลที่จำเป็น';
         }
-    }
+
 } catch (PDOException $e) {
     // แสดง SweetAlert2 กรณีเกิด Exception
-    echo "
-    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-    <script>
-        Swal.fire({
-            title: 'ผิดพลาด',
-            text: 'เกิดข้อผิดพลาด: {$e->getMessage()}',
-            icon: 'error',
-            showConfirmButton: true
-        });
-    </script>";
+    echo 'เกิดข้อผิดพลาด: ' . $e->getMessage();
 }
+
 ?>

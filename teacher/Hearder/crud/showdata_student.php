@@ -26,8 +26,21 @@ if (!isset($_SESSION['username']) || ($_SESSION['role'] !== 'H')) {
 }
 
 $user = getuserT($conn, $_SESSION['username']);
-$userS = getstudenall($conn);
+//$getstudenall = getstudenall($conn);
 $stmtD = getmajor($conn);
+
+if (isset($_GET['search']) && $_GET['search'] != '') {
+    // ประกาศตัวแปรรับค่าจากฟอร์ม
+    $search = "%" . $_GET['search'] . "%";
+    $getstudenall = getstudenall($conn,$search);
+} else {
+    // คิวรี่ข้อมูลมาแสดงตามปกติ *แสดงทั้งหมด
+    $search = '';
+    $getstudenall = getstudenall($conn,$search);
+}
+//print_r($getstudenall);
+
+
 // ปิดการเชื่อมต่อ
 $conn = null;
 //print_r($user);
@@ -224,49 +237,186 @@ $conn = null;
             <!-- ส่วนเริ่มต้นของคอนเทนเนอร์ -->
             <div class="content-wrapper">
 
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table m-0">
-                            <thead>
-                            <tr>
-                                <th>รหัสนักศึกษา</th>
-                                <th>ชื่อ</th>
-                                <th>สกุล</th>
-                                <th>สาขา</th>
-                                <th>ภาคเรียนที่ออกฝึกงาน</th>
-                                <th>ปีการศึกษาที่ออกฝึกงาน</th>
-                                <th>ครูที่ปรึกษา</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($userS as $student) { ?>
-                                <tr>
-                                    <th><?= $student['S_ID']; ?></th>
-                                    <td><?= $student['S_fname']; ?></td>
-                                    <td><?= $student['S_lname']; ?></td>
-                                    <td><?= $student['S_major']; ?></td>
-                                    <td><?= $student['S_enrollment_term']; ?></td>
-                                    <th><?= $student['S_enrollment_year']; ?></th>
-                                    <td><?= $student['T_fname']; ?></td>
+                <div class="search-container m-2">
+                    <form action="showdata_student.php" method="get">
+                        <!-- Search input group start -->
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="search" placeholder="ค้นหาชื่อนักเรียน/นักศึกษา หรือครูที่ปรึกษา"
+                                   value="<?php if (isset($_GET['search'])) {
+                                       echo $_GET['search'];
+                                   } ?>">
+                            <button class="btn" type="submit">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <!--                --><?php
+                    //                // แสดงข้อความที่ค้นหา
+                    //                if (isset($_GET['search']) && $_GET['search'] != '') {
+                    //                    if (count($getrequestall) > 0) {
+                    //                        echo '<font color="red"> ข้อมูลการค้นหา : ' . $_GET['search'];
+                    //                        echo ' *พบ ' . count($getrequestall) . ' รายการ</font><br><br>';
+                    //                        echo count($getrequestall);
+                    //                    }
+                    //                }
+                    //                ?>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">รายชื่อนักเรียน/นักศึกษาทั้งหมด</div>
+                            </div>
+                            <div class="card-body">
 
-                                    <td>
-                                        <a href="editFrom_student.php?S_ID=<?= $student['S_ID']; ?>">
-                                            <button class="btn btn-primary">แก้ไข</button>
-                                        </a>
-                                        <a href="#">
-                                            <button class="btn btn-danger" onclick="deleteUser(<?= $student['S_ID']; ?>)">ลบ</button>
-                                        </a>
+                                <div class="table-responsive">
+                                    <table class="table v-middle m-0">
+                                        <thead>
+                                        <tr>
+                                            <th>ชื่อ-สกุุล</th>
+                                            <th>สาขา</th>
+                                            <th>ภาคเรียนที่ออกฝึกงาน</th>
+                                            <th>ปีการศึกษาที่ออกฝึกงาน</th>
+                                            <th>ครูที่ปรึกษา</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php if (empty($getstudenall)) : ?>
+                                            <tr>
+                                                <td colspan="7" class="text-center">ไม่พบข้อมูล</td>
+                                            </tr>
+                                        <?php else : ?>
+                                        <?php foreach ($getstudenall as $student) : ?>
+                                        <tr>
+                                            <td>
+                                                <div class="media-box">
+                                                    <img src="../../../student/img/<?= $student['S_img']; ?>"
+                                                         class="media-avatar" alt="Bootstrap Themes">
+                                                    <div class="media-box-body">
+                                                        <div class="text-truncate"><?= $student['S_fname']; ?> <?= $student['S_lname']; ?></div>
+                                                        <p>ID: <?= $student['S_ID']; ?></p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td><?= $student['S_major']; ?></td>
+                                            <td><?= $student['S_enrollment_term']; ?></td>
+                                            <td><?= $student['S_enrollment_year']; ?></td>
+                                            <td><?= $student['T_fname']; ?> <?= $student['T_lname']; ?></td>
+                                            <td>
+                                                <div class="actions">
+                                                    <a href="#"  data-bs-toggle="offcanvas"
+                                                       data-bs-target="#offcanvasExample<?= $student['S_ID']; ?>"
+                                                       aria-controls="offcanvasExample">
+                                                        <i class="bi bi-list text-green"> </i>
+                                                    </a>
+                                                    <a href="editFrom_student.php?S_ID=<?= $student['S_ID']; ?>" >
+                                                        <i class="bi bi-pencil-square text-warning"></i>
+                                                    </a>
+                                                    <a href="#" onclick="Delete(<?= $student['S_ID']; ?>)">
+                                                        <i class="bi bi-trash text-red"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <div class="offcanvas offcanvas-start" tabindex="-1"
+                                             id="offcanvasExample<?= $student['S_ID']; ?>"
+                                             aria-labelledby="offcanvasExampleLabel">
+                                            <div class="offcanvas-header">
+                                                <h5 class="offcanvas-title" id="offcanvasExampleLabel">รายละเอียดของ <?= $student['S_fname']; ?> <?= $student['S_lname']; ?></h5>
+                                                <button type="button" class="btn-close text-reset"
+                                                        data-bs-dismiss="offcanvas"
+                                                        aria-label="Close">
 
-                                    </td>
-                                </tr>
-                            <?php } ?>
+                                                </button>
+                                            </div>
+                                            <div class="offcanvas-body">
+                                                <div class="row ">
+                                                    <div class="card">
+                                                        <div class="col-12 py-3">
+                                                            <img src="../../../student/img/<?= $student['S_img']; ?>"
+                                                                 class="media-avatar rounded mx-auto d-block" alt="Bootstrap Themes" width="60%">
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>รหัสนักเรียน/นักศึกษา : <?= $student['S_ID']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>ชื่อ-สกุล : <?= $student['S_fname']; ?> <?= $student['S_lname']; ?></p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>เพศ : <?= $student['S_gender']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>วัน/เดือน/ปีเกิด : <?= $student['S_birthday']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>หมายเลขโทรศัพท์ : <?= $student['S_phone']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>E-mail : <?= $student['S_email']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>ภาคเรียนที่ออกฝึก : <?= $student['S_enrollment_term']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>ปีการศึกษาที่ออกฝึก : <?= $student['S_enrollment_year']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>เกรดเฉลี่ย : <?= $student['S_gpa']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>สาขา : <?= $student['S_major']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>ระดับชั้น : <?= $student['R_level']; ?><?= $student['R_level_number']; ?> ห้อง <?= $student['R_room']; ?></p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>ครูที่ปรึกษา : <?= $student['T_fname']; ?> <?= $student['T_lname']; ?> </p>
+                                                        </div>
 
-                            </tbody>
-                        </table>
+                                                        <div class="col-12 py-1">
+                                                            <p>ข้อมูลสุขภาพ : <?= $student['S_health']; ?> </p>
+                                                        </div>
+
+
+                                                        <div class="card-header " style="background-color: #9ba2ab">
+
+                                                            <h3 class="text-center">ข้อมูลติดต่อฉุกเฉิน</h3>
+
+                                                        </div
+                                                            <div class="card-body py-3">
+                                                                <div class="col-12 py-1">
+                                                                    <p>ชื่อ-สกุล : <?= $student['S_ralative_name']; ?> </p>
+                                                                </div>
+
+                                                                <div class="col-12 py-1">
+                                                                    <p>หมายเลขโทรศัพท์ : <?= $student['S_ralative_phone']; ?> </p>
+                                                                </div>
+                                                                <div class="col-12 py-1">
+                                                                    <p>ที่อยู่ : <?= $student['S_ralative_address']; ?> </p>
+                                                                </div>
+                                                            </div
+
+
+
+
+
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </tbody>
+                                        <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
-
             </div>
             <!-- ส่วนจบของคอนเทนเนอร์ -->
 
@@ -301,6 +451,7 @@ $conn = null;
 
     <!-- ไฟล์ JavaScript หลัก -->
     <script src="../../../assets/js/main.js"></script>
+    <script src="../../../Function/showdata_student.js"></script>
     <script>
         function showConfirmation() {
             // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
@@ -321,73 +472,73 @@ $conn = null;
             });
         }
     </script>
-    <script>
-        function deleteUser(S_ID) {
-            Swal.fire({
-                title: 'คุณแน่ใจหรือไม่?',
-                text: 'คุณต้องการลบข้อมูลนี้หรือไม่?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'ใช่, ลบ!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    deleteUserData(S_ID);
-                }
-            });
-        }
-
-        function deleteUserData(S_ID) {
-            $.ajax({
-                type: 'POST',
-                url: '../../services_teacher/delete_student.php',
-                data: { S_ID: S_ID },
-                success: function(response) {
-                    if (response === 'success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'ลบข้อมูลสำเร็จ',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(() => {
-                            window.location.href = 'showdata_student.php';
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'เกิดข้อผิดพลาดในการลบข้อมูลเนื่องจากมีดารเชื่อมคีย์นอกแล้ว',
-                            text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'เกิดข้อผิดพลาดในการลบข้อมูล',
-                        text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
-                    });
-                }
-            });
-        }
-        function showConfirmationLogout() {
-            // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
-            Swal.fire({
-                title: 'คุณแน่ใจหรือไม ?',
-                text: 'ออกจากระบบ',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'ออกจากระบบ',
-                cancelButtonText: 'ยกเลิก'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // กระทำเมื่อยืนยัน
-                    window.location.href = '../../../config/logout.php';
-                }
-            });
-        }
-    </script>
+<!--    <script>-->
+<!--        function deleteUser(S_ID) {-->
+<!--            Swal.fire({-->
+<!--                title: 'คุณแน่ใจหรือไม่?',-->
+<!--                text: 'คุณต้องการลบข้อมูลนี้หรือไม่?',-->
+<!--                icon: 'warning',-->
+<!--                showCancelButton: true,-->
+<!--                confirmButtonColor: '#d33',-->
+<!--                cancelButtonColor: '#3085d6',-->
+<!--                confirmButtonText: 'ใช่, ลบ!'-->
+<!--            }).then((result) => {-->
+<!--                if (result.isConfirmed) {-->
+<!--                    deleteUserData(S_ID);-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+<!---->
+<!--        function deleteUserData(S_ID) {-->
+<!--            $.ajax({-->
+<!--                type: 'POST',-->
+<!--                url: '../../services_teacher/delete_student.php',-->
+<!--                data: { S_ID: S_ID },-->
+<!--                success: function(response) {-->
+<!--                    if (response === 'success') {-->
+<!--                        Swal.fire({-->
+<!--                            icon: 'success',-->
+<!--                            title: 'ลบข้อมูลสำเร็จ',-->
+<!--                            showConfirmButton: false,-->
+<!--                            timer: 1500-->
+<!--                        }).then(() => {-->
+<!--                            window.location.href = 'showdata_student.php';-->
+<!--                        });-->
+<!--                    } else {-->
+<!--                        Swal.fire({-->
+<!--                            icon: 'error',-->
+<!--                            title: 'เกิดข้อผิดพลาดในการลบข้อมูลเนื่องจากมีดารเชื่อมคีย์นอกแล้ว',-->
+<!--                            text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',-->
+<!--                        });-->
+<!--                    }-->
+<!--                },-->
+<!--                error: function(xhr, status, error) {-->
+<!--                    Swal.fire({-->
+<!--                        icon: 'error',-->
+<!--                        title: 'เกิดข้อผิดพลาดในการลบข้อมูล',-->
+<!--                        text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',-->
+<!--                    });-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+<!--        function showConfirmationLogout() {-->
+<!--            // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก-->
+<!--            Swal.fire({-->
+<!--                title: 'คุณแน่ใจหรือไม ?',-->
+<!--                text: 'ออกจากระบบ',-->
+<!--                icon: 'warning',-->
+<!--                showCancelButton: true,-->
+<!--                confirmButtonColor: '#d33',-->
+<!--                cancelButtonColor: '#3085d6',-->
+<!--                confirmButtonText: 'ออกจากระบบ',-->
+<!--                cancelButtonText: 'ยกเลิก'-->
+<!--            }).then((result) => {-->
+<!--                if (result.isConfirmed) {-->
+<!--                    // กระทำเมื่อยืนยัน-->
+<!--                    window.location.href = '../../../config/logout.php';-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+<!--    </script>-->
 </body>
 </html>

@@ -20,7 +20,7 @@ try {
 
         // ตรวจสอบข้อมูลซ้ำในฐานข้อมูล
         $stmt = $conn->prepare("SELECT COUNT(*) as count FROM room WHERE R_level = :R_level 
-                                       AND R_level_number = :R_level_number AND R_room = :R_room AND T_ID = :T_ID");
+                                       AND R_level_number = :R_level_number AND R_room = :R_room OR T_ID = :T_ID");
         $stmt->execute(array(':R_level' => $R_level, ':R_level_number' => $R_level_number, ':R_room' => $R_room,':T_ID' => $T_ID));
 
         // ถ้ามีข้อมูลที่ซ้ำ
@@ -29,6 +29,18 @@ try {
                 echo 'duplicate';
             return;
         }
+        if ($R_level == 'ปวส.' && $R_level_number == '3')
+        {
+            echo 'ไม่สามรถเพิ่มชั้น ปวส.3 ได้ กรุณาเลือกใหม่';
+            exit();
+        }
+
+
+
+
+
+
+
         // คำสั่ง SQL UPDATE สำหรับตาราง room
         $RoomStmt = $conn->prepare("INSERT INTO room (R_level, R_level_number, R_room,T_ID) VALUES (:R_level, :R_level_number, :R_room,:T_ID)");
 

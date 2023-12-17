@@ -113,40 +113,30 @@ $conn = null;
                         </li>
                         <li class="sidebar-dropdown active">
                             <a href="#">
-                                <i class="bi bi-handbag"></i>
+                                <i class="bi bi-folder2"></i>
                                 <span class="menu-text">ข้อมูลทั่วไป</span>
                             </a>
                             <div class="sidebar-submenu">
                                 <ul>
 
-
-                                    <?php
-                                    if ($user['T_status'] == '1' ) {
-                                        ?>
-
-                                        <li>
-                                            <a href="showdata_major.php" >ข้อมูลแผนก</a>
-                                        </li>
-                                        <li>
-                                            <a href="showdata_teacher.php">ข้อมูลบุคลากร</a>
-                                        </li>
-                                        <li>
-                                            <a href="showdata_student.php">ข้อมูลนักศึกษา</a>
-                                        </li>
-                                        <li>
-                                            <a href="showdata_company.php" class="current-page">ข้อมูลสถานประกอบการ</a>
-                                        </li>
-
-                                        <?php
-                                    }else{
-
-                                        ?>
-                                        <li>
-                                            <a href="showdata_student.php">ข้อมูลนักศึกษา</a>
-                                        </li>
-                                        <?php
-                                    }
-                                    ?>
+                                    <li>
+                                        <a href="showdata_teacher.php" >ข้อมูลบุคลากร</a>
+                                    </li>
+                                    <li>
+                                        <a href="showdata_student.php" >ข้อมูลนักศึกษา</a>
+                                    </li>
+                                    <li>
+                                        <a href="showdata_major.php">ข้อมูลแผนก</a>
+                                    </li>
+                                    <li>
+                                        <a href="showdata_room.php">ข้อมูลห้องเรียน</a>
+                                    </li>
+                                    <li>
+                                        <a href="showdata_company.php" class="current-page">ข้อมูลสถานประกอบการ</a>
+                                    </li>
+                                    <li>
+                                        <a href="showdata_request.php" >อนุมัติคำร้อง</a>
+                                    </li>
 
                                 </ul>
                             </div>
@@ -166,11 +156,11 @@ $conn = null;
                 <!-- ส่วนเริ่มต้นของการหลีกเลี่ยงข้อผิดพลาด -->
                 <ol class="breadcrumb d-md-flex d-none" >
                     <li class="breadcrumb-item">
-                        <i class="bi bi-house"></i>
+                        <i class="bi bi-folder2"></i>
                         <a href="#">ข้อมูลทั่วไป</a>
                     </li>
                     <li class="breadcrumb-item breadcrumb-active" aria-current="page">
-                        <a href="showdata_major.php">ข้อมูลสถานประกอบการ</a>
+                        <a href="showdata_company.php">ข้อมูลสถานประกอบการ</a>
 
                     </li>
                     <li class="breadcrumb-item breadcrumb-active" aria-current="page">
@@ -199,7 +189,7 @@ $conn = null;
                                     <!-- คำสั่งการดำเนินการในโปรไฟล์ -->
                                     <div class="header-profile-actions">
                                         <a href="../../crud/editFrom_profile.php">โปรไฟล์</a>
-                                        <a href="../../../config/logout.php">ออกจากระบบ</a>
+                                        <a href="#" onclick="showConfirmationLogout()">ออกจากระบบ</a>
                                     </div>
                                     <!-- ส่วนจบของคำสั่งการดำเนินการในโปรไฟล์ -->
                                 </div>
@@ -221,7 +211,7 @@ $conn = null;
                 <div class="content-wrapper">
 
                     <div class="card-body">
-                        <form method="post" enctype="multipart/form-data">
+                        <form method="post" enctype="multipart/form-data" id="FormEditCompany">
                             <div class="row">
                                 <div class="col-12">
                                     <div>
@@ -324,7 +314,7 @@ $conn = null;
                                             <!-- Form actions footer start -->
                                             <div class="form-actions-footer">
                                                 <a><button class="btn btn-danger" type="button" onclick="showConfirmation()">ยกเลิก</button></a>
-                                                <a><button class="btn btn-primary" type="button" onclick="saveData()">บันทึก</button></a>
+                                                <a><button class="btn btn-primary" type="submit" >บันทึก</button></a>
                                             </div>
                                             <!-- Form actions footer end -->
 
@@ -357,77 +347,10 @@ $conn = null;
         <script src="../../../assets/js/modernizr.js"></script>
         <script src="../../../assets/js/moment.js"></script>
 
-        <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
-        <script src="../../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
-        <script src="../../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
-        <script src="../../../assets/vendor/apex/apexcharts.min.js"></script>
-        <script src="../../../assets/vendor/apex/custom/sales/salesGraph.js"></script>
-        <script src="../../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>
-        <script src="../../../assets/vendor/apex/custom/sales/taskGraph.js"></script>
-
         <!-- ไฟล์ JavaScript หลัก -->
         <script src="../../../assets/js/main.js"></script>
-        <script>
-            document.getElementById('imageInput').addEventListener('change', function (e) {
-                var preview = document.getElementById('previewImage');
-                var file = e.target.files[0];
-                var reader = new FileReader();
+        <script src="../../../teacher/services_teacher/delete_company.php"></script>
+        <script src="../../../Function/showdata_company.js"></script>
 
-                reader.onloadend = function () {
-                    preview.src = reader.result;
-                };
-
-                if (file) {
-                    reader.readAsDataURL(file);
-                } else {
-                    preview.src = "#";
-                }
-            });
-
-            // เมื่อกดปุ่ม "บันทึก" หรือ "อัพโหลดใหม่"
-            function saveImage() {
-                // ส่งข้อมูลรูปภาพไปยังเซิร์ฟเวอร์
-                // ทำการอัพเดทในฐานข้อมูล
-                // หลังจากอัพเดทสำเร็จ, ทำการแทนที่รูปภาพเก่าด้วยรูปภาพใหม่
-                document.getElementById('currentImage').src = document.getElementById('previewImage').src;
-            }
-            function showConfirmation() {
-                // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
-                Swal.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'ใช่, ยกเลิก!',
-                    cancelButtonText: 'ยกเลิก'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // กระทำเมื่อยืนยัน
-                        window.location.href = 'showdata_major.php';
-                    }
-                });
-            }
-            function saveData() {
-                Swal.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'ที่จะแก้ไขข้อมูล',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'ใช่, บันทึก!',
-                    cancelButtonText: 'ยกเลิก'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.querySelector('form').submit();
-                    }
-                });
-            }
-        </script>
     </body>
     </html>
-<?php
-require_once '../../services_teacher/update_company.php';
-?>

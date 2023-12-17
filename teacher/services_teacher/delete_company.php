@@ -1,56 +1,29 @@
 <?php
 require_once 'conndb.php';
 
-try {
-    if (isset($_GET['company_ID'])) {
-        $company_ID = $_GET['company_ID'];
+require_once 'conndb.php';
 
-        // ใช้ parameterized query เพื่อป้องกัน SQL injection
-        $deleteStmt = $conn->prepare("DELETE FROM company WHERE company_ID = :company_ID");
-        $deleteStmt->bindParam(':company_ID', $company_ID, PDO::PARAM_STR);
-        $deleteStmt->execute();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $company_ID = $_POST['company_ID'];
+    try {
+        $stmt = $conn->prepare("DELETE FROM company WHERE company_ID = :company_ID");
+        $stmt->bindParam(':company_ID', $company_ID, PDO::PARAM_STR);
 
-        // ตรวจสอบว่าการลบเสร็จสมบูรณ์หรือไม่
-        if ($deleteStmt->rowCount() > 0) {
-            // การลบเสร็จสมบูรณ์
-            echo "
-                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-                <script>
-                    Swal.fire({
-                        title: 'สำเร็จ',
-                        text: 'ลบข้อมูลเรียบร้อยแล้ว',
-                        icon: 'success',
-                        showConfirmButton: false,
-                        timer: 5000
-                    }).then(function () {
-                        window.location.href = '../CRUD/showdata_company.php';
-                    });
-                </script>";
+        if ($stmt->execute()) {
+            echo 'success';
         } else {
-            // ไม่มีบันทึกถูกลบ
-            echo "
-                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-                <script>
-                    Swal.fire({
-                        title: 'ผิดพลาด',
-                        text: 'ไม่มีบันทึกถูกลบ',
-                        icon: 'error',
-                        showConfirmButton: true
-                    });
-                </script>";
+            echo 'ไม่สามารถลบได้';
+        }
+    } catch (PDOException $e) {
+        // ดักจับข้อผิดพลาดที่เกิดขึ้นจากการลบที่มีข้อมูลอ้างอิง
+        if ($e->errorInfo[1] == 1451) {
+            echo 'ไม่สามารถลบได้เนื่องจากมีข้อมูลอื่นเชื่อมอยู่';
+        } else {
+            echo 'เกิดข้อผิดพลาด: ' . $e->getMessage();
         }
     }
-} catch (PDOException $e) {
-    // จัดการกับข้อผิดพลาด
-    echo "
-        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-        <script>
-            Swal.fire({
-                title: 'ผิดพลาด',
-                text: 'ข้อผิดพลาด: {$e->getMessage()}',
-                icon: 'error',
-                showConfirmButton: true
-            });
-        </script>";
+} else {
+    echo 'Invalid Request';
 }
+
 ?>

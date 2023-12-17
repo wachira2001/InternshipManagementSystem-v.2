@@ -27,7 +27,20 @@ if (!isset($_SESSION['username']) || ($_SESSION['role'] !== 'H')) {
 $user = getuserT($conn,$_SESSION['username']);
 $stmtD = getmajor($conn);
 $room = getroomall($conn);
-$company = getcompanyall($conn);
+//$company = getcompanyall($conn);
+
+if (isset($_GET['search']) && $_GET['search'] != '') {
+    // ประกาศตัวแปรรับค่าจากฟอร์ม
+    $search = "%" . $_GET['search'] . "%";
+    $company = getcompanyall($conn,$search);
+} else {
+    // คิวรี่ข้อมูลมาแสดงตามปกติ *แสดงทั้งหมด
+    $search = '';
+    $company = getcompanyall($conn,$search);
+}
+
+
+
 //print_r($company);
 //return;
 $conn = null;
@@ -119,9 +132,6 @@ $conn = null;
                         </a>
                         <div class="sidebar-submenu">
                             <ul>
-                                <?php
-                                if ($user['T_status'] == '1' ) {
-                                    ?>
 
                                     <li>
                                         <a href="showdata_teacher.php" >ข้อมูลบุคลากร</a>
@@ -142,16 +152,6 @@ $conn = null;
                                         <a href="showdata_request.php" >อนุมัติคำร้อง</a>
                                     </li>
 
-                                    <?php
-                                }else{
-
-                                    ?>
-                                    <li>
-                                        <a href="showdata_student.php">ข้อมูลนักศึกษา</a>
-                                    </li>
-                                    <?php
-                                }
-                                ?>
                             </ul>
                         </div>
                     </li>
@@ -198,7 +198,7 @@ $conn = null;
                                 <!-- คำสั่งการดำเนินการในโปรไฟล์ -->
                                 <div class="header-profile-actions">
                                     <a href="../../crud/editFrom_profile.php">โปรไฟล์</a>
-                                    <a href="../../../config/logout.php">ออกจากระบบ</a>
+                                    <a href="#" onclick="showConfirmationLogout()">ออกจากระบบ</a>
                                 </div>
                                 <!-- ส่วนจบของคำสั่งการดำเนินการในโปรไฟล์ -->
                             </div>
@@ -218,47 +218,138 @@ $conn = null;
 
             <!-- ส่วนเริ่มต้นของคอนเทนเนอร์ -->
             <div class="content-wrapper">
+                <div class="search-container m-2">
+                    <form action="showdata_company.php" method="get">
+                        <!-- Search input group start -->
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="search" placeholder="ค้นหาชื่อสถานประกอบการ"
+                                   value="<?php if (isset($_GET['search'])) {
+                                       echo $_GET['search'];
+                                   } ?>">
+                            <button class="btn" type="submit">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <!--                --><?php
+                    //                // แสดงข้อความที่ค้นหา
+                    //                if (isset($_GET['search']) && $_GET['search'] != '') {
+                    //                    if (count($getrequestall) > 0) {
+                    //                        echo '<font color="red"> ข้อมูลการค้นหา : ' . $_GET['search'];
+                    //                        echo ' *พบ ' . count($getrequestall) . ' รายการ</font><br><br>';
+                    //                        echo count($getrequestall);
+                    //                    }
+                    //                }
+                    //                ?>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">รายชื่อนักเรียน/นักศึกษาทั้งหมด</div>
+                            </div>
+                            <div class="card-body">
 
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table m-0">
-                            <thead>
-                            <tr>
-                                <th>รหัสสถานประกอบการ</th>
-                                <th>ชื่อสถานประกอบการ</th>
-                                <th>เบอร์โทรศัพท์</th>
-                                <th>ชื่อผู้สอนงาน</th>
-                                <th>ตำแหน่งผู้สอนงาน</th>
+                                <div class="table-responsive">
+                                    <table class="table v-middle m-0">
+                                        <thead>
+                                        <tr>
+                                            <th>ชื่อสถานประกอบการ</th>
+                                            <th>เบอร์โทรศัพท์</th>
+                                            <th>ชื่อผู้สอนงาน</th>
+                                            <th>ตำแหน่งผู้สอนงาน</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php if (empty($company)) : ?>
+                                            <tr>
+                                                <td colspan="7" class="text-center">ไม่พบข้อมูล</td>
+                                            </tr>
+                                        <?php else : ?>
+                                        <?php foreach ($company as $companys) : ?>
+                                        <tr>
+                                            <td>
+                                                <div class="media-box">
+                                                    <img src="../../../upload_img/<?= $companys['C_img']; ?>"
+                                                         class="media-avatar" alt="Bootstrap Themes">
+                                                    <div class="media-box-body">
+                                                        <div class="text-truncate"><?= $companys['C_name']; ?> </div>
+                                                        <p>ID: <?= $companys['company_ID']; ?></p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td><?= $companys['C_telephone']; ?></td>
+                                            <td><?= $companys['C_staff_name']; ?></td>
+                                            <td><?= $companys['C_staff_position']; ?></td>
+                                            <td>
+                                                <div class="actions">
+                                                    <a href="#"  data-bs-toggle="offcanvas"
+                                                       data-bs-target="#offcanvasExample<?= $companys['company_ID']; ?>"
+                                                       aria-controls="offcanvasExample">
+                                                        <i class="bi bi-list text-green"> </i>
+                                                    </a>
+                                                    <a href="editFrom_company.php?company_ID=<?= $companys['company_ID']; ?>" >
+                                                        <i class="bi bi-pencil-square text-warning"></i>
+                                                    </a>
+                                                    <a href="#" onclick="Delete(<?= $companys['company_ID']; ?>)">
+                                                        <i class="bi bi-trash text-red"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <div class="offcanvas offcanvas-start" tabindex="-1"
+                                             id="offcanvasExample<?= $companys['company_ID']; ?>"
+                                             aria-labelledby="offcanvasExampleLabel">
+                                            <div class="offcanvas-header">
+                                                <h5 class="offcanvas-title" id="offcanvasExampleLabel">รายละเอียดของ <?= $companys['C_name']; ?> </h5>
+                                                <button type="button" class="btn-close text-reset"
+                                                        data-bs-dismiss="offcanvas"
+                                                        aria-label="Close">
 
-                                <th> </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($company as $company) { ?>
-                                <tr>
-                                    <th><?=$company['company_ID'];?></th>
-                                    <td><?=$company['C_name'];?></td>
-                                    <td><?=$company['C_telephone'];?></td>
-                                    <td><?=$company['C_staff_name'];?></td>
-                                    <td><?=$company['C_staff_position'];?></td>
+                                                </button>
+                                            </div>
+                                            <div class="offcanvas-body">
+                                                <div class="row ">
+                                                    <div class="card">
+                                                        <div class="col-12 py-3">
+                                                            <img src="../../../upload_img/<?= $companys['C_img']; ?>"
+                                                                 class="media-avatar rounded mx-auto d-block" alt="Bootstrap Themes" width="60%">
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>รหัสสถานประกอบการ : <?= $companys['company_ID']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>ชื่อสถานประกอบการ : <?= $companys['C_name']; ?></p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>เบอร์สถานประกอบการ : <?= $companys['C_telephone']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>เว็บไซต์ : <?= $companys['C_website']; ?>   </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>ชื่อผู้สอนงาน : <?= $companys['C_staff_name']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>ตำแหน่งผู้สอนงาน : <?= $companys['C_staff_position']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>เบอร์ติดต่อผู้สอนงาน : <?= $companys['C_staff_phone']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>ที่อยู่ของสถานประกอบการ  : ตำบล <?= $companys['C_tambon']; ?> อำเภอ <?= $companys['C_amphoe']; ?> จังหวัด <?= $companys['C_province']; ?></p>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        </tbody>
+                                        <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </table>
+                                </div>
 
-
-                                    <td>
-                                        <a href="editFrom_company.php?company_ID=<?=$company['company_ID'];?>"><button class="btn btn-primary">แก้ไข</button></a>
-<!--                                        <a href="#" onclick="deleteData();">-->
-<!--                                            <button class="btn btn-danger" type="button">ลบ</button>-->
-                                        </a>
-<!--                                        <a data-id="--><?php //=$company['company_ID'];?><!--" href="?company_ID=--><?php //=$company['company_ID'];?><!--"-->
-<!--                                           class="btn btn-danger delete-btn">ลบ</a>-->
-
-                                        <button class="btn btn-danger delete-btn" data-company_ID="<?=$company['company_ID'];?>">ลบ</button>
-
-                                    </td>
-                                </tr>
-                            <?php } ?>
-
-                            </tbody>
-                        </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -286,70 +377,11 @@ $conn = null;
     <script src="../../../assets/js/modernizr.js"></script>
     <script src="../../../assets/js/moment.js"></script>
 
-    <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
-    <script src="../../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
-    <script src="../../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
-    <script src="../../../assets/vendor/apex/apexcharts.min.js"></script>
-    <script src="../../../assets/vendor/apex/custom/sales/salesGraph.js"></script>
-    <script src="../../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>
-    <script src="../../../assets/vendor/apex/custom/sales/taskGraph.js"></script>
 
     <!-- ไฟล์ JavaScript หลัก -->
     <script src="../../../assets/js/main.js"></script>
-    <script>
-        // เมื่อคลิกที่ปุ่มที่มี class "delete-btn"
-        $(".delete-btn").click(function(e) {
-            // ดึงค่า 'company_ID' จาก attribute 'data-company_ID'
-            var company_ID = $(this).data('company_ID');
+    <script src="../../../Function/showdata_company.js"></script>
 
-            // ป้องกันการทำงานของการคลิกที่ปกติ
-            e.preventDefault();
-
-            // เรียกฟังก์ชัน deleteConfirm และส่งค่า 'company_ID' ไป
-            deleteConfirm(company_ID);
-        });
-        console.log(company_ID);
-        // ฟังก์ชันที่ใช้สำหรับแสดง SweetAlert2 และทำการลบข้อมูล
-        function deleteConfirm(company_ID) {
-            Swal.fire({
-                title: 'คุณแน่หรือไม่ ?',
-                text: "คุณต้องการลบข้อมูลใช่ไม? ",
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'ยกเลิก, ใช่ ลบ ',
-                showLoaderOnConfirm: true,
-                preConfirm: function() {
-                    // ส่ง request ไปที่ 'index.php' เพื่อลบข้อมูล
-                    return new Promise(function(resolve) {
-                        $.ajax({
-                            url: '../../services_teacher/delete_company.php',
-                            type: 'GET',
-                            data: 'company_ID=' + company_ID,
-                        })
-                            .done(function() {
-                                // แสดง SweetAlert2 ว่าลบข้อมูลสำเร็จ
-                                Swal.fire({
-                                    title: 'Success',
-                                    text: 'ลบข้อมูลเรียบร้อย',
-                                    icon: 'success',
-                                }).then(() => {
-                                    // รีเฟรชหน้า 'index.php'
-                                    document.location.href = 'showdata_company.php';
-                                })
-                            })
-                            .fail(function() {
-                                // แสดง SweetAlert2 กรณีเกิดข้อผิดพลาดในการลบข้อมูล
-                                Swal.fire('เกิดข้อผิดพลาด', 'Something went wrong with ajax !', 'error')
-                                // รีโหลดหน้า
-                                window.location.reload();
-                            });
-                    });
-                },
-            });
-        }
-
-    </script>
 
 </body>
 </html>

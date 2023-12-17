@@ -190,7 +190,7 @@ $conn = null;
                                 <!-- คำสั่งการดำเนินการในโปรไฟล์ -->
                                 <div class="header-profile-actions">
                                     <a href="crud/editFrom_profile.php">โปรไฟล์</a>
-                                    <a href="../config/logout.php">ออกจากระบบ</a>
+                                    <a href="#" onclick="showConfirmationLogout()">ออกจากระบบ</a>
                                 </div>
                                 <!-- ส่วนจบของคำสั่งการดำเนินการในโปรไฟล์ -->
                             </div>
@@ -219,16 +219,17 @@ $conn = null;
 
             <!-- ส่วนจบของคอนเทนเนอร์ -->
 
-            <!-- เริ่มต้นของ App Footer -->
-            <div class="app-footer">
-                <span>สาขาเทคโนโลยีธุรกิจดิจิทัล</span>
-            </div>
-            <!-- ส่วนจบของ App Footer -->
+
 
         </div>
-
+        <!-- เริ่มต้นของ App Footer -->
+        <div class="app-footer">
+            <span>สาขาเทคโนโลยีธุรกิจดิจิทัล</span>
+        </div>
+        <!-- ส่วนจบของ App Footer -->
 
     </div>
+
 
     <!-- ส่วนจบของคอนเทนเนอร์ -->
 
@@ -240,52 +241,28 @@ $conn = null;
     <script src="../assets/js/modernizr.js"></script>
     <script src="../assets/js/moment.js"></script>
 
-<!--    <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->-->
-<!--    <script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>-->
-<!--    <script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>-->
-<!--    <script src="../assets/vendor/apex/apexcharts.min.js"></script>-->
-<!--    <script src="../assets/vendor/apex/custom/sales/salesGraph.js"></script>-->
-<!--    <script src="../assets/vendor/apex/custom/sales/revenueGraph.js"></script>-->
-<!--    <script src="../assets/vendor/apex/custom/sales/taskGraph.js"></script>-->
 
     <!-- ไฟล์ JavaScript หลัก -->
     <script src="../assets/js/main.js"></script>
     <script>
-        function showConfirmation() {
+        function showConfirmationLogout() {
             // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
             Swal.fire({
-                title: 'คุณแน่ใจหรือไม่?',
-                text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',
+                title: 'คุณแน่ใจหรือไม ?',
+                text: 'ออกจากระบบ',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: 'ใช่, ยกเลิก!',
+                confirmButtonText: 'ออกจากระบบ',
                 cancelButtonText: 'ยกเลิก'
             }).then((result) => {
                 if (result.isConfirmed) {
                     // กระทำเมื่อยืนยัน
-                    window.location.href = '../index.php';
+                    window.location.href = '../config/logout.php';
                 }
             });
         }
-        function saveData() {
-            Swal.fire({
-                title: 'คุณแน่ใจหรือไม่?',
-                text: 'การกระทำนี้จะทำการบันทึกข้อมูล',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'ใช่, บันทึก!',
-                cancelButtonText: 'ยกเลิก'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.querySelector('form').submit();
-                }
-            });
-        }
-
     </script>
 
 </body>

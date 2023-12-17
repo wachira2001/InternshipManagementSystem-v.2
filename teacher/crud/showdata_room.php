@@ -129,31 +129,6 @@ $conn = null;
                         <div class="sidebar-submenu">
                             <ul>
 
-
-                                <?php
-                                if ($user['T_status'] == '1' ) {
-                                    ?>
-
-                                    <li>
-                                        <a href="../Hearder/crud/showdata_major.php">ข้อมูลแผนก</a>
-                                    </li>
-                                    <li>
-                                        <a href="../Hearder/crud/showdata_teacher.php">ข้อมูลบุคลากร</a>
-                                    </li>
-                                    <li>
-                                        <a href="../Hearder/crud/showdata_student.php" >ข้อมูลนักศึกษา</a>
-                                    </li>
-                                    <li>
-                                        <a href="../Hearder/crud/showdata_room.php">ข้อมูลห้องเรียน</a>
-                                    </li>
-                                    <li>
-                                        <a href="../Hearder/crud/showdata_company.php" >ข้อมูลสถานประกอบการ</a>
-                                    </li>
-
-                                    <?php
-                                }else{
-
-                                    ?>
                                     <li>
                                         <a href="showdata_student.php" >ข้อมูลนักศึกษา</a>
                                     </li>
@@ -164,9 +139,7 @@ $conn = null;
                                     <li>
                                         <a href="showdata_request.php" >อนุมัติคำร้อง</a>
                                     </li>
-                                    <?php
-                                }
-                                ?>
+
                             </ul>
                         </div>
                     </li>

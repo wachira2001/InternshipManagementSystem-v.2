@@ -19,8 +19,9 @@ function getTeacher($conn) {
 function getuserS($conn, $username) {
     try {
         // กำหนดคำสั่ง SQL
-        $sql = "SELECT student.* ,teacher.T_fname,teacher.T_lname FROM student 
+        $sql = "SELECT student.*,room.* ,teacher.T_fname,teacher.T_lname FROM student 
          INNER JOIN teacher ON student.T_ID = teacher.T_ID
+         INNER JOIN room ON student.R_ID = room.R_ID
          WHERE S_username = :S_username";
 
         // ใช้ PDO statement เพื่อประมวลผลคำสั่ง SQL
@@ -93,14 +94,33 @@ function getmajor($conn) {
     }
 
 }
-function getstudenall($conn) {
+function getstudenall($conn, $search = '') {
     try {
-        $sqlS = "SELECT student.*, teacher.T_fname, teacher.T_lname 
-         FROM student
-         INNER JOIN teacher ON student.T_ID = teacher.T_ID";
+        $sqlS = "SELECT student.*, teacher.T_fname, teacher.T_lname ,room.*
+                 FROM student
+                 INNER JOIN teacher ON student.T_ID = teacher.T_ID
+                 INNER JOIN room ON student.R_ID = room.R_ID";
+
+        // เพิ่มเงื่อนไขค้นหาจากชื่อหรือข้อมูลอื่น ๆ ของนักศึกษา
+        if (!empty($search)) {
+            $sqlS .= " WHERE 
+                       student.S_fname LIKE :search OR 
+                       student.S_lname LIKE :search OR
+                       teacher.T_fname LIKE :search OR
+                       teacher.T_lname LIKE :search";
+        }
+
         $stmtS = $conn->prepare($sqlS);
+
+        // เพิ่ม parameter สำหรับค้นหา (ถ้ามี)
+        if (!empty($search)) {
+            $searchParam = '%' . $search . '%';
+            $stmtS->bindParam(':search', $searchParam, PDO::PARAM_STR);
+        }
+
         $stmtS->execute();
         $result = $stmtS->fetchAll(PDO::FETCH_ASSOC);
+
         // ส่งข้อมูลกลับ
         return $result;
     } catch (PDOException $e) {
@@ -108,13 +128,26 @@ function getstudenall($conn) {
         echo "Error: " . $e->getMessage();
         return false;
     }
-
 }
-function getteacherall($conn) {
+
+function getteacherall($conn, $search='') {
     try {
         $sqlT = "SELECT * FROM teacher WHERE T_status = 0";
+
+        // เพิ่มเงื่อนไขค้นหาจากชื่อนักศึกษา
+        if (!empty($search)) {
+            $sqlT .= " AND (teacher.T_fname LIKE :search OR teacher.T_lname LIKE :search)";
+        }
+
         $stmtT = $conn->prepare($sqlT);
+
+        if (!empty($search)) {
+            $searchParam = '%' . $search . '%';
+            $stmtT->bindParam(':search', $searchParam, PDO::PARAM_STR);
+        }
+
         $stmtT->execute();
+
         $result = $stmtT->fetchAll(PDO::FETCH_ASSOC);
         // ส่งข้อมูลกลับ
         return $result;
@@ -123,14 +156,17 @@ function getteacherall($conn) {
         echo "Error: " . $e->getMessage();
         return false;
     }
-
 }
+
 function getroomall($conn) {
     try {
-        $sqlRoom = "SELECT room.*,student.S_fname,student.S_lname,teacher.T_fname ,teacher.T_lname,student.S_enrollment_year
+//        $sqlRoom = "SELECT room.*,student.S_fname,student.S_lname,teacher.T_fname ,teacher.T_lname,student.S_enrollment_year
+//            FROM room
+//            LEFT JOIN student ON room.R_ID = student.R_ID
+//            LEFT JOIN teacher ON room.T_ID = teacher.T_ID
+//                                                ";
+        $sqlRoom = "SELECT room.*
             FROM room
-            LEFT JOIN student ON room.R_ID = student.R_ID
-            LEFT JOIN teacher ON room.T_ID = teacher.T_ID
                                                 ";
 
         $stmtRoom = $conn->prepare($sqlRoom);
@@ -237,12 +273,27 @@ function getstudentToID($conn, $ID, $search = '') {
     }
 }
 
-function getcompanyall($conn) {
+function getcompanyall($conn, $search = '') {
     try {
+        // กำหนดคำสั่ง SQL
         $sql = "SELECT * FROM company";
+
+        // เพิ่มเงื่อนไข WHERE ในกรณีมีการระบุ $searchName
+        if (!empty($search)) {
+            $sql .= " WHERE C_name LIKE :search";
+        }
+
         $stmt = $conn->prepare($sql);
+
+        // กรณีมีการระบุ $searchName ให้ bind parameter
+        if (!empty($search)) {
+            $searchParam = "%" . $search . "%";
+            $stmt->bindParam(':search', $searchParam, PDO::PARAM_STR);
+        }
+
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         // ส่งข้อมูลกลับ
         return $result;
     } catch (PDOException $e) {
@@ -250,8 +301,8 @@ function getcompanyall($conn) {
         echo "Error: " . $e->getMessage();
         return false;
     }
-
 }
+
 function getcompany($conn,$company_ID) {
     try {
         $sql = "SELECT * FROM company WHERE company_ID = $company_ID ";

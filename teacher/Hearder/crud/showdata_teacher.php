@@ -24,17 +24,23 @@ if (!isset($_SESSION['username']) || ($_SESSION['role'] !== 'H')) {
     exit();
 }
 
-$user = getuserT($conn,$_SESSION['username']);
-$getteacherall = getteacherall($conn);
+$user = getuserT($conn, $_SESSION['username']);
 $stmtD = getmajor($conn);
 
+if (isset($_GET['search']) && $_GET['search'] != '') {
+    // ประกาศตัวแปรรับค่าจากฟอร์ม
+    $search = "%" . $_GET['search'] . "%";
+    $getteacherall = getteacherall($conn,$search);
+} else {
+    // คิวรี่ข้อมูลมาแสดงตามปกติ *แสดงทั้งหมด
+    $search = '';
+    $getteacherall = getteacherall($conn,$search);
+}
 
 $conn = null;
 //print_r($user);
 //return;
 ?>
-
-
 
 
 <!doctype html>
@@ -51,15 +57,16 @@ $conn = null;
     <meta property="og:type" content="Website">
     <meta property="og:site_name" content="Bootstrap Gallery">
     <title>ข้อมูลบุคลากร</title>
-    <link rel="icon" type="image/png" href="../../../upload_img/<?php echo $stmtD['M_img'];?>">
+    <link rel="icon" type="image/png" href="../../../upload_img/<?php echo $stmtD['M_img']; ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mitr&display=swap" rel="stylesheet">
     <style>
-        #fonts{
+        #fonts {
             font-family: 'Mitr', sans-serif;
         }
-        #fonts_b{
+
+        #fonts_b {
             font-family: 'Mitr', sans-serif;
             font-weight: bolder;
         }
@@ -70,7 +77,6 @@ $conn = null;
     <link rel="stylesheet" href="../../../assets/fonts/bootstrap/bootstrap-icons.css">
     <link rel="stylesheet" href="../../../assets/css/main.min.css">
     <link rel="stylesheet" href="../../../assets/vendor/overlay-scroll/OverlayScrollbars.min.css">
-
 </head>
 
 <body id="fonts">
@@ -97,7 +103,8 @@ $conn = null;
         <div class="sidebar-brand">
             <a href="../../index.php" class="logo">
                 <span class="avatar">
-                    <img src="../../../upload_img/<?php echo $stmtD['M_img'];?>" alt="Admin Dashboards" style="width: auto;height: 100px"/>
+                    <img src="../../../upload_img/<?php echo $stmtD['M_img']; ?>" alt="Admin Dashboards"
+                         style="width: auto;height: 100px"/>
                 </span>
             </a>
         </div>
@@ -122,7 +129,7 @@ $conn = null;
                             <ul>
                                 <?php
                                 // เงื่อนไขเพื่อตรวจสอบบทบาท
-                                if ($user['T_status'] == '1' ) {
+                                if ($user['T_status'] == '1') {
                                     ?>
                                     <li>
                                         <a href="showdata_teacher.php" class="current-page">ข้อมูลบุคลากร</a>
@@ -137,17 +144,17 @@ $conn = null;
                                         <a href="showdata_room.php">ข้อมูลห้องเรียน</a>
                                     </li>
                                     <li>
-                                        <a href="showdata_company.php" >ข้อมูลสถานประกอบการ</a>
+                                        <a href="showdata_company.php">ข้อมูลสถานประกอบการ</a>
                                     </li>
                                     <li>
-                                        <a href="showdata_request.php" >อนุมัติคำร้อง</a>
+                                        <a href="showdata_request.php">อนุมัติคำร้อง</a>
                                     </li>
                                     <?php
-                                }else{
+                                } else {
 
                                     ?>
                                     <li>
-                                        <a href="../crud/showdata_student.php" >ข้อมูลนักศึกษา</a>
+                                        <a href="../crud/showdata_student.php">ข้อมูลนักศึกษา</a>
                                     </li>
                                     <li>
                                         <a href="../crud/showdata_room.php">ข้อมูลห้องเรียน</a>
@@ -175,7 +182,7 @@ $conn = null;
         <div class="page-header">
             <div class="toggle-sidebar" id="toggle-sidebar"><i class="bi bi-list"></i></div>
             <!-- ส่วนเริ่มต้นของการหลีกเลี่ยงข้อผิดพลาด -->
-            <ol class="breadcrumb d-md-flex d-none" >
+            <ol class="breadcrumb d-md-flex d-none">
                 <li class="breadcrumb-item">
                     <i class="bi bi-folder2"></i>
                     <a href="showdata_teacher.php">ข้อมูลทั่วไป</a>
@@ -189,7 +196,8 @@ $conn = null;
                         <!-- เริ่มต้นของดรอปดาวน์ -->
                         <li class="dropdown">
                             <!-- ลิงค์การตั้งค่าผู้ใช้ -->
-                            <a href="#" id="userSettings" class="user-settings" data-toggle="dropdown" aria-haspopup="true">
+                            <a href="#" id="userSettings" class="user-settings" data-toggle="dropdown"
+                               aria-haspopup="true">
                                 <!-- ชื่อผู้ใช้ -->
                                 <span class="user-name d-none d-md-block"><?php echo $user['T_fname']; ?></span>
                                 <!-- รูปประจำตัว -->
@@ -224,50 +232,149 @@ $conn = null;
 
             <!-- ส่วนเริ่มต้นของคอนเทนเนอร์ -->
             <div class="content-wrapper">
+                <div class="search-container m-2">
+                    <form action="showdata_teacher.php" method="get">
+                        <!-- Search input group start -->
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="search" placeholder="ค้นหาชื่อบุคลากร"
+                                   value="<?php if (isset($_GET['search'])) {
+                                       echo $_GET['search'];
+                                   } ?>">
+                            <button class="btn" type="submit">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <!--                --><?php
+                    //                // แสดงข้อความที่ค้นหา
+                    //                if (isset($_GET['search']) && $_GET['search'] != '') {
+                    //                    if (count($getrequestall) > 0) {
+                    //                        echo '<font color="red"> ข้อมูลการค้นหา : ' . $_GET['search'];
+                    //                        echo ' *พบ ' . count($getrequestall) . ' รายการ</font><br><br>';
+                    //                        echo count($getrequestall);
+                    //                    }
+                    //                }
+                    //                ?>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">รายชื่อบุคลากร</div>
+                            </div>
+                            <div class="card-body">
 
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table m-0">
-                            <thead>
-                            <tr>
-                                <th>รหัสนักบุคลากร</th>
-                                <th>ชื่อ</th>
-                                <th>สกุล</th>
-                                <th>ตำแหน่ง</th>
-                                <th>E-mail</th>
-                                <th>เพศ</th>
-                                <th>เบอร์โทร</th>
-                                <th> </th>
-                                <th> </th>
-                                <th> </th>
-                                <th> </th>
-                                <th> </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($getteacherall as $teacher) { ?>
-                                <tr>
-                                    <th><?=$teacher['T_ID'];?></th>
-                                    <td><?=$teacher['T_fname'];?></td>
-                                    <td><?=$teacher['T_lname'];?></td>
-                                    <td><?=$teacher['T_position'];?></td>
-                                    <td><?=$teacher['T_email'];?></td>
-                                    <td><?=$teacher['T_gender'];?></td>
-                                    <td><?=$teacher['T_phone'];?></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td >
-                                        <a href="editFrom_teacher.php?T_ID=<?=$teacher['T_ID'];?>"><button class="btn btn-primary">แก้ไข</button></a>
-                                    </td>
-                                </tr>
-                            <?php } ?>
+                                <div class="table-responsive">
+                                    <table class="table v-middle m-0">
+                                        <thead>
+                                        <tr>
+                                            <th>ชื่อ</th>
+                                            <th>ตำแหน่ง</th>
+                                            <th>E-mail</th>
+                                            <th>เพศ</th>
+                                            <th>เบอร์โทร</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                            <tbody>
+                                            <?php if (empty($getteacherall)) : ?>
+                                            <tr>
+                                                <td colspan="7" class="text-center">ไม่พบข้อมูล</td>
+                                            </tr>
+                                            <?php else : ?>
+                                            <?php foreach ($getteacherall as $teacher) : ?>
+                                            <tr>
+                                                <td>
+                                                    <div class="media-box">
+                                                        <img src="../../img/<?= $teacher['T_img']; ?>"
+                                                             class="media-avatar" alt="Bootstrap Themes">
+                                                        <div class="media-box-body">
+                                                            <div class="text-truncate"><?= $teacher['T_fname']; ?> <?= $teacher['T_lname']; ?></div>
+                                                            <p>ID: <?= $teacher['T_ID']; ?></p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><?= $teacher['T_position']; ?></td>
+                                                <td><?= $teacher['T_email']; ?></td>
+                                                <td><?= $teacher['T_gender']; ?></td>
+                                                <td><?= $teacher['T_phone']; ?></td>
+                                                <td>
+                                                    <div class="actions">
+                                                        <a href="#"  data-bs-toggle="offcanvas"
+                                                           data-bs-target="#offcanvasExample<?= $teacher['T_ID']; ?>"
+                                                           aria-controls="offcanvasExample">
+                                                            <i class="bi bi-list text-green"> </i>
+                                                        </a>
+                                                        <a href="editFrom_teacher.php?T_ID=<?= $teacher['T_ID']; ?>" >
+                                                            <i class="bi bi-pencil-square text-warning"></i>
+                                                        </a>
+                                                        <a href="#" onclick="Delete(<?= $teacher['T_ID']; ?>)">
+                                                            <i class="bi bi-trash text-red"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <div class="offcanvas offcanvas-start" tabindex="-1"
+                                                 id="offcanvasExample<?= $teacher['T_ID']; ?>"
+                                                 aria-labelledby="offcanvasExampleLabel">
+                                                <div class="offcanvas-header">
+                                                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">รายละเอียดของ <?= $teacher['T_fname']; ?> <?= $teacher['T_lname']; ?></h5>
+                                                    <button type="button" class="btn-close text-reset"
+                                                            data-bs-dismiss="offcanvas"
+                                                            aria-label="Close">
 
-                            </tbody>
-                        </table>
+                                                    </button>
+                                                </div>
+                                                <div class="offcanvas-body">
+                                                    <div class="row ">
+                                                        <div class="card">
+                                                            <div class="col-12 py-3">
+                                                                <img src="../../img/<?= $teacher['T_img']; ?>"
+                                                                     class="media-avatar rounded mx-auto d-block" alt="Bootstrap Themes" width="60%">
+                                                            </div>
+                                                            <div class="col-12 py-1">
+                                                                <p>รหัสบุคลากร : <?= $teacher['T_ID']; ?> </p>
+                                                            </div>
+                                                            <div class="col-12 py-1">
+                                                                <p>ชื่อ-สกุล : <?= $teacher['T_fname']; ?> <?= $teacher['T_lname']; ?></p>
+                                                            </div>
+                                                            <div class="col-12 py-1">
+                                                                <p>ตำแหน่ง : <?= $teacher['T_position']; ?> </p>
+                                                            </div>
+
+                                                            <div class="col-12 py-1">
+                                                                <p>วัน/เดือน/ปีเกิด : <?= $teacher['T_birthday']; ?> </p>
+                                                            </div>
+                                                            <div class="col-12 py-1">
+                                                                <p>หมายเลขโทรศัพท์ : <?= $teacher['T_phone']; ?> </p>
+                                                            </div>
+                                                            <div class="col-12 py-1">
+                                                                <p>E-mail : <?= $teacher['T_email']; ?> </p>
+                                                            </div>
+                                                            <div class="col-12 py-1">
+                                                                <p>เพศ : <?= $teacher['T_gender']; ?> </p>
+                                                            </div>
+                                                            <div class="col-12 py-1">
+                                                                <p>ที่อยู่ : <?= $teacher['T_address']; ?> </p>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </tbody>
+                                        <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
+
 
             </div>
             <!-- ส่วนจบของคอนเทนเนอร์ -->
@@ -292,36 +399,19 @@ $conn = null;
     <script src="../../../assets/js/bootstrap.bundle.min.js"></script>
     <script src="../../../assets/js/modernizr.js"></script>
     <script src="../../../assets/js/moment.js"></script>
-
     <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
-<!--    <script src="../../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>-->
-<!--    <script src="../../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>-->
-<!--    <script src="../../../assets/vendor/apex/apexcharts.min.js"></script>-->
-<!--    <script src="../../../assets/vendor/apex/custom/sales/salesGraph.js"></script>-->
-<!--    <script src="../../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>-->
-<!--    <script src="../../../assets/vendor/apex/custom/sales/taskGraph.js"></script>-->
+    <!--    <script src="../../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>-->
+    <!--    <script src="../../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>-->
+    <!--    <script src="../../../assets/vendor/apex/apexcharts.min.js"></script>-->
+    <!--    <script src="../../../assets/vendor/apex/custom/sales/salesGraph.js"></script>-->
+    <!--    <script src="../../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>-->
+    <!--    <script src="../../../assets/vendor/apex/custom/sales/taskGraph.js"></script>-->
 
     <!-- ไฟล์ JavaScript หลัก -->
     <script src="../../../assets/js/main.js"></script>
+    <script src="../../../Function/showdata_teacher.js"></script>
     <script>
-        function showConfirmationLogout() {
-            // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
-            Swal.fire({
-                title: 'คุณแน่ใจหรือไม ?',
-                text: 'ออกจากระบบ',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'ออกจากระบบ',
-                cancelButtonText: 'ยกเลิก'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // กระทำเมื่อยืนยัน
-                    window.location.href = '../../../config/logout.php';
-                }
-            });
-        }
+
     </script>
 </body>
 </html>

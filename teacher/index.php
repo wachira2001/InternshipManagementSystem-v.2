@@ -26,7 +26,7 @@ if (!isset($_SESSION['username']) || ($_SESSION['role'] !== 'H' && $_SESSION['ro
 
 $user = getuserT($conn,$_SESSION['username']);
 $major = getmajor($conn);
-print_r($_SESSION);
+//print_r($_SESSION);
 // ปิดการเชื่อมต่อ
 $conn = null;
 //print_r($user);
@@ -248,7 +248,7 @@ $conn = null;
         <script src="../assets/js/modernizr.js"></script>
         <script src="../assets/js/moment.js"></script>
 
-<!--        <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->-->
+<!--        <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
 <!--        <script src="../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>-->
 <!--        <script src="../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>-->
 <!--        <script src="../assets/vendor/apex/apexcharts.min.js"></script>-->

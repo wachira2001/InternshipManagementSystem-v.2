@@ -52,10 +52,12 @@ if (isset($_GET['R_room']) && $_GET['R_room'] != '') {
 }
 
 // สร้างคำสั่ง SQL
-$sql = "SELECT room.*, student.S_fname, student.S_lname, teacher.T_fname, teacher.T_lname, student.S_enrollment_year
-        FROM room
-        LEFT JOIN student ON room.R_ID = student.R_ID
-        LEFT JOIN teacher ON room.T_ID = teacher.T_ID";
+$sql = "SELECT room.*, teacher.T_fname, teacher.T_lname, teacher.T_ID, COUNT(student.R_ID) AS student_count
+FROM room
+INNER JOIN teacher ON room.T_ID = teacher.T_ID
+LEFT JOIN student ON room.R_ID = student.R_ID
+GROUP BY room.R_ID, teacher.T_ID;
+";
 
 // เพิ่ม WHERE clause หากมีเงื่อนไข
 if (!empty($conditions)) {
@@ -80,16 +82,6 @@ $stmt->execute();
 
 // ดึงผลลัพธ์
 $room = $stmt->fetchAll();
-
-// ตรวจสอบว่ามีข้อมูลหรือไม่
-if (count($room) > 0) {
-    // แสดงข้อมูล
-    foreach ($room as $rooms) {
-        // แสดงข้อมูลตามที่ต้องการ
-    }
-} else {
-
-}
 
 ?>
 
@@ -178,12 +170,6 @@ if (count($room) > 0) {
                         </a>
                         <div class="sidebar-submenu">
                             <ul>
-
-
-                                <?php
-                                if ($user['T_status'] == '1' ) {
-                                    ?>
-
                                     <li>
                                         <a href="showdata_teacher.php" >ข้อมูลบุคลากร</a>
                                     </li>
@@ -203,16 +189,6 @@ if (count($room) > 0) {
                                         <a href="showdata_request.php" >อนุมัติคำร้อง</a>
                                     </li>
 
-                                    <?php
-                                }else{
-
-                                    ?>
-                                    <li>
-                                        <a href="showdata_student.php">ข้อมูลนักศึกษา</a>
-                                    </li>
-                                    <?php
-                                }
-                                ?>
                             </ul>
                         </div>
                     </li>
@@ -360,10 +336,9 @@ if (count($room) > 0) {
                                     <th>ชั้น</th>
                                     <th>ระดับชั้น</th>
                                     <th>ห้อง</th>
-                                    <th>ปี</th>
-                                    <th>ชื่อนักเรียน</th>
+                                    <th>จำนวนนักเรียน</th>
                                     <th>ชื่อครูที่ปรึกษา</th>
-                                    <th>การจัดการ</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -373,14 +348,18 @@ if (count($room) > 0) {
                                         <td><?= $rooms['R_level']; ?></td>
                                         <td><?= $rooms['R_level_number']; ?></td>
                                         <td><?= $rooms['R_room']; ?></td>
-                                        <td><?= $rooms['S_enrollment_year']; ?></td>
-                                        <td><?= $rooms['S_fname'] . ' ' . $rooms['S_lname']; ?></td>
+                                        <td><?= $rooms['student_count']; ?></td>
                                         <td><?= $rooms['T_fname'] . ' ' . $rooms['T_lname']; ?></td>
                                         <td class="">
-                                            <button class="btn btn-danger" onclick="deleteUser(<?= $rooms['R_ID']; ?>)">ลบ</button> <dr>
-                                            <a href="editFrom_room.php?R_ID=<?= $rooms['R_ID']; ?>">
-                                                <button class="btn btn-primary ml-2">แก้ไข</button>
-                                            </a>
+                                            <div class="actions">
+
+                                                <a href="editFrom_room.php?R_ID=<?= $rooms['R_ID']; ?>" >
+                                                    <i class="bi bi-pencil-square text-warning"></i>
+                                                </a>
+                                                <a href="#" onclick="Delete(<?= $rooms['R_ID']; ?>)">
+                                                    <i class="bi bi-trash text-red"></i>
+                                                </a>
+                                            </div>
                                             <!-- เพิ่มปุ่มหรือลิงก์อื่น ๆ ตามต้องการ -->
                                         </td>
                                     </tr>
@@ -467,6 +446,7 @@ if (count($room) > 0) {
                                     </div>
                                 </div>
                                 <div class="modal-footer">
+
                                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="showConfirmation()">ยกเลิก</button>
                                     <button type="button" class="btn btn-primary" onclick="Addroom()">เพิ่มห้อง</button>
                                 </div>
@@ -497,172 +477,10 @@ if (count($room) > 0) {
     <script src="../../../assets/js/modernizr.js"></script>
     <script src="../../../assets/js/moment.js"></script>
 
-    <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
-<!--    <script src="../../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>-->
-<!--    <script src="../../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>-->
-<!--    <script src="../../../assets/vendor/apex/apexcharts.min.js"></script>-->
-<!--    <script src="../../../assets/vendor/apex/custom/sales/salesGraph.js"></script>-->
-<!--    <script src="../../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>-->
-<!--    <script src="../../../assets/vendor/apex/custom/sales/taskGraph.js"></script>-->
-
-
     <!-- ไฟล์ JavaScript หลัก -->
     <script src="../../../assets/js/main.js"></script>
 
-    <script>
-        function deleteUser(R_ID) {
-            Swal.fire({
-                title: 'คุณแน่ใจหรือไม่?',
-                text: 'คุณต้องการลบข้อมูลนี้หรือไม่?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'ใช่, ลบ!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    deleteUserData(R_ID);
-                }
-            });
-        }
+    <script src="../../../Function/showdata_room.js"> </script>
 
-        function deleteUserData(R_ID) {
-            $.ajax({
-                type: 'POST',
-                url: '../../services_teacher/delete_room.php',
-                data: { R_ID: R_ID },
-                success: function(response) {
-                    if (response === 'success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'ลบข้อมูลสำเร็จ',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(() => {
-                            window.location.href = 'showdata_room.php';
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'เกิดข้อผิดพลาดในการลบข้อมูลเนื่องจากมีดารเชื่อมคีย์นอกแล้ว',
-                            text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'เกิดข้อผิดพลาดในการลบข้อมูล',
-                        text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
-                    });
-                }
-            });
-        }
-    </script>
-    <script>
-        function showConfirmation() {
-            // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
-            Swal.fire({
-                title: 'คุณแน่ใจหรือไม่?',
-                text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'ใช่, ยกเลิก!',
-                cancelButtonText: 'ยกเลิก'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // กระทำเมื่อยืนยัน
-                    window.location.href = 'showdata_room.php';
-                }
-            });
-        }
-        function saveData() {
-            Swal.fire({
-                title: 'คุณแน่ใจหรือไม่?',
-                text: 'ที่จะบันทึกการแก้ไขข้อมูล',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'ใช่, บันทึก!',
-                cancelButtonText: 'ยกเลิก'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.querySelector('#insert').submit();
-                }
-            });
-        }
-        function Addroom() {
-            var R_level = document.getElementById('R_level').value;
-            var R_level_number = document.getElementById('R_level_number').value;
-            var R_room = document.getElementById('R_room').value;
-            var T_ID = document.getElementById('T_ID').value;
-
-            if ($.trim(R_level) === '' || $.trim(R_level_number) === '' || $.trim(R_room) === '' || $.trim(T_ID) === '') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'กรุณากรอกข้อมูลห้องให้ครบ',
-                    showConfirmButton: true,
-                });
-                return;
-            }
-
-            $.ajax({
-                type: 'POST',
-                url: '../../services_teacher/insert_room.php',
-                data: {
-                    R_level: R_level,
-                    R_level_number: R_level_number,
-                    R_room: R_room,
-                    T_ID: T_ID,
-                },
-
-                success: function (response) {
-                    // การจัดการผลลัพธ์
-                    console.log(response);
-                    if (response === 'success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'เพิ่มข้อมูลห้องสำเร็จ',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(() => {
-                            // window.location.href = 'showdata_room.php';
-                            location.reload();
-                        });
-                    } else if (response === 'duplicate') {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'ข้อมูลนี้มีอยู่แล้ว',
-                                text: 'โปรดตรวจสอบว่าป้อนข้อมูลห้องนี้ มีอยู่แล้วหรือไม่',
-                            });
-
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'เกิดข้อผิดพลาดในการเพิ่มข้อมูล',
-                            text: 'โปรดติดต่อผู้ดูแลระบบ',
-                        });
-                    }
-                },
-
-                error: function (xhr, status, error) {
-                    // การจัดการข้อผิดพลาดจาก Ajax
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'เกิดข้อผิดพลาด',
-                        text: 'ไม่สามารถยกเลิกไม่อนุมัติคำร้องได้',
-                    });
-                }
-            });
-        }
-
-    </script>
-    <?php
-    include_once '../../services_teacher/insert_room.php';
-    $conn = null;
-    ?>
 </body>
 </html>

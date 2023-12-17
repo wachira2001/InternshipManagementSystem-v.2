@@ -1,4 +1,9 @@
+<?php
+include_once 'config/conndb.php';
+include_once 'config/show_data.php';
+$major = getmajor($conn);
 
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,7 +18,7 @@
     <meta property="og:type" content="Website">
     <meta property="og:site_name" content="Bootstrap Gallery">
     <title>ระบบจัดการฝึกประสบการณ์วิชาชีพ</title>
-    <link rel="icon" type="image/png" href="#">
+    <link rel="icon" type="image/png" href="upload_img/<?php echo $major['M_img']?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mitr&display=swap" rel="stylesheet">
@@ -51,7 +56,7 @@
 <!-- ส่วนจบการโหลด -->
 
 <!-- ส่วนเริ่มต้นของหน้า -->
-<div class="container">
+<div class="container-fluid">
     <div class="content-wrapper-scroll">
         <div class="page-wrapper">
     <div style="font-size: 20px; font-weight: bolder;">
@@ -74,30 +79,296 @@
 
     <!-- เริ่มต้นของ เนื้อหา content -->
     <div class="content-wrapper py-3">
+        <div class="row">
+            <div class="col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">รายการสถานประกอบการ</div>
+                    </div>
+                    <div class="card-body">
+
+                        <!-- Row start -->
+                        <div class="row">
+                            <div class="col-xxl-3 col-md-4 col-sm-6 col-12">
+                                <div class="product-card">
+                                    <img class="product-card-img-top" src="img/company.jpg" alt="Bootstrap Gallery">
+                                    <div class="product-card-body">
+                                        <h5 class="product-title">ชื่อสถานประกอบการ</h5>
+                                        <div class="product-price">
+                                            <span class="off-price">จำนวนคนที่ฝึก 10 คน</span>
+                                        </div>
+                                        <div class="product-rating">
+                                            <div class="rate2 rating-stars" style="cursor: pointer; width: 120px;">
+                                                <img src="img/../assets/images/star-selected.svg" alt="1" title="bad">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="2" title="poor">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="3" title="regular">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="4" title="good">&nbsp;
+
+                                                <input type="hidden" name="score" value="5"></div>
+                                            <div class="total-ratings"> 95.2%</div>
+                                        </div>
+                                        <div class="product-description">
+                                            รายละเอียด
+                                        </div>
+                                        <div class="product-actions">
+                                            <button class="btn btn-success addToCart">รายละเอียดสถานประกอบการ</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-md-4 col-sm-6 col-12">
+                                <div class="product-card">
+                                    <img class="product-card-img-top" src="img/company.jpg" alt="Bootstrap Gallery">
+                                    <div class="product-card-body">
+                                        <h5 class="product-title">ชื่อสถานประกอบการ</h5>
+                                        <div class="product-price">
+                                            <span class="off-price">จำนวนคนที่ฝึก 10 คน</span>
+                                        </div>
+                                        <div class="product-rating">
+                                            <div class="rate2 rating-stars" style="cursor: pointer; width: 120px;">
+                                                <img src="img/../assets/images/star-selected.svg" alt="1" title="bad">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="2" title="poor">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="3" title="regular">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="4" title="good">&nbsp;
+
+                                                <input type="hidden" name="score" value="5"></div>
+                                            <div class="total-ratings"> 95.2%</div>
+                                        </div>
+                                        <div class="product-description">
+                                            รายละเอียด
+                                        </div>
+                                        <div class="product-actions">
+                                            <button class="btn btn-success addToCart">รายละเอียดสถานประกอบการ</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-md-4 col-sm-6 col-12">
+                                <div class="product-card">
+                                    <img class="product-card-img-top" src="img/company.jpg" alt="Bootstrap Gallery">
+                                    <div class="product-card-body">
+                                        <h5 class="product-title">ชื่อสถานประกอบการ</h5>
+                                        <div class="product-price">
+                                            <span class="off-price">จำนวนคนที่ฝึก 10 คน</span>
+                                        </div>
+                                        <div class="product-rating">
+                                            <div class="rate2 rating-stars" style="cursor: pointer; width: 120px;">
+                                                <img src="img/../assets/images/star-selected.svg" alt="1" title="bad">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="2" title="poor">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="3" title="regular">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="4" title="good">&nbsp;
+
+                                                <input type="hidden" name="score" value="5"></div>
+                                            <div class="total-ratings"> 95.2%</div>
+                                        </div>
+                                        <div class="product-description">
+                                            รายละเอียด
+                                        </div>
+                                        <div class="product-actions">
+                                            <button class="btn btn-success addToCart">รายละเอียดสถานประกอบการ</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-md-4 col-sm-6 col-12">
+                                <div class="product-card">
+                                    <img class="product-card-img-top" src="img/company.jpg" alt="Bootstrap Gallery">
+                                    <div class="product-card-body">
+                                        <h5 class="product-title">ชื่อสถานประกอบการ</h5>
+                                        <div class="product-price">
+                                            <span class="off-price">จำนวนคนที่ฝึก 10 คน</span>
+                                        </div>
+                                        <div class="product-rating">
+                                            <div class="rate2 rating-stars" style="cursor: pointer; width: 120px;">
+                                                <img src="img/../assets/images/star-selected.svg" alt="1" title="bad">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="2" title="poor">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="3" title="regular">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="4" title="good">&nbsp;
+
+                                                <input type="hidden" name="score" value="5"></div>
+                                            <div class="total-ratings"> 95.2%</div>
+                                        </div>
+                                        <div class="product-description">
+                                            รายละเอียด
+                                        </div>
+                                        <div class="product-actions">
+                                            <button class="btn btn-success addToCart">รายละเอียดสถานประกอบการ</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-md-4 col-sm-6 col-12">
+                                <div class="product-card">
+                                    <img class="product-card-img-top" src="img/company.jpg" alt="Bootstrap Gallery">
+                                    <div class="product-card-body">
+                                        <h5 class="product-title">ชื่อสถานประกอบการ</h5>
+                                        <div class="product-price">
+                                            <span class="off-price">จำนวนคนที่ฝึก 10 คน</span>
+                                        </div>
+                                        <div class="product-rating">
+                                            <div class="rate2 rating-stars" style="cursor: pointer; width: 120px;">
+                                                <img src="img/../assets/images/star-selected.svg" alt="1" title="bad">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="2" title="poor">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="3" title="regular">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="4" title="good">&nbsp;
+
+                                                <input type="hidden" name="score" value="5"></div>
+                                            <div class="total-ratings"> 95.2%</div>
+                                        </div>
+                                        <div class="product-description">
+                                            รายละเอียด
+                                        </div>
+                                        <div class="product-actions">
+                                            <button class="btn btn-success addToCart">รายละเอียดสถานประกอบการ</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-md-4 col-sm-6 col-12">
+                                <div class="product-card">
+                                    <img class="product-card-img-top" src="img/company.jpg" alt="Bootstrap Gallery">
+                                    <div class="product-card-body">
+                                        <h5 class="product-title">ชื่อสถานประกอบการ</h5>
+                                        <div class="product-price">
+                                            <span class="off-price">จำนวนคนที่ฝึก 10 คน</span>
+                                        </div>
+                                        <div class="product-rating">
+                                            <div class="rate2 rating-stars" style="cursor: pointer; width: 120px;">
+                                                <img src="img/../assets/images/star-selected.svg" alt="1" title="bad">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="2" title="poor">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="3" title="regular">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="4" title="good">&nbsp;
+
+                                                <input type="hidden" name="score" value="5"></div>
+                                            <div class="total-ratings"> 95.2%</div>
+                                        </div>
+                                        <div class="product-description">
+                                            รายละเอียด
+                                        </div>
+                                        <div class="product-actions">
+                                            <button class="btn btn-success addToCart">รายละเอียดสถานประกอบการ</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-md-4 col-sm-6 col-12">
+                                <div class="product-card">
+                                    <img class="product-card-img-top" src="img/company.jpg" alt="Bootstrap Gallery">
+                                    <div class="product-card-body">
+                                        <h5 class="product-title">ชื่อสถานประกอบการ</h5>
+                                        <div class="product-price">
+                                            <span class="off-price">จำนวนคนที่ฝึก 10 คน</span>
+                                        </div>
+                                        <div class="product-rating">
+                                            <div class="rate2 rating-stars" style="cursor: pointer; width: 120px;">
+                                                <img src="img/../assets/images/star-selected.svg" alt="1" title="bad">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="2" title="poor">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="3" title="regular">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="4" title="good">&nbsp;
+
+                                                <input type="hidden" name="score" value="5"></div>
+                                            <div class="total-ratings"> 95.2%</div>
+                                        </div>
+                                        <div class="product-description">
+                                            รายละเอียด
+                                        </div>
+                                        <div class="product-actions">
+                                            <button class="btn btn-success addToCart">รายละเอียดสถานประกอบการ</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-md-4 col-sm-6 col-12">
+                                <div class="product-card">
+                                    <img class="product-card-img-top" src="img/company.jpg" alt="Bootstrap Gallery">
+                                    <div class="product-card-body">
+                                        <h5 class="product-title">ชื่อสถานประกอบการ</h5>
+                                        <div class="product-price">
+                                            <span class="off-price">จำนวนคนที่ฝึก 10 คน</span>
+                                        </div>
+                                        <div class="product-rating">
+                                            <div class="rate2 rating-stars" style="cursor: pointer; width: 120px;">
+                                                <img src="img/../assets/images/star-selected.svg" alt="1" title="bad">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="2" title="poor">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="3" title="regular">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="4" title="good">&nbsp;
+
+                                                <input type="hidden" name="score" value="5"></div>
+                                            <div class="total-ratings"> 95.2%</div>
+                                        </div>
+                                        <div class="product-description">
+                                            รายละเอียด
+                                        </div>
+                                        <div class="product-actions">
+                                            <button class="btn btn-success addToCart">รายละเอียดสถานประกอบการ</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-md-4 col-sm-6 col-12">
+                                <div class="product-card">
+                                    <img class="product-card-img-top" src="img/company.jpg" alt="Bootstrap Gallery">
+                                    <div class="product-card-body">
+                                        <h5 class="product-title">ชื่อสถานประกอบการ</h5>
+                                        <div class="product-price">
+                                            <span class="off-price">จำนวนคนที่ฝึก 10 คน</span>
+                                        </div>
+                                        <div class="product-rating">
+                                            <div class="rate2 rating-stars" style="cursor: pointer; width: 120px;">
+                                                <img src="img/../assets/images/star-selected.svg" alt="1" title="bad">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="2" title="poor">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="3" title="regular">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="4" title="good">&nbsp;
+
+                                                <input type="hidden" name="score" value="5"></div>
+                                            <div class="total-ratings"> 95.2%</div>
+                                        </div>
+                                        <div class="product-description">
+                                            รายละเอียด
+                                        </div>
+                                        <div class="product-actions">
+                                            <button class="btn btn-success addToCart">รายละเอียดสถานประกอบการ</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-md-4 col-sm-6 col-12">
+                                <div class="product-card">
+                                    <img class="product-card-img-top" src="img/company.jpg" alt="Bootstrap Gallery">
+                                    <div class="product-card-body">
+                                        <h5 class="product-title">ชื่อสถานประกอบการ</h5>
+                                        <div class="product-price">
+                                            <span class="off-price">จำนวนคนที่ฝึก 10 คน</span>
+                                        </div>
+                                        <div class="product-rating">
+                                            <div class="rate2 rating-stars" style="cursor: pointer; width: 120px;">
+                                                <img src="img/../assets/images/star-selected.svg" alt="1" title="bad">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="2" title="poor">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="3" title="regular">&nbsp;
+                                                <img src="img/../assets/images/star-selected.svg" alt="4" title="good">&nbsp;
+
+                                                <input type="hidden" name="score" value="5"></div>
+                                            <div class="total-ratings"> 95.2%</div>
+                                        </div>
+                                        <div class="product-description">
+                                            รายละเอียด
+                                        </div>
+                                        <div class="product-actions">
+                                            <button class="btn btn-success addToCart">รายละเอียดสถานประกอบการ</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
 
-        <h1>เนื้อหา</h1>
 
+                        </div>
+                        <!-- Row end -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- ส่วนจบของ เนื้อหา content -->
 
@@ -124,14 +395,6 @@
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/modernizr.js"></script>
     <script src="assets/js/moment.js"></script>
-
-    <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
-    <script src="assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
-    <script src="assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
-    <script src="assets/vendor/apex/apexcharts.min.js"></script>
-    <script src="assets/vendor/apex/custom/sales/salesGraph.js"></script>
-    <script src="assets/vendor/apex/custom/sales/revenueGraph.js"></script>
-    <script src="assets/vendor/apex/custom/sales/taskGraph.js"></script>
 
     <!-- ไฟล์ JavaScript หลัก -->
     <script src="assets/js/main.js"></script>

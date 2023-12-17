@@ -138,7 +138,7 @@ $getmajor = getmajor($conn);
                         <div class="col-md-12 input-group">
                             <span class="input-group-text">ที่อยู่ปัจจุบัน</span>
                             <textarea class="form-control" aria-label="With textarea" id="T_address"
-                                      name="T_address" required></textarea>
+                                      name="T_address" required placeholder="ที่อยู่ปัจจุบัน"></textarea>
                         </div>
 
                         <input type="hidden" class="form-control date-own" id="T_status" name="T_status"
@@ -183,19 +183,15 @@ $getmajor = getmajor($conn);
                         <!--                                   placeholder="รหัสผ่าน" required>-->
                         <!--                        </div>-->
                         <div class="col-md-12">
-                            <label for="exampleInputPassword1" class="form-label">รหัสผ่าน</label>
+                            <label for="T_password" class="form-label">รหัสผ่าน</label>
                             <div class="input-group">
-                                <input type="password" class="form-control" id="password" name="T_password"
-                                       placeholder="รหัสผ่าน" required minlength="10" maxlength="15">
+                                <input type="password" class="form-control" id="password" name="T_password" placeholder="รหัสผ่าน" required minlength="10" maxlength="15">
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-outline-secondary password-toggle-button"
-                                            onclick="togglePasswordVisibility()">
+                                    <button type="button" class="btn btn-outline-secondary password-toggle-button" onclick="Password()">
                                         <i id="eye-icon" class="bi bi-eye"></i>
                                     </button>
                                 </div>
-                                <div id="emailHelp" class="form-text col-md-12">ป้อนขันต่ำ 10 ตัวอักษร และไม่เกิน 15
-                                    ตัวอักษร
-                                </div>
+                                <div id="passwordHelp" class="form-text col-md-12">ป้อนขั้นต่ำ 10 ตัวอักษร และไม่เกิน 15 ตัวอักษร</div>
                             </div>
                         </div>
                         <div style="text-align: center" class="g-4 py-4">
@@ -244,64 +240,7 @@ $getmajor = getmajor($conn);
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="../check.js"></script>
-<script>
-    function showConfirmation() {
-        // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
-        Swal.fire({
-            title: 'คุณแน่ใจหรือไม่? ที่จะยกเลิกการสมัครสมาชิก',
-            // text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'ใช่, ยกเลิก!',
-            cancelButtonText: 'ยกเลิก'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // กระทำเมื่อยืนยัน
-                window.location.href = '../index.php';
-            }
-        });
-    }
+<script src="../Function/register_teacher.js"></script>
 
-    // function INSERT_teacher(){
-    //     $(document).ready(function () {
-    //         $('#submitBtn').on('click', function () {
-    //             var formData = new FormData($('#Formteacher')[0]);
-    //
-    //             $.ajax({
-    //                 type: 'POST',
-    //                 url: 'services_teacher/INSERT_teacher.php', // Adjust the path to your PHP file
-    //                 data: formData,
-    //                 contentType: false,
-    //                 processData: false,
-    //                 success: function (response) {
-    //                     console.log(response)
-    //                     if (response === 'success') {
-    //                         Swal.fire({
-    //                             icon: 'success',
-    //                             title: 'ลงทะเบียนสำเร็จ',
-    //                             showConfirmButton: false,
-    //                             timer: 1500
-    //                         });
-    //                         // Additional actions after successful registration
-    //                     } else {
-    //                         Swal.fire({
-    //                             icon: 'error',
-    //                             title: 'เกิดข้อผิดพลาดในการลงทะเบียน',
-    //                             text: response
-    //                         });
-    //                     }
-    //                 }
-    //             });
-    //         });
-    //     });
-    // }
-
-</script>
-<?php
-include_once 'services_teacher/INSERT_teacher.php';
-?>
 </body>
 </html>
