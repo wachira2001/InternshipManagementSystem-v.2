@@ -311,45 +311,6 @@ $conn = null;
 
         <!-- ไฟล์ JavaScript หลัก -->
         <script src="../../assets/js/main.js"></script>
-<!--        <script>-->
-<!--            function showConfirmation() {-->
-<!--                // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก-->
-<!--                Swal.fire({-->
-<!--                    title: 'คุฯต้องการลงทะเบียนสถานประกอบการใช่หรือไม?',-->
-<!--                    text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',-->
-<!--                    icon: 'warning',-->
-<!--                    showCancelButton: true,-->
-<!--                    confirmButtonColor: '#d33',-->
-<!--                    cancelButtonColor: '#3085d6',-->
-<!--                    confirmButtonText: 'ใช่, ฉันต้องการ!',-->
-<!--                    cancelButtonText: 'ยกเลิก'-->
-<!--                }).then((result) => {-->
-<!--                    if (result.isConfirmed) {-->
-<!--                        // กระทำเมื่อยืนยัน-->
-<!--                        window.location.href = '../index.php';-->
-<!--                    }-->
-<!--                });-->
-<!--            }-->
-<!--            function saveData() {-->
-<!--                Swal.fire({-->
-<!--                    title: 'คุณแน่ใจหรือไม่?',-->
-<!--                    text: 'ที่จะลงทะเบียนสถานประกอบการ',-->
-<!--                    icon: 'question',-->
-<!--                    showCancelButton: true,-->
-<!--                    confirmButtonColor: '#3085d6',-->
-<!--                    cancelButtonColor: '#d33',-->
-<!--                    confirmButtonText: 'ใช่, ลงทะเบียน!',-->
-<!--                    cancelButtonText: 'ยกเลิก'-->
-<!--                }).then((result) => {-->
-<!--                    if (result.isConfirmed) {-->
-<!--                        document.querySelector('form').submit();-->
-<!--                    }-->
-<!--                });-->
-<!--            }-->
-<!---->
-<!--        </script>-->
+
     </body>
     </html>
-<?php
-//require_once '../services_student/insert_company.php';
-//?>

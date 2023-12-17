@@ -479,7 +479,6 @@ $room = $stmt->fetchAll();
 
     <!-- ไฟล์ JavaScript หลัก -->
     <script src="../../../assets/js/main.js"></script>
-
     <script src="../../../Function/showdata_room.js"> </script>
 
 </body>

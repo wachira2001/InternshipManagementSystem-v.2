@@ -4,43 +4,54 @@ $(document).ready(function () {
         e.preventDefault();
         var formData = new FormData(this);
 
-        $.ajax({
-            type: 'POST',
-            url: '../services_student/insert_company.php',
-            data: formData,
-            contentType: false, // ไม่ระบุประเภทข้อมูล
-            processData: false, // ไม่แปลงข้อมูล
-            success: function (response) {
-                console.log(response);
-                return;
-                if (response.trim() === 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'ลงทะเบียนสถานประกอบการสำเร้จ',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(function () {
-                        window.location.href = 'addFrom_request.php';
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'เกิดข้อผิดพลาดในการลงทะเบียน',
-                        text: response
-                    });
-                }
-            },
-            error: function (error) {
-                console.log(error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'เกิดข้อผิดพลาดในการส่งข้อมูล',
-                    text: 'โปรดลองอีกครั้ง'
+        Swal.fire({
+            title: 'คุณต้องการลงทะเบียนสถานประกอบ ใช่หรือไม? ',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ตกลง',
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: '../services_student/insert_company.php',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        if (response.trim() === 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'ลงทะเบียนสถานประกอบการสำเร็จ',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function () {
+                                window.location.href = 'addFrom_request.php';
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'เกิดข้อผิดพลาดในการลงทะเบียน',
+                                text: response
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาดในการส่งข้อมูล',
+                            text: 'โปรดลองอีกครั้ง'
+                        });
+                    }
                 });
             }
         });
     });
 });
+
 
 
 function showConfirmation() {

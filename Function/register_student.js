@@ -3,7 +3,6 @@ $(document).ready(function () {
     $('#Formstudent').on('submit', function (e) {
         e.preventDefault();
         var formData = new FormData(this);
-
         $.ajax({
             type: 'POST',
             url: '../student/services_student/INSERT_student.php',

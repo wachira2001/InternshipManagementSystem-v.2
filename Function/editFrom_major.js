@@ -57,7 +57,6 @@ $(document).ready(function () {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(function () {
-                                location.reload(true);
                                 window.location.href = 'showdata_major.php';
                             });
                         } else {

@@ -17,7 +17,7 @@ $major = getmajor($conn);
     <meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
     <meta property="og:type" content="Website">
     <meta property="og:site_name" content="Bootstrap Gallery">
-    <title>เกี่ยวกับเรา</title>
+    <title>LOGIN</title>
     <link rel="icon" type="image/png" href="upload_img/<?php echo $major['M_img']?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
