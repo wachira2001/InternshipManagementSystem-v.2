@@ -312,7 +312,7 @@ $teachers = getTeachers($conn,$T_ID);
                                                     <label for="inputName" class="form-label">หมายเลขโทรศัพท์</label>
                                                     <input type="tel" class="form-control" id="inputName" name="T_phone"
                                                            placeholder="หมายเลขโทรศัพท์"
-                                                           value="<?= $teachers['T_phone']; ?>">
+                                                           value="<?= $teachers['T_phone']; ?>" maxlength="10">
 
                                                 </div>
                                                 <div class="col-3 py-3">

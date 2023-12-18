@@ -226,8 +226,8 @@ $conn = null;
                                                 <div class="col-sm-3 col-12">
                                                     <div class="m-0">
                                                         <label class="form-label">เลือกชั้น</label>
-                                                        <select class="form-select" aria-label="Default select example" id="R_level">
-                                                            <option selected="">-- เลือกชั้น --</option>
+                                                        <select class="form-select" aria-label="Default select example" id="R_level" required>
+                                                            <option value="" selected="">-- เลือกชั้น --</option>
                                                             <option value="ปวช." <?php echo ($room['R_level'] == 'ปวช.') ? 'selected' : ''; ?>>ปวช.</option>
                                                             <option value="ปวส." <?php echo ($room['R_level'] == 'ปวส.') ? 'selected' : ''; ?>>ปวส.</option>
                                                         </select>
@@ -236,22 +236,20 @@ $conn = null;
                                                 <div class="col-sm-3 col-12">
                                                     <div class="m-0">
                                                         <label class="form-label">เลือกชั้น</label>
-                                                        <select class="form-select" aria-label="Default select example" id="R_level_number">
-                                                            <option selected="">-- เลือกชั้น --</option>
-                                                            <option value="1" <?php echo ($room['R_level_number'] == '1' && $room['R_level'] == 'ปวช.') ? 'selected' : ''; ?>>ปวช.1</option>
-                                                            <option value="2" <?php echo ($room['R_level_number'] == '2' && $room['R_level'] == 'ปวช.') ? 'selected' : ''; ?>>ปวช.2</option>
-                                                            <option value="3" <?php echo ($room['R_level_number'] == '3' && $room['R_level'] == 'ปวช.') ? 'selected' : ''; ?>>ปวช.3</option>
-                                                            <option value="1" <?php echo ($room['R_level_number'] == '1' && $room['R_level'] == 'ปวส.') ? 'selected' : ''; ?>>ปวส.1</option>
-                                                            <option value="2" <?php echo ($room['R_level_number'] == '2' && $room['R_level'] == 'ปวส.') ? 'selected' : ''; ?>>ปวส.2</option>
-                                                        </select>
+                                                        <select class="form-select" aria-label="Default select example" id="R_level_number" required>
+                                                            <option value="" selected="">-- เลือกชั้น --</option>
+                                                            <option value="1" <?php echo ($room['R_level_number'] == '1' && $room['R_level'] == 'ปวช.' || $room['R_level'] == 'ปวส.') ? 'selected' : ''; ?>>1</option>
+                                                            <option value="2" <?php echo ($room['R_level_number'] == '2' && $room['R_level'] == 'ปวช.' || $room['R_level'] == 'ปวส.' ) ? 'selected' : ''; ?>>2</option>
+                                                            <option value="3" <?php echo ($room['R_level_number'] == '3' && $room['R_level'] == 'ปวช.'  ) ? 'selected' : ''; ?>>3</option>
+                                                           </select>
                                                     </div>
 
                                                 </div>
                                                 <div class="col-sm-3 col-12">
                                                     <div class="m-0">
                                                         <label class="form-label">เลือกห้อง</label>
-                                                        <select class="form-select" aria-label="Default select example" id="R_room">
-                                                            <option selected="">-- เลือกห้อง --</option>
+                                                        <select class="form-select" aria-label="Default select example" id="R_room" required>
+                                                            <option value="" selected="">-- เลือกห้อง --</option>
                                                             <?php
                                                             // ในที่นี้เริ่มต้นที่ห้อง 1 และสิ้นสุดที่ห้อง 15
                                                             for ($i = 1; $i <= 15; $i++) {
@@ -267,8 +265,8 @@ $conn = null;
                                                     <div class="col-sm-3 col-12">
                                                     <div class="m-0">
                                                         <label class="form-label">เลือกครูประจำห้อง</label>
-                                                        <select class="form-select" aria-label="Default select example" id="T_ID">
-                                                            <option selected="">-- ครูประจำห้อง --</option>
+                                                        <select class="form-select" aria-label="Default select example" id="T_ID" required>
+                                                            <option value="" selected="">-- ครูประจำห้อง --</option>
                                                             <?php foreach ($getTeacher as $teacher) : ?>
                                                                 <option value="<?php echo $teacher['T_ID']; ?>" <?php echo ($room['T_ID'] == $teacher['T_ID'] ) ? 'selected' : ''; ?>><?php echo $teacher['T_fname']; ?></option>
 <!--                                                                <option value="--><?php //echo $teacher['T_ID']; ?><!--">--><?php //echo $teacher['T_fname']; ?><!--</option>-->

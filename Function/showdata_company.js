@@ -120,6 +120,7 @@ function Delete(company_ID) {
         confirmButtonText: 'ตกลง',
         cancelButtonText: 'ยกเลิก'
     }).then((result) => {
+        console.log(company_ID);
         if (result.isConfirmed) {
             $.ajax({
                 type: 'POST',
@@ -127,7 +128,7 @@ function Delete(company_ID) {
                 data: { company_ID: company_ID },
                 success: function (response) {
                     console.log(response);
-
+                    return;
                     if (response.trim() === 'success') {
                         Swal.fire({
                             icon: 'success',

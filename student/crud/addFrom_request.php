@@ -237,15 +237,12 @@ $conn = null;
 
         <!-- ส่วนเริ่มต้นของการหลีกเลี่ยงข้อผิดพลาด -->
         <div class="content-wrapper-scroll">
-
-            <!-- ส่วนเริ่มต้นของคอนเทนเนอร์ -->
             <div class="content-wrapper">
-
-                <div class="search-container">
+                <div class="search-container m-2">
                     <form action="addFrom_request.php" method="get">
                         <!-- Search input group start -->
                         <div class="input-group">
-                            <input type="text" class="form-control" name="search" placeholder="ค้นหาชื่อสถานประกอบ"
+                            <input type="text" class="form-control" name="search" placeholder="ค้นหาชื่อสถานประกอบการ"
                                    value="<?php if (isset($_GET['search'])) {
                                        echo $_GET['search'];
                                    } ?>">
@@ -254,183 +251,252 @@ $conn = null;
                             </button>
                         </div>
                     </form>
-                    <?php
-                    // แสดงข้อความที่ค้นหา
-                    if (isset($_GET['search']) && $_GET['search'] != '') {
-                        if (count($companys) > 0) {
-                            echo '<font color="red"> ข้อมูลการค้นหา : ' . $_GET['search'];
-                            echo ' *พบ ' . count($companys) . ' รายการ</font><br><br>';
-                            echo count($companys);
-                        } else {
-                            echo '<center>
-                            <h1>ไม่พบสถานประกอบการ ' . $_GET['search'] . '</h1>
-                            <a href="addFrom_company.php">
-                            <button  type="button" class="btn btn-info"><i class="bi bi-plus-square"></i> ลงทะเบียนสถานประกอบการ</button>
-                          </a></center>';
-                        }
-                    }
-                    ?>
                 </div>
+                <div class="row">
+                    <div class="col-sm-12 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">รายชื่อสถานประกอบการ</div>
+                            </div>
+                            <div class="card-body">
 
-                <!-- Row start -->
-                <div class="row py-2">
-                    <?php if (empty($companys)) : ?>
-                        <center>
-                            <h1>ไม่พบสถานประกอบการ</h1>
-                            <a href="addFrom_company.php">
-                                <button type="button" class="btn btn-info"><i class="bi bi-plus-square"></i>
-                                    ลงทะเบียนสถานประกอบการ
-                                </button>
-                            </a>
-                        </center>
-                    <?php else : ?>
-                        <?php foreach ($companys as $company) : ?>
-                            <div class="col-4">
-                                <div class="row justify-content-center">
-                                    <div class="card w-75">
-                                        <img src="../../upload_img/<?php echo $company['C_img']; ?>"
-                                             class="card-img-top" alt="Company Image" id="imgs">
-                                        <div class="card-body">
-                                            <div class="card-title"><?php echo $company['C_name']; ?></div>
-                                            <p class="mb-2">ที่อยู่ : ตำบล<?php echo $company['C_tambon']; ?>
-                                                อำเภอ<?php echo $company['C_amphoe']; ?>
-                                                จังหวัด<?php echo $company['C_province']; ?></p>
-                                            <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                                    data-bs-target="#staticBackdrop<?php echo $company['company_ID']; ?>">
-                                                ยื่นคำร้องขอออกฝึก
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal fade" id="staticBackdrop<?php echo $company['company_ID']; ?>"
-                                     data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                                     aria-labelledby="staticBackdropLabel" style="display: none;" aria-hidden="true">
-                                    <div class="modal-dialog modal-xl">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="row container">
-                                                    <div class="col-12">
-                                                        <div class="form-section-title">
-                                                            รายละเอียดเกี่ยวกับสถานประกอบการ
-                                                        </div>
+                                <div class="table-responsive">
+                                    <table class="table v-middle m-0">
+                                        <thead>
+                                        <tr>
+                                            <th>ชื่อสถานประกอบการ</th>
+                                            <th>เบอร์โทรศัพท์</th>
+                                            <th>ชื่อผู้สอนงาน</th>
+                                            <th>ตำแหน่งผู้สอนงาน</th>
+                                            <th>ดู/ยื่นคำร้อง</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php if (empty($companys)) : ?>
+                                            <tr>
+                                                <td colspan="7" class="text-center"><center>
+                                                        <h1>ไม่พบสถานประกอบการ  </h1>
+                                                        <a href="addFrom_company.php">
+                                                            <button  type="button" class="btn btn-info"><i class="bi bi-plus-square"></i> ลงทะเบียนสถานประกอบการ</button>
+                                                        </a></center></td>
+                                            </tr>
+                                        <?php else : ?>
+                                        <?php foreach ($companys as $company) : ?>
+                                        <tr>
+                                            <td>
+                                                <div class="media-box">
+                                                    <img src="../../upload_img/<?= $company['C_img']; ?>"
+                                                         class="media-avatar" alt="Bootstrap Themes">
+                                                    <div class="media-box-body">
+                                                        <div class="text-truncate"><?= $company['C_name']; ?> </div>
+                                                        <p>ID: <?= $company['company_ID']; ?></p>
                                                     </div>
-                                                    <div class="col-12">
-                                                        <label class="form-label">ชื่อสถานประกอบการ</label>
-                                                        <input type="text" class="form-control"
-                                                               placeholder="Enter text"
-                                                               value="<?php echo $company['C_name']; ?>" readonly>
-                                                    </div>
-                                                    <div class="col-4 py-3">
-                                                        <label class="form-label">ตำบล</label>
-                                                        <input type="text" class="form-control"
-                                                               placeholder="Enter text"
-                                                               value="<?php echo $company['C_tambon']; ?>" readonly>
-                                                    </div>
-                                                    <div class="col-4 py-3">
-                                                        <label class="form-label">อำเภอ</label>
-                                                        <input type="text" class="form-control"
-                                                               placeholder="Enter text"
-                                                               value="<?php echo $company['C_amphoe']; ?>" readonly>
-                                                    </div>
-                                                    <div class="col-4 py-3">
-                                                        <label class="form-label">จังหวัด</label>
-                                                        <input type="text" class="form-control"
-                                                               placeholder="Enter text"
-                                                               value="<?php echo $company['C_province']; ?>"
-                                                               readonly>
-                                                    </div>
-                                                    <div class="col-6 py-1">
-                                                        <label class="form-label">ผู้สอนงาน</label>
-                                                        <input type="text" class="form-control"
-                                                               placeholder="Enter text"
-                                                               value="<?php echo $company['C_staff_name']; ?>"
-                                                               readonly>
-                                                    </div>
-                                                    <div class="col-6 py-1">
-                                                        <label class="form-label">เบอร์โทรศัพท์</label>
-                                                        <input type="text" class="form-control"
-                                                               placeholder="Enter text"
-                                                               value="<?php echo $company['C_staff_phone']; ?>"
-                                                               readonly>
-                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td><?= $company['C_telephone']; ?></td>
+                                            <td><?= $company['C_staff_name']; ?></td>
+                                            <td><?= $company['C_staff_position']; ?></td>
+                                            <td>
+                                                <div class="actions">
+                                                    <a href="#" data-bs-toggle="offcanvas"
+                                                       data-bs-target="#offcanvasExample<?= $company['company_ID']; ?>"
+                                                       aria-controls="offcanvasExample">
+                                                        <i class="bi bi-list text-green"> </i>
+                                                    </a>
+                                                    <a href="#" data-bs-toggle="modal"
+                                                       data-bs-target="#staticBackdrop<?php echo $company['company_ID']; ?>">
+                                                        <i class="bi bi-file-earmark-text text-blue" > </i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
 
-                                                    <div class="col-12 py-3">
-                                                        <div class="form-section-title">ป้อนรายละเอียดยื่นคำร้อง
-                                                        </div>
+                                        <div class="modal fade" id="staticBackdrop<?php echo $company['company_ID']; ?>"
+                                              data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                              aria-labelledby="staticBackdropLabel" style="display: none;" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
                                                     </div>
-                                                    <div class="row">
-                                                        <form method="post" id="form-<?php echo $company['company_ID']; ?>"
-                                                              class="row d-flex justify-content-evenly">
-                                                            <div class="col-3">
-                                                                <label class="form-label">รหัสยื่นคำร้อง</label>
+                                                    <div class="modal-body">
+                                                        <div class="row container">
+                                                            <div class="col-12">
+                                                                <div class="form-section-title">
+                                                                    รายละเอียดเกี่ยวกับสถานประกอบการ
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <label class="form-label">ชื่อสถานประกอบการ</label>
                                                                 <input type="text" class="form-control"
                                                                        placeholder="Enter text"
-                                                                       value="<?php echo $user['S_ID']; ?><?php echo $company['company_ID']; ?>"
-                                                                       name="request_id" readonly>
+                                                                       value="<?php echo $company['C_name']; ?>" readonly>
                                                             </div>
-                                                            <div class="col-3">
-                                                                <label class="form-label">ผู้ที่หาสถานประกอบการ</label>
-                                                                <input name="RE_how" type="text" class="form-control"
-                                                                       placeholder="คุณรู้สักสถานประกอบการนี้ได้อย่างไร"
-                                                                       required>
+                                                            <div class="col-4 py-3">
+                                                                <label class="form-label">ตำบล</label>
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Enter text"
+                                                                       value="<?php echo $company['C_tambon']; ?>" readonly>
                                                             </div>
-                                                            <div class="col-3 ">
-                                                                <div class="m-0">
-                                                                    <div class="form-label">วัน/เดือน/ปี ที่ออกฝึก -
-                                                                        วันจบการฝึก
+                                                            <div class="col-4 py-3">
+                                                                <label class="form-label">อำเภอ</label>
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Enter text"
+                                                                       value="<?php echo $company['C_amphoe']; ?>" readonly>
+                                                            </div>
+                                                            <div class="col-4 py-3">
+                                                                <label class="form-label">จังหวัด</label>
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Enter text"
+                                                                       value="<?php echo $company['C_province']; ?>"
+                                                                       readonly>
+                                                            </div>
+                                                            <div class="col-6 py-1">
+                                                                <label class="form-label">ผู้สอนงาน</label>
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Enter text"
+                                                                       value="<?php echo $company['C_staff_name']; ?>"
+                                                                       readonly>
+                                                            </div>
+                                                            <div class="col-6 py-1">
+                                                                <label class="form-label">เบอร์โทรศัพท์</label>
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Enter text"
+                                                                       value="<?php echo $company['C_staff_phone']; ?>"
+                                                                       readonly>
+                                                            </div>
+
+                                                            <div class="col-12 py-3">
+                                                                <div class="form-section-title">ป้อนรายละเอียดยื่นคำร้อง
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <form method="post" id="form-<?php echo $company['company_ID']; ?>"
+                                                                      class="row d-flex justify-content-evenly">
+                                                                    <div class="col-3">
+                                                                        <?php $request_id = $user['S_ID'] . strval($company['company_ID']); ?>
+                                                                        <label class="form-label">รหัสยื่นคำร้อง</label>
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="Enter text"
+                                                                               value="<?php echo $request_id ?>"
+
+                                                                               name="request_id" readonly>
                                                                     </div>
-                                                                    <div class="input-group">
+                                                                    <div class="col-3">
+                                                                        <label class="form-label">ผู้ที่หาสถานประกอบการ</label>
+                                                                        <input name="RE_how" type="text" class="form-control"
+                                                                               placeholder="คุณรู้สักสถานประกอบการนี้ได้อย่างไร"
+                                                                               required>
+                                                                    </div>
+                                                                    <div class="col-3 ">
+                                                                        <div class="m-0">
+                                                                            <div class="form-label">วัน/เดือน/ปี ที่ออกฝึก -
+                                                                                วันจบการฝึก
+                                                                            </div>
+                                                                            <div class="input-group">
                                                                     <span class="input-group-text">
                                                                         <i class="bi bi-calendar4"></i>
                                                                     </span>
-                                                                        <input type="text"
-                                                                               class="form-control datepicker-range-auto-apply"
-                                                                               name="RE_period"
-                                                                               placeholder="กรุณาป้อนวันที่ออกฝึกและสินสุดการฝึก"
-                                                                               required>
+                                                                                <input type="text"
+                                                                                       class="form-control datepicker-range-auto-apply"
+                                                                                       name="RE_period"
+                                                                                       placeholder="กรุณาป้อนวันที่ออกฝึกและสินสุดการฝึก"
+                                                                                       required>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-3">
-                                                                <label class="form-label">ตำแหน่งที่ฝึกใน <?php echo $company['C_name']; ?> </label>
-                                                                <input type="text" class="form-control"
-                                                                       placeholder="ป้อนตำแหน่งที่เข้ารับการฝึกประสบกาณ์วิชาชีพ"
-                                                                       name="RE_position" required>
-                                                            </div>
-                                                            <div class="col-12 py-2">
-                                                                <label class="form-label">เหตุผลที่อยากฝึกที่ <?php echo $company['C_name']; ?> </label>
-                                                                <textarea type="text" class="form-control"
-                                                                          placeholder="กรุณาป้อนเหตุผลที่อยากฝึกที่สะถานประกอบการนี้"
-                                                                          name="RE_reason" required></textarea>
+                                                                    <div class="col-3">
+                                                                        <label class="form-label">ตำแหน่งที่ฝึกใน <?php echo $company['C_name']; ?> </label>
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="ป้อนตำแหน่งที่เข้ารับการฝึกประสบกาณ์วิชาชีพ"
+                                                                               name="RE_position" required>
+                                                                    </div>
+                                                                    <div class="col-12 py-2">
+                                                                        <label class="form-label">เหตุผลที่อยากฝึกที่ <?php echo $company['C_name']; ?> </label>
+                                                                        <textarea type="text" class="form-control"
+                                                                                  placeholder="กรุณาป้อนเหตุผลที่อยากฝึกที่สะถานประกอบการนี้"
+                                                                                  name="RE_reason" required></textarea>
 
-                                                            </div>
+                                                                    </div>
 
-                                                            <input name="S_ID" type="hidden"
-                                                                   value="<?php echo $user['S_ID']; ?>">
-                                                            <input name="company_ID" type="hidden"
-                                                                   value="<?php echo $company['company_ID']; ?>">
-                                                            <input name="RE_status" type="hidden" value="1">
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">ยกเลิก
-                                                                </button>
-                                                                <button type="button" class="btn btn-success" onclick="saveDataRequest(<?php echo $company['company_ID']; ?>)">ยื่นคำร้อง</button>
+                                                                    <input name="S_ID" type="hidden"
+                                                                           value="<?php echo $user['S_ID']; ?>">
+                                                                    <input name="company_ID" type="hidden"
+                                                                           value="<?php echo $company['company_ID']; ?>">
+                                                                    <input name="RE_status" type="hidden" value="1">
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">ยกเลิก
+                                                                        </button>
+                                                                        <button type="button" class="btn btn-success" onclick="saveDataRequest('<?php echo $company['company_ID']; ?>')">ยื่นคำร้อง</button>
+                                                                    </div>
+                                                                </form>
                                                             </div>
-                                                        </form>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="offcanvas offcanvas-start" tabindex="-1"
+                                             id="offcanvasExample<?= $company['company_ID']; ?>"
+                                             aria-labelledby="offcanvasExampleLabel">
+                                            <div class="offcanvas-header">
+                                                <h5 class="offcanvas-title" id="offcanvasExampleLabel">รายละเอียดของ <?= $company['C_name']; ?> </h5>
+                                                <button type="button" class="btn-close text-reset"
+                                                        data-bs-dismiss="offcanvas"
+                                                        aria-label="Close">
+
+                                                </button>
+                                            </div>
+                                            <div class="offcanvas-body">
+                                                <div class="row ">
+                                                    <div class="card">
+                                                        <div class="col-12 py-3">
+                                                            <img src="../../upload_img/<?= $company['C_img']; ?>"
+                                                                 class="media-avatar rounded mx-auto d-block" alt="Bootstrap Themes" width="60%">
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>รหัสสถานประกอบการ : <?= $company['company_ID']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>ชื่อสถานประกอบการ : <?= $company['C_name']; ?></p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>เบอร์สถานประกอบการ : <?= $company['C_telephone']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>เว็บไซต์ : <?= $company['C_website']; ?>   </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>ชื่อผู้สอนงาน : <?= $company['C_staff_name']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>ตำแหน่งผู้สอนงาน : <?= $company['C_staff_position']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>เบอร์ติดต่อผู้สอนงาน : <?= $company['C_staff_phone']; ?> </p>
+                                                        </div>
+                                                        <div class="col-12 py-1">
+                                                            <p>ที่อยู่ของสถานประกอบการ  : ตำบล <?= $company['C_tambon']; ?> อำเภอ <?= $company['C_amphoe']; ?> จังหวัด <?= $company['C_province']; ?></p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                        </div>
-                                    </div>
+                                        </tbody>
+                                        <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </table>
                                 </div>
 
                             </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                        </div>
+                    </div>
                 </div>
+
             </div>
+            <!-- ส่วนเริ่มต้นของคอนเทนเนอร์ -->
             <!-- เริ่มต้นของ App Footer -->
             <div class="app-footer">
                 <span>สาขาเทคโนโลยีธุรกิจดิจิทัล</span>

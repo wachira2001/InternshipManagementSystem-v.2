@@ -129,16 +129,16 @@ $conn = null;
                         <div class="sidebar-submenu">
                             <ul>
 
-                                    <li>
-                                        <a href="showdata_student.php" >ข้อมูลนักศึกษา</a>
-                                    </li>
-                                    <li>
-                                        <a href="showdata_room.php" class="current-page">ข้อมูลห้องเรียน</a>
-                                    </li>
+                                <li>
+                                    <a href="showdata_student.php" >ข้อมูลนักศึกษา</a>
+                                </li>
+                                <li>
+                                    <a href="showdata_room.php" class="current-page">ข้อมูลห้องเรียน</a>
+                                </li>
 
-                                    <li>
-                                        <a href="showdata_request.php" >อนุมัติคำร้อง</a>
-                                    </li>
+                                <li>
+                                    <a href="showdata_request.php" >อนุมัติคำร้อง</a>
+                                </li>
 
                             </ul>
                         </div>

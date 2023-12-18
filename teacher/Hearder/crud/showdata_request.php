@@ -17,7 +17,7 @@ if (!isset($_SESSION['username']) || ($_SESSION['role'] !== 'H')) {
                 title: "คุณไม่มีสิทธิ์ใช้งานหน้านี้",
                 type: "error"
             }, function() {
-                window.location = "login.php"; // หน้าที่ต้องการให้กระโดดไป
+                window.location = "../../../login.php"; // หน้าที่ต้องการให้กระโดดไป
             });
         }, 1000);
     </script>';
@@ -267,7 +267,6 @@ if (isset($_GET['search']) && $_GET['search'] != '') {
                                             <tr>
                                                 <th>ชื่อนักศึกษา</th>
                                                 <th>ชื่อสถานประกอบการ</th>
-                                                <th>รหัสคำร้อง</th>
                                                 <th>ระยะเวลาที่ออกฝึก</th>
                                                 <th>วัน/เดือน/ปี เริ่ม - จบ ฝึก</th>
                                                 <th>สถานนะ</th>
@@ -298,7 +297,6 @@ if (isset($_GET['search']) && $_GET['search'] != '') {
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td><?= $requestall['request_id']; ?></td>
                                                         <td><?= $requestall['months']; ?> เดือน</td>
                                                         <td><?= $requestall['RE_period']; ?></td>
 
@@ -307,7 +305,7 @@ if (isset($_GET['search']) && $_GET['search'] != '') {
                                                                         <span class="text-blue td-status"><i class="bi bi-clock-history"></i> รออนุมัติ</span>
                                                                 </td>
                                                                 <td>
-                                                                    <button type="button" class="btn btn-primary" onclick="Approved(<?= $requestall['request_id']; ?>)">อนุมัติคำร้อง</button>
+                                                                    <button type="button" class="btn btn-primary" onclick="Approved('<?= $requestall['request_id']; ?>')">อนุมัติคำร้อง</button>
                                                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $requestall['request_id']; ?>">ไม่อนุมัติคำร้อง</button>
                                                                 </td>
                                                             <?php } elseif ($requestall['RE_status'] == '2' && $requestall['RE_teacherH_opinion'] == '1' && $requestall['RE_teacher_opinion'] == '1') {?>
@@ -315,7 +313,7 @@ if (isset($_GET['search']) && $_GET['search'] != '') {
                                                                     <span class="text-green td-status"><i class="bi bi-check-circle"></i> อนุมัติ</span>
                                                                 </td>
                                                                 <td>
-                                                                    <button type="button" class="btn btn-success" onclick="Cancel(<?= $requestall['request_id']; ?>)">ยกเลิก อนุมัติคำร้อง</button>
+                                                                    <button type="button" class="btn btn-success" onclick="Cancel('<?= $requestall['request_id']; ?>')">ยกเลิก อนุมัติคำร้อง</button>
                                                                 </td>
 
                                                             <?php } elseif ($requestall['RE_status'] == '0' && $requestall['RE_teacherH_opinion'] == '0' ) {?>
@@ -323,7 +321,7 @@ if (isset($_GET['search']) && $_GET['search'] != '') {
                                                                     <span class="text-red td-status"><i class="bi bi-x-circle"></i> ไม่อนุมัติ</span>
                                                                 </td>
                                                                 <td>
-                                                                    <button type="button" class="btn btn-danger" onclick="Cancel(<?= $requestall['request_id']; ?>)">ยกเลิก ไม่อนุมัติคำร้อง</button>
+                                                                    <button type="button" class="btn btn-danger" onclick="Cancel('<?= $requestall['request_id']; ?>')">ยกเลิก ไม่อนุมัติคำร้อง</button>
                                                                 </td>
                                                             <?php }?>
 
@@ -350,7 +348,7 @@ if (isset($_GET['search']) && $_GET['search'] != '') {
                                                                 </div>
                                                                 <div class="form-actions-footer">
                                                                     <button class="btn btn-light" type="button" onclick="showConfirmation()">ยกเลิก</button>
-                                                                    <button class="btn btn-success" type="button" onclick="NOTApproved(<?= $requestall['request_id']; ?>)">ไม่อนุมัติคำร้อง</button>
+                                                                    <button class="btn btn-success" type="button" onclick="NOTApproved('<?= $requestall['request_id']; ?>')">ไม่อนุมัติคำร้อง</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -388,213 +386,204 @@ if (isset($_GET['search']) && $_GET['search'] != '') {
     <script src="../../../assets/js/bootstrap.bundle.min.js"></script>
     <script src="../../../assets/js/modernizr.js"></script>
     <script src="../../../assets/js/moment.js"></script>
-
-    <!-- เริ่มต้นของไฟล์ JavaScript ของ Vendor -->
-    <script src="../../../assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
-    <script src="../../../assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
-    <script src="../../../assets/vendor/apex/apexcharts.min.js"></script>
-    <script src="../../../assets/vendor/apex/custom/sales/salesGraph.js"></script>
-    <script src="../../../assets/vendor/apex/custom/sales/revenueGraph.js"></script>
-    <script src="../../../assets/vendor/apex/custom/sales/taskGraph.js"></script>
-
-
     <!-- ไฟล์ JavaScript หลัก -->
     <script src="../../../assets/js/main.js"></script>
-    <script>
-        //อนุมัติคำร้อง
-        function Approved(request_id) {
-            // ให้ถามก่อนที่จะส่งค่า
-            Swal.fire({
-                title: 'คุณแน่ใจหรือไม่?',
-                text: 'คำร้องนี้จะถูกอนุมัติ',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'ใช่, อนุมัติ',
-                cancelButtonText: 'ยกเลิก'
-            }).then((result) => {
-                // ถ้าผู้ใช้กด "ตกลง"
-                if (result.isConfirmed) {
-                    var RE_commentH = 'อนุมัติคำร้อง';
-                    var RE_teacherH_opinion = '1';
-                    var RE_status = '2';
-
-                    $.ajax({
-                        type: 'POST',
-                        url: '../../services_teacher/update_request.php',
-                        data: {
-                            request_id: request_id,
-                            RE_commentH: RE_commentH,
-                            RE_teacherH_opinion: RE_teacherH_opinion,
-                            RE_status : RE_status
-                        },
-
-                        success: function (response) {
-                            if (response === 'success') {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'อนุมัติคำร้องสำเร็จ',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                }).then(() => {
-                                    window.location.href = 'showdata_request.php';
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'เกิดข้อผิดพลาดในอนุมัติคำร้องสำเร็จ อาจจะเป็นคีย์นอก',
-                                    text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
-                                });
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'เกิดข้อผิดพลาดในการอนุมัติคำร้องสำเร็จ',
-                                text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
-                            });
-                        }
-                    });
-                }
-            });
-        }
-        //ไม่อนุมัติคำร้อง
-        function NOTApproved(request_id) {
-            // var RE_commentH = $('[name="RE_commentH"]').val();
-            var RE_commentH = $('#RE_commentH' + request_id).val();
-            var RE_teacherH_opinion = '0'
-            var RE_status = '0'; // 0= ไม่ผ่านการอนุมัติ หัวหน้าแผนกไม่อนุมัติจะไม่ถึงให้ครูที่ปรึกษาอนุมัติ
-            // ตรวจสอบว่า RE_commentH ไม่เป็นค่าว่างหรือไม่
-            if (RE_commentH.trim() === '') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'กรุณากรอกเหตุผลไม่อนุมัติคำร้อง',
-                    showConfirmButton: true,
-                });
-                return;
-            }
-
-
-            $.ajax({
-                type: 'POST',
-                url: '../../services_teacher/update_request.php',
-                data: {
-                    request_id: request_id,
-                    RE_commentH: RE_commentH,
-                    RE_status: RE_status,
-                    RE_teacherH_opinion: RE_teacherH_opinion
-                },
-
-                success: function (response) {
-                    if (response === 'success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'ไม่อนุมัติคำร้อง สำเร็จ',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(() => {
-                            window.location.href = 'showdata_room.php';
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'เกิดข้อผิดพลาดในการไม่อนุมัติคำร้อง เนื่องจากเกิดข้อผิดพลาดบางอย่าง',
-                            text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
-                        });
-                    }
-                },
-                error: function (xhr, status, error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'เกิดข้อผิดพลาดในการไม่อนุมัติคำร้อง ',
-                        text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
-                    });
-                }
-            });
-        }
-        // ยกเลิกไม่อนุมัติคำร้อง/ยกเลิกอนุมัติ
-        function Cancel(request_id) {
-            // สร้าง Popup ถามยืนยัน
-            Swal.fire({
-                title: 'ยืนยันการยกเลิกไม่อนุมัติคำร้อง',
-                text: 'คุณต้องการที่จะยกเลิกไม่อนุมัติคำร้องนี้หรือไม่?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'ยืนยัน',
-                cancelButtonText: 'ยกเลิก'
-            }).then((result) => {
-                // ถ้าผู้ใช้กด OK (ยืนยัน)
-                if (result.isConfirmed) {
-                    // ทำการส่งค่าผ่าน Ajax
-                    var RE_commentH = '';
-                    var RE_teacherH_opinion = '';
-                    var RE_status = '1'; // 0= ไม่ผ่านการอนุมัติ หัวหน้าแผนกไม่อนุมัติจะไม่ถึงให้ครูที่ปรึกษาอนุมัติ
-                    console.log({
-                        request_id: request_id,
-                        RE_commentH: RE_commentH,
-                        RE_status: RE_status,
-                        RE_teacherH_opinion: RE_teacherH_opinion
-                    });
-                    $.ajax({
-                        type: 'POST',
-                        url: '../../services_teacher/update_request.php',
-                        data: {
-                            request_id: request_id,
-                            RE_commentH: RE_commentH,
-                            RE_status: RE_status,
-                            RE_teacherH_opinion: RE_teacherH_opinion
-                        },
-                        success: function (response) {
-                            // การจัดการผลลัพธ์
-                            if (response === 'success') {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'ยกเลิก สำเร็จ',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                }).then(() => {
-                                    window.location.href = 'showdata_request.php';
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'เกิดข้อผิดพลาด',
-                                    text: 'ไม่สามารถยกเลิกไม่อนุมัติคำร้องได้',
-                                });
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            // การจัดการข้อผิดพลาดจาก Ajax
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'เกิดข้อผิดพลาด',
-                                text: 'ไม่สามารถยกเลิกไม่อนุมัติคำร้องได้',
-                            });
-                        }
-                    });
-                }
-            });
-        }
-        //โชว์คอนเพิม
-        function showConfirmation() {
-            // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก
-            Swal.fire({
-                title: 'คุณแน่ใจหรือไม่?',
-                text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'ใช่, ยกเลิก!',
-                cancelButtonText: 'ยกเลิก'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // กระทำเมื่อยืนยัน
-                    window.location.href = 'showdata_request.php';
-                }
-            });
-        }
-    </script>
+    <script src="../../../Function/showdata_request.js"></script>
+<!--    <script>-->
+<!--        //อนุมัติคำร้อง-->
+<!--        function Approved(request_id) {-->
+<!--            // ให้ถามก่อนที่จะส่งค่า-->
+<!--            Swal.fire({-->
+<!--                title: 'คุณแน่ใจหรือไม่?',-->
+<!--                text: 'คำร้องนี้จะถูกอนุมัติ',-->
+<!--                icon: 'question',-->
+<!--                showCancelButton: true,-->
+<!--                confirmButtonText: 'ใช่, อนุมัติ',-->
+<!--                cancelButtonText: 'ยกเลิก'-->
+<!--            }).then((result) => {-->
+<!--                // ถ้าผู้ใช้กด "ตกลง"-->
+<!--                if (result.isConfirmed) {-->
+<!--                    var RE_commentH = 'อนุมัติคำร้อง';-->
+<!--                    var RE_teacherH_opinion = '1';-->
+<!--                    var RE_status = '2';-->
+<!---->
+<!--                    $.ajax({-->
+<!--                        type: 'POST',-->
+<!--                        url: '../../services_teacher/update_request.php',-->
+<!--                        data: {-->
+<!--                            request_id: request_id,-->
+<!--                            RE_commentH: RE_commentH,-->
+<!--                            RE_teacherH_opinion: RE_teacherH_opinion,-->
+<!--                            RE_status : RE_status-->
+<!--                        },-->
+<!---->
+<!--                        success: function (response) {-->
+<!--                            if (response === 'success') {-->
+<!--                                Swal.fire({-->
+<!--                                    icon: 'success',-->
+<!--                                    title: 'อนุมัติคำร้องสำเร็จ',-->
+<!--                                    showConfirmButton: false,-->
+<!--                                    timer: 1500-->
+<!--                                }).then(() => {-->
+<!--                                    window.location.href = 'showdata_request.php';-->
+<!--                                });-->
+<!--                            } else {-->
+<!--                                Swal.fire({-->
+<!--                                    icon: 'error',-->
+<!--                                    title: 'เกิดข้อผิดพลาดในอนุมัติคำร้องสำเร็จ อาจจะเป็นคีย์นอก',-->
+<!--                                    text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',-->
+<!--                                });-->
+<!--                            }-->
+<!--                        },-->
+<!--                        error: function (xhr, status, error) {-->
+<!--                            Swal.fire({-->
+<!--                                icon: 'error',-->
+<!--                                title: 'เกิดข้อผิดพลาดในการอนุมัติคำร้องสำเร็จ',-->
+<!--                                text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',-->
+<!--                            });-->
+<!--                        }-->
+<!--                    });-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+<!--        //ไม่อนุมัติคำร้อง-->
+<!--        function NOTApproved(request_id) {-->
+<!--            // var RE_commentH = $('[name="RE_commentH"]').val();-->
+<!--            var RE_commentH = $('#RE_commentH' + request_id).val();-->
+<!--            var RE_teacherH_opinion = '0'-->
+<!--            var RE_status = '0'; // 0= ไม่ผ่านการอนุมัติ หัวหน้าแผนกไม่อนุมัติจะไม่ถึงให้ครูที่ปรึกษาอนุมัติ-->
+<!--            // ตรวจสอบว่า RE_commentH ไม่เป็นค่าว่างหรือไม่-->
+<!--            if (RE_commentH.trim() === '') {-->
+<!--                Swal.fire({-->
+<!--                    icon: 'error',-->
+<!--                    title: 'กรุณากรอกเหตุผลไม่อนุมัติคำร้อง',-->
+<!--                    showConfirmButton: true,-->
+<!--                });-->
+<!--                return;-->
+<!--            }-->
+<!---->
+<!---->
+<!--            $.ajax({-->
+<!--                type: 'POST',-->
+<!--                url: '../../services_teacher/update_request.php',-->
+<!--                data: {-->
+<!--                    request_id: request_id,-->
+<!--                    RE_commentH: RE_commentH,-->
+<!--                    RE_status: RE_status,-->
+<!--                    RE_teacherH_opinion: RE_teacherH_opinion-->
+<!--                },-->
+<!---->
+<!--                success: function (response) {-->
+<!--                    if (response === 'success') {-->
+<!--                        Swal.fire({-->
+<!--                            icon: 'success',-->
+<!--                            title: 'ไม่อนุมัติคำร้อง สำเร็จ',-->
+<!--                            showConfirmButton: false,-->
+<!--                            timer: 1500-->
+<!--                        }).then(() => {-->
+<!--                            window.location.href = 'showdata_room.php';-->
+<!--                        });-->
+<!--                    } else {-->
+<!--                        Swal.fire({-->
+<!--                            icon: 'error',-->
+<!--                            title: 'เกิดข้อผิดพลาดในการไม่อนุมัติคำร้อง เนื่องจากเกิดข้อผิดพลาดบางอย่าง',-->
+<!--                            text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',-->
+<!--                        });-->
+<!--                    }-->
+<!--                },-->
+<!--                error: function (xhr, status, error) {-->
+<!--                    Swal.fire({-->
+<!--                        icon: 'error',-->
+<!--                        title: 'เกิดข้อผิดพลาดในการไม่อนุมัติคำร้อง ',-->
+<!--                        text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',-->
+<!--                    });-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+<!--        // ยกเลิกไม่อนุมัติคำร้อง/ยกเลิกอนุมัติ-->
+<!--        function Cancel(request_id) {-->
+<!--            // สร้าง Popup ถามยืนยัน-->
+<!--            Swal.fire({-->
+<!--                title: 'ยืนยันการยกเลิกไม่อนุมัติคำร้อง',-->
+<!--                text: 'คุณต้องการที่จะยกเลิกไม่อนุมัติคำร้องนี้หรือไม่?',-->
+<!--                icon: 'warning',-->
+<!--                showCancelButton: true,-->
+<!--                confirmButtonColor: '#3085d6',-->
+<!--                cancelButtonColor: '#d33',-->
+<!--                confirmButtonText: 'ยืนยัน',-->
+<!--                cancelButtonText: 'ยกเลิก'-->
+<!--            }).then((result) => {-->
+<!--                // ถ้าผู้ใช้กด OK (ยืนยัน)-->
+<!--                if (result.isConfirmed) {-->
+<!--                    // ทำการส่งค่าผ่าน Ajax-->
+<!--                    var RE_commentH = '';-->
+<!--                    var RE_teacherH_opinion = '';-->
+<!--                    var RE_status = '1'; // 0= ไม่ผ่านการอนุมัติ หัวหน้าแผนกไม่อนุมัติจะไม่ถึงให้ครูที่ปรึกษาอนุมัติ-->
+<!--                    console.log({-->
+<!--                        request_id: request_id,-->
+<!--                        RE_commentH: RE_commentH,-->
+<!--                        RE_status: RE_status,-->
+<!--                        RE_teacherH_opinion: RE_teacherH_opinion-->
+<!--                    });-->
+<!--                    $.ajax({-->
+<!--                        type: 'POST',-->
+<!--                        url: '../../services_teacher/update_request.php',-->
+<!--                        data: {-->
+<!--                            request_id: request_id,-->
+<!--                            RE_commentH: RE_commentH,-->
+<!--                            RE_status: RE_status,-->
+<!--                            RE_teacherH_opinion: RE_teacherH_opinion-->
+<!--                        },-->
+<!--                        success: function (response) {-->
+<!--                            // การจัดการผลลัพธ์-->
+<!--                            if (response === 'success') {-->
+<!--                                Swal.fire({-->
+<!--                                    icon: 'success',-->
+<!--                                    title: 'ยกเลิก สำเร็จ',-->
+<!--                                    showConfirmButton: false,-->
+<!--                                    timer: 1500-->
+<!--                                }).then(() => {-->
+<!--                                    window.location.href = 'showdata_request.php';-->
+<!--                                });-->
+<!--                            } else {-->
+<!--                                Swal.fire({-->
+<!--                                    icon: 'error',-->
+<!--                                    title: 'เกิดข้อผิดพลาด',-->
+<!--                                    text: 'ไม่สามารถยกเลิกไม่อนุมัติคำร้องได้',-->
+<!--                                });-->
+<!--                            }-->
+<!--                        },-->
+<!--                        error: function (xhr, status, error) {-->
+<!--                            // การจัดการข้อผิดพลาดจาก Ajax-->
+<!--                            Swal.fire({-->
+<!--                                icon: 'error',-->
+<!--                                title: 'เกิดข้อผิดพลาด',-->
+<!--                                text: 'ไม่สามารถยกเลิกไม่อนุมัติคำร้องได้',-->
+<!--                            });-->
+<!--                        }-->
+<!--                    });-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+<!--        //โชว์คอนเพิม-->
+<!--        function showConfirmation() {-->
+<!--            // แสดง SweetAlert หรือโค้ดที่ใช้ในการยืนยันก่อนที่จะยกเลิก-->
+<!--            Swal.fire({-->
+<!--                title: 'คุณแน่ใจหรือไม่?',-->
+<!--                text: 'การกระทำนี้จะยกเลิกขั้นตอนที่คุณทำ',-->
+<!--                icon: 'warning',-->
+<!--                showCancelButton: true,-->
+<!--                confirmButtonColor: '#d33',-->
+<!--                cancelButtonColor: '#3085d6',-->
+<!--                confirmButtonText: 'ใช่, ยกเลิก!',-->
+<!--                cancelButtonText: 'ยกเลิก'-->
+<!--            }).then((result) => {-->
+<!--                if (result.isConfirmed) {-->
+<!--                    // กระทำเมื่อยืนยัน-->
+<!--                    window.location.href = 'showdata_request.php';-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+<!--    </script>-->
 </body>
 </html>

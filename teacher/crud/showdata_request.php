@@ -63,7 +63,7 @@ $conn = null;
     <meta property="og:type" content="Website">
     <meta property="og:site_name" content="Bootstrap Gallery">
     <title>ข้อมูลห้องเรียน</title>
-    <link rel="icon" type="image/png" href="../../../upload_img/<?php echo $stmtD['M_img'];?>">
+    <link rel="icon" type="image/png" href="../../upload_img/<?php echo $stmtD['M_img'];?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mitr&display=swap" rel="stylesheet">
@@ -133,13 +133,13 @@ $conn = null;
                         </a>
                         <div class="sidebar-submenu">
                             <ul>
-
+                                <li>
+                                    <a href="showdata_student.php" >ข้อมูลนักศึกษา</a>
+                                </li>
                                     <li>
                                         <a href="showdata_room.php" >ข้อมูลห้องเรียน</a>
                                     </li>
-                                    <li>
-                                        <a href="showdata_student.php" >ข้อมูลนักศึกษา</a>
-                                    </li>
+
                                     <li>
                                         <a href="showdata_request.php" class="current-page">อนุมัติคำร้อง</a>
                                     </li>
@@ -248,7 +248,6 @@ $conn = null;
                                             <tr>
                                                 <th>ชื่อนักศึกษา</th>
                                                 <th>ชื่อสถานประกอบการ</th>
-                                                <th>รหัสคำร้อง</th>
                                                 <th>ระยะเวลาที่ออกฝึก</th>
                                                 <th>วัน/เดือน/ปี เริ่ม - จบ ฝึก</th>
                                                 <th>สถานนะ</th>
@@ -279,7 +278,6 @@ $conn = null;
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td><?= $requestall['request_id']; ?></td>
                                                         <td><?= $requestall['months']; ?> เดือน</td>
                                                         <td><?= $requestall['RE_period']; ?></td>
 
@@ -288,7 +286,7 @@ $conn = null;
                                                                 <span class="text-blue td-status"><i class="bi bi-clock-history"></i> รออนุมัติ</span>
                                                             </td>
                                                             <td>
-                                                                <button type="button" class="btn btn-primary" onclick="Approved(<?= $requestall['request_id']; ?>)">อนุมัติคำร้อง</button>
+                                                                <button type="button" class="btn btn-primary" onclick="Approved('<?= $requestall['request_id']; ?>')">อนุมัติคำร้อง</button>
                                                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $requestall['request_id']; ?>">ไม่อนุมัติคำร้อง</button>
                                                             </td>
                                                         <?php } elseif ($requestall['RE_status'] == '1' && $requestall['RE_teacher_opinion'] == '1' && $requestall['RE_comment'] != '') {?>
@@ -296,7 +294,7 @@ $conn = null;
                                                                 <span class="text-green td-status"><i class="bi bi-check-circle"></i> อนุมัติ</span>
                                                             </td>
                                                             <td>
-                                                                <button type="button" class="btn btn-success" onclick="Cancel(<?= $requestall['request_id']; ?>)">ยกเลิก อนุมัติคำร้อง</button>
+                                                                <button type="button" class="btn btn-success" onclick="Cancel('<?= $requestall['request_id']; ?>')">ยกเลิก อนุมัติคำร้อง</button>
                                                             </td>
 
                                                         <?php } elseif ($requestall['RE_status'] == '0' && $requestall['RE_teacher_opinion'] == '0' ) {?>
@@ -304,7 +302,7 @@ $conn = null;
                                                                 <span class="text-red td-status"><i class="bi bi-x-circle"></i> ไม่อนุมัติ</span>
                                                             </td>
                                                             <td>
-                                                                <button type="button" class="btn btn-danger" onclick="Cancel(<?= $requestall['request_id']; ?>)">ยกเลิก ไม่อนุมัติคำร้อง</button>
+                                                                <button type="button" class="btn btn-danger" onclick="Cancel('<?= $requestall['request_id']; ?>')">ยกเลิก ไม่อนุมัติคำร้อง</button>
                                                             </td>
 
                                                         <?php }?>
@@ -331,7 +329,7 @@ $conn = null;
                                                                 </div>
                                                                 <div class="form-actions-footer">
                                                                     <button class="btn btn-light" type="button" onclick="showConfirmation()">ยกเลิก</button>
-                                                                    <button class="btn btn-success" type="button" onclick="NOTApproved(<?= $requestall['request_id']; ?>)">ไม่อนุมัติคำร้อง</button>
+                                                                    <button class="btn btn-success" type="button" onclick="NOTApproved('<?= $requestall['request_id']; ?>')">ไม่อนุมัติคำร้อง</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -458,30 +456,32 @@ $conn = null;
                             RE_teacher_opinion: RE_teacher_opinion,
                             RE_status : RE_status
                         },
-
                         success: function (response) {
-                            if (response === 'success') {
+                            // console.log(response);
+                            // return;
+                            if (response.trim() === 'success') {
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'อนุมัติคำร้องสำเร็จ',
                                     showConfirmButton: false,
                                     timer: 1500
-                                }).then(() => {
+                                }).then(function () {
                                     window.location.href = 'showdata_request.php';
                                 });
                             } else {
                                 Swal.fire({
-                                    icon: 'error',
-                                    title: 'เกิดข้อผิดพลาดในอนุมัติคำร้องสำเร็จ อาจจะเป็นคีย์นอก',
-                                    text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
+                                    icon: 'warning',
+                                    title: 'เกิดข้อผิดพลาดในการอนุมัติคำร้อง',
+                                    text: response
                                 });
                             }
                         },
-                        error: function (xhr, status, error) {
+                        error: function (error) {
+                            console.log(error);
                             Swal.fire({
                                 icon: 'error',
-                                title: 'เกิดข้อผิดพลาดในการอนุมัติคำร้องสำเร็จ',
-                                text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
+                                title: 'เกิดข้อผิดพลาดในการส่งข้อมูล',
+                                text: 'โปรดลองอีกครั้ง'
                             });
                         }
                     });

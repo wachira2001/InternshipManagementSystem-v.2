@@ -54,7 +54,11 @@ try {
         } else {
             echo "error";
         }
+
+    } else {
+        echo "กรุณากรอกข้อมูลให้ครบ";
     }
+
 } catch (PDOException $e) {
     // แสดงข้อความ Error ในหน้า HTML
     echo "<p>พบข้อผิดพลาด: " . $e->getMessage() . "</p>";

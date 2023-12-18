@@ -224,7 +224,7 @@ $conn = null;
                                         <ul class="nav nav-tabs" id="customTab3" role="tablist">
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link active" id="tab-oneAA" data-bs-toggle="tab" href="#oneAA" role="tab" aria-controls="oneAA" aria-selected="true">
-                                                    <img class="" src="../../img/verified.gif" alt="Verified Image" height="30px">
+                                                    <img class="" src="../../img/verified.png" alt="Verified Image" height="30px">
                                                     ยื่นคำร้องสำเร็จ
                                                 </a>
                                             </li>
@@ -233,9 +233,9 @@ $conn = null;
                                         <div class="tab-content" id="customTabContent3">
                                             <div class="tab-pane fade show active" id="oneAA" role="tabpanel" aria-labelledby="tab-oneAA">
                                                 <div class="d-flex justify-content-center">
-                                                    <img class="" src="../../img/verified.gif" alt="Verified Image" height="320">
+                                                    <img class="" src="../../img/verified.png" alt="Verified Image" height="320">
                                                 </div>
-                                                <p style="font-size: 20px;text-align: center">ยื่นคำร้องสำเร็จ</p>
+                                                <p style="font-size: 20px;text-align: center">ยื่นคำร้องสำเร็จ เวลา <?php echo $request['timestamp_request'] ?></p>
                                             </div>
 
                                         </div>
@@ -247,13 +247,13 @@ $conn = null;
                                         <ul class="nav nav-tabs" id="customTab3" role="tablist">
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link " id="tab-oneAA" data-bs-toggle="tab" href="#oneAA" role="tab" aria-controls="oneAA" aria-selected="true">
-                                                    <img class="" src="../../img/verified.gif" alt="Verified Image" height="30px">
+                                                    <img class="" src="../../img/verified.png" alt="Verified Image" height="30px">
                                                     ยื่นคำร้องสำเร็จ
                                                 </a>
                                             </li>
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link active" id="tab-twoAA" data-bs-toggle="tab" href="#twoAA" role="tab" aria-controls="twoAA" aria-selected="false" tabindex="-1">
-                                                    <img class="" src="../../img/hiring.gif" alt="Verified Image" height="30px">
+                                                    <img class="" src="../../img/img2.png" alt="Verified Image" height="30px">
                                                     อาจารย์ที่ปรึกษา
                                                 </a>
                                             </li>
@@ -261,15 +261,15 @@ $conn = null;
                                         <div class="tab-content" id="customTabContent3">
                                             <div class="tab-pane fade " id="oneAA" role="tabpanel" aria-labelledby="tab-oneAA">
                                                     <div class="d-flex justify-content-center">
-                                                        <img class="" src="../../img/verified.gif" alt="Verified Image" height="320">
+                                                        <img class="" src="../../img/verified.png" alt="Verified Image" height="320">
                                                     </div>
-                                                    <p style="font-size: 20px;text-align: center">ยื่นคำร้องสำเร็จ</p>
+                                                    <p style="font-size: 20px;text-align: center">ยื่นคำร้องสำเร็จ เวลา <?php echo $request['timestamp_request'] ?></p>
                                             </div>
                                             <div class="tab-pane fade show active" id="twoAA" role="tabpanel" aria-labelledby="tab-twoAA">
                                                 <div class="d-flex justify-content-center">
-                                                    <img class="" src="../../img/hiring.gif" alt="Verified Image" height="320">
+                                                    <img class="" src="../../img/img2.png" alt="Verified Image" height="320">
                                                 </div>
-                                                <p style="font-size: 20px;text-align: center">อาจารย์ที่ปรึกษา อนุมัติคำร้องเรียบร้อย</p>
+                                                <p style="font-size: 20px;text-align: center">อาจารย์ที่ปรึกษา อนุมัติคำร้องเรียบร้อย เวลา <?php echo $request['timestamp_request'] ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -280,13 +280,13 @@ $conn = null;
                                         <ul class="nav nav-tabs" id="customTab3" role="tablist">
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link " id="tab-oneAA" data-bs-toggle="tab" href="#oneAA" role="tab" aria-controls="oneAA" aria-selected="true">
-                                                    <img class="" src="../../img/verified.gif" alt="Verified Image" height="30px">
+                                                    <img class="" src="../../img/verified.png" alt="Verified Image" height="30px">
                                                     ยื่นคำร้องสำเร็จ
                                                 </a>
                                             </li>
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link active" id="tab-twoAA" data-bs-toggle="tab" href="#twoAA" role="tab" aria-controls="twoAA" aria-selected="false" tabindex="-1">
-                                                    <img class="" src="../../img/hiring.gif" alt="Verified Image" height="30px">
+                                                    <img class="" src="../../img/img2.png" alt="Verified Image" height="30px">
                                                     อาจารย์ที่ปรึกษา
                                                 </a>
                                             </li>
@@ -294,15 +294,15 @@ $conn = null;
                                         <div class="tab-content" id="customTabContent3">
                                             <div class="tab-pane fade " id="oneAA" role="tabpanel" aria-labelledby="tab-oneAA">
                                                 <div class="d-flex justify-content-center">
-                                                    <img class="" src="../../img/verified.gif" alt="Verified Image" height="320">
+                                                    <img class="" src="../../img/verified.png" alt="Verified Image" height="320">
                                                 </div>
-                                                <p style="font-size: 20px;text-align: center">ยื่นคำร้องสำเร็จ</p>
+                                                <p style="font-size: 20px;text-align: center">ยื่นคำร้องสำเร็จ เวลา <?php echo $request['timestamp_request'] ?></p>
                                             </div>
                                             <div class="tab-pane fade show active" id="twoAA" role="tabpanel" aria-labelledby="tab-twoAA">
                                                 <div class="d-flex justify-content-center">
-                                                    <img class="" src="../../img/will.gif" alt="Verified Image" height="320">
+                                                    <img class="" src="../../img/img2.png" alt="Verified Image" height="320">
                                                 </div>
-                                                <p style="font-size: 20px;text-align: center">อาจารย์ที่ปรึกษาไม่อนุมัติคำร้อง เนื่องจาก : <?php echo $request['RE_comment'] ?></p>
+                                                <p style="font-size: 20px;text-align: center" class="text-danger">อาจารย์ที่ปรึกษาไม่อนุมัติคำร้อง เนื่องจาก : <?php echo $request['RE_comment'] ?> เวลา <?php echo $request['timestamp_request'] ?></p>
                                                 <a href="addFrom_request.php" class="d-flex justify-content-center py-3">
                                                  <button type="button" class="btn btn-info"><i class="bi bi-plus-square"></i> ยื่นคำร้องออกฝึกประสบการณ์วิชาชีพ</button>
                                                </a>
@@ -316,19 +316,19 @@ $conn = null;
                                         <ul class="nav nav-tabs" id="customTab3" role="tablist">
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link " id="tab-oneAA" data-bs-toggle="tab" href="#oneAA" role="tab" aria-controls="oneAA" aria-selected="true">
-                                                    <img class="" src="../../img/verified.gif" alt="Verified Image" height="30px">
+                                                    <img class="" src="../../img/verified.png" alt="Verified Image" height="30px">
                                                     ยื่นคำร้องสำเร็จ
                                                 </a>
                                             </li>
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link " id="tab-twoAA" data-bs-toggle="tab" href="#twoAA" role="tab" aria-controls="twoAA" aria-selected="false" tabindex="-1">
-                                                    <img class="" src="../../img/hiring.gif" alt="Verified Image" height="30px">
+                                                    <img class="" src="../../img/img2.png" alt="Verified Image" height="30px">
                                                     อาจารย์ที่ปรึกษา
                                                 </a>
                                             </li>
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link active" id="tab-threeAA" data-bs-toggle="tab" href="#threeAA" role="tab" aria-controls="threeAA" aria-selected="false" tabindex="-1">
-                                                    <img class="" src="../../img/hiringH.gif" alt="Verified Image" height="30px">
+                                                    <img class="" src="../../img/img3.png" alt="Verified Image" height="30px">
                                                     หัวหน้าแผนก
                                                 </a>
                                             </li>
@@ -336,22 +336,22 @@ $conn = null;
                                         <div class="tab-content" id="customTabContent3">
                                             <div class="tab-pane fade " id="oneAA" role="tabpanel" aria-labelledby="tab-oneAA">
                                                 <div class="d-flex justify-content-center">
-                                                    <img class="" src="../../img/verified.gif" alt="Verified Image" height="320">
+                                                    <img class="" src="../../img/verified.png" alt="Verified Image" height="320">
                                                 </div>
-                                                <p style="font-size: 20px;text-align: center">ยื่นคำร้องสำเร็จ</p>
+                                                <p style="font-size: 20px;text-align: center">ยื่นคำร้องสำเร็จ เวลา <?php echo $request['timestamp_request'] ?></p>
                                             </div>
                                             <div class="tab-pane fade " id="twoAA" role="tabpanel" aria-labelledby="tab-twoAA">
                                                 <div class="d-flex justify-content-center">
-                                                    <img class="" src="../../img/hiring.gif" alt="Verified Image" height="320">
+                                                    <img class="" src="../../img/img2.png" alt="Verified Image" height="320">
                                                 </div>
-                                                <p style="font-size: 20px;text-align: center">อาจารย์ที่ปรึกษา อนุมัติคำร้องเรียบร้อย</p>
+                                                <p style="font-size: 20px;text-align: center">อาจารย์ที่ปรึกษา อนุมัติคำร้องเรียบร้อย เวลา <?php echo $request['timestamp_request'] ?></p>
                                             </div>
 
                                             <div class="tab-pane fade show active" id="threeAA" role="tabpanel" aria-labelledby="tab-threeAA">
                                                 <div class="d-flex justify-content-center">
-                                                    <img class="" src="../../img/hiringH.gif" alt="Verified Image" height="320">
+                                                    <img class="" src="../../img/img3.png" alt="Verified Image" height="320">
                                                 </div>
-                                                <p style="font-size: 20px;text-align: center">หัวหน้าแผนก อนุมัติคำร้องเรียบร้อย</p>
+                                                <p style="font-size: 20px;text-align: center">หัวหน้าแผนก อนุมัติคำร้องเรียบร้อย เวลา <?php echo $request['timestamp_request'] ?></p>
 
                                             </div>
                                         </div>
@@ -363,19 +363,19 @@ $conn = null;
                                         <ul class="nav nav-tabs" id="customTab3" role="tablist">
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link " id="tab-oneAA" data-bs-toggle="tab" href="#oneAA" role="tab" aria-controls="oneAA" aria-selected="true">
-                                                    <img class="" src="../../img/verified.gif" alt="Verified Image" height="30px">
+                                                    <img class="" src="../../img/verified.png" alt="Verified Image" height="30px">
                                                     ยื่นคำร้องสำเร็จ
                                                 </a>
                                             </li>
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link " id="tab-twoAA" data-bs-toggle="tab" href="#twoAA" role="tab" aria-controls="twoAA" aria-selected="false" tabindex="-1">
-                                                    <img class="" src="../../img/hiring.gif" alt="Verified Image" height="30px">
+                                                    <img class="" src="../../img/img2.png" alt="Verified Image" height="30px">
                                                     อาจารย์ที่ปรึกษา
                                                 </a>
                                             </li>
                                             <li class="nav-item" role="presentation">
                                                 <a class="nav-link active" id="tab-threeAA" data-bs-toggle="tab" href="#threeAA" role="tab" aria-controls="threeAA" aria-selected="false" tabindex="-1">
-                                                    <img class="" src="../../img/hiringH.gif" alt="Verified Image" height="30px">
+                                                    <img class="" src="../../img/img3.png" alt="Verified Image" height="30px">
                                                     หัวหน้าแผนก
                                                 </a>
                                             </li>
@@ -383,22 +383,22 @@ $conn = null;
                                         <div class="tab-content" id="customTabContent3">
                                             <div class="tab-pane fade " id="oneAA" role="tabpanel" aria-labelledby="tab-oneAA">
                                                 <div class="d-flex justify-content-center">
-                                                    <img class="" src="../../img/verified.gif" alt="Verified Image" height="320">
+                                                    <img class="" src="../../img/verified.png" alt="Verified Image" height="320">
                                                 </div>
-                                                <p style="font-size: 20px;text-align: center">ยื่นคำร้องสำเร็จ</p>
+                                                <p style="font-size: 20px;text-align: center">ยื่นคำร้องสำเร็จ เวลา <?php echo $request['timestamp_request'] ?></p>
                                             </div>
                                             <div class="tab-pane fade " id="twoAA" role="tabpanel" aria-labelledby="tab-twoAA">
                                                 <div class="d-flex justify-content-center">
-                                                    <img class="" src="../../img/will.gif" alt="Verified Image" height="320">
+                                                    <img class="" src="../../img/img2.png" alt="Verified Image" height="320">
                                                 </div>
-                                                <p style="font-size: 20px;text-align: center">อาจารย์ที่ปรึกษา อนุมัติคำร้องเรียบร้อย</p>
+                                                <p style="font-size: 20px;text-align: center">อาจารย์ที่ปรึกษา อนุมัติคำร้องเรียบร้อย เวลา <?php echo $request['timestamp_request'] ?></p>
                                             </div>
 
                                             <div class="tab-pane fade show active" id="threeAA" role="tabpanel" aria-labelledby="tab-threeAA">
                                                 <div class="d-flex justify-content-center">
-                                                    <img class="" src="../../img/will.gif" alt="Verified Image" height="320">
+                                                    <img class="" src="../../img/img3.png" alt="Verified Image" height="320">
                                                 </div>
-                                                <p style="font-size: 20px;text-align: center">หัวหน้าแผนก ไม่อนุมัติคำร้อง เนื่องจาก : <?php echo $request['RE_commentH'] ?></p>
+                                                <p style="font-size: 20px;text-align: center" class="text-danger">หัวหน้าแผนก ไม่อนุมัติคำร้อง เนื่องจาก : <?php echo $request['RE_commentH'] ?> เวลา <?php echo $request['timestamp_request'] ?></p>
 
                                             </div>
                                         </div>
@@ -410,9 +410,9 @@ $conn = null;
                                 <div class="custom-tabs-container">
                                         <div class="tab-pane fade show active" id="threeAA" role="tabpanel" aria-labelledby="tab-threeAA">
                                             <div class="d-flex justify-content-center">
-                                                <img class="" src="../../img/will.gif" alt="Verified Image" height="320">
+                                                <img class="" src="../../img/img1.png" alt="Verified Image" height="320">
                                             </div>
-                                            <p style="font-size: 20px;text-align: center">กรุณายื่นคำร้องออกฝึกประสบการณ์วิชาชีพ</p>
+                                            <p style="font-size: 20px;text-align: center" class="py-3">กรุณายื่นคำร้องออกฝึกประสบการณ์วิชาชีพ</p>
                                             <a href="addFrom_request.php"> <button class="btn btn-success "> ยื่นคำร้องออกฝึกประสบการณ์วิชาชีพ </button></a>
 
                                         </div>

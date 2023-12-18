@@ -1,8 +1,7 @@
 <?php
 require_once 'conndb.php';
-
-require_once 'conndb.php';
-
+//print_r(gettype($_POST['company_ID']));
+//return;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $company_ID = $_POST['company_ID'];
     try {
@@ -17,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (PDOException $e) {
         // ดักจับข้อผิดพลาดที่เกิดขึ้นจากการลบที่มีข้อมูลอ้างอิง
         if ($e->errorInfo[1] == 1451) {
-            echo 'ไม่สามารถลบได้เนื่องจากมีข้อมูลอื่นเชื่อมอยู่';
+            echo 'ไม่สามารถลบได้เนื่องจาก ข้อมูลดังกล่าวนำไปใช้ในส่วนอื่น';
         } else {
             echo 'เกิดข้อผิดพลาด: ' . $e->getMessage();
         }

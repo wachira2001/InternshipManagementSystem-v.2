@@ -246,7 +246,7 @@ $conn = null;
                     <div class="col-sm-12 col-12">
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-title">รายชื่อนักเรียน/นักศึกษาทั้งหมด</div>
+                                <div class="card-title">รายชื่อสถานประกอบการ</div>
                             </div>
                             <div class="card-body">
 
@@ -258,6 +258,7 @@ $conn = null;
                                             <th>เบอร์โทรศัพท์</th>
                                             <th>ชื่อผู้สอนงาน</th>
                                             <th>ตำแหน่งผู้สอนงาน</th>
+                                            <th>ดู/แก้ไข/ลบ</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -291,7 +292,7 @@ $conn = null;
                                                     <a href="editFrom_company.php?company_ID=<?= $companys['company_ID']; ?>" >
                                                         <i class="bi bi-pencil-square text-warning"></i>
                                                     </a>
-                                                    <a href="#" onclick="Delete(<?= $companys['company_ID']; ?>)">
+                                                    <a href="#" onclick="Delete('<?= $companys['company_ID']; ?>')">
                                                         <i class="bi bi-trash text-red"></i>
                                                     </a>
                                                 </div>

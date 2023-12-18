@@ -35,34 +35,35 @@ $getTeacher = getTeacher($conn);
 $conditions = array();
 
 // ตรวจสอบและเพิ่มเงื่อนไขสำหรับแต่ละพารามิเตอร์
-if (isset($_GET['R_ID']) && $_GET['R_ID'] != '') {
+if (isset($_GET['R_ID']) && $_GET['R_ID'] !== "") {
     $conditions[] = "room.R_ID = :R_ID";
 }
 
-if (isset($_GET['R_level']) && $_GET['R_level'] != '') {
+if (isset($_GET['R_level']) && $_GET['R_level'] !== "") {
     $conditions[] = "room.R_level = :R_level";
 }
 
-if (isset($_GET['R_level_number']) && $_GET['R_level_number'] != '') {
+if (isset($_GET['R_level_number']) && $_GET['R_level_number'] !== "") {
     $conditions[] = "room.R_level_number = :R_level_number";
 }
 
-if (isset($_GET['R_room']) && $_GET['R_room'] != '') {
+if (isset($_GET['R_room']) && $_GET['R_room'] !== "") {
     $conditions[] = "room.R_room = :R_room";
 }
 
 // สร้างคำสั่ง SQL
-$sql = "SELECT room.*, teacher.T_fname, teacher.T_lname, teacher.T_ID, COUNT(student.R_ID) AS student_count
-FROM room
-INNER JOIN teacher ON room.T_ID = teacher.T_ID
-LEFT JOIN student ON room.R_ID = student.R_ID
-GROUP BY room.R_ID, teacher.T_ID;
-";
+$sql = "SELECT room.*, student.S_fname, student.S_lname, teacher.T_fname, teacher.T_lname, COUNT(student.R_ID) AS student_count
+        FROM room
+        LEFT JOIN student ON room.R_ID = student.R_ID
+        LEFT JOIN teacher ON room.T_ID = teacher.T_ID";
 
 // เพิ่ม WHERE clause หากมีเงื่อนไข
 if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
 }
+
+// เพิ่ม GROUP BY clause
+$sql .= " GROUP BY room.R_ID, teacher.T_ID";
 
 // เตรียมและประมวลผลคำสั่ง
 $stmt = $conn->prepare($sql);
@@ -82,7 +83,6 @@ $stmt->execute();
 
 // ดึงผลลัพธ์
 $room = $stmt->fetchAll();
-
 ?>
 
 
@@ -378,7 +378,7 @@ $room = $stmt->fetchAll();
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                                    <h5 class="modal-title" id="staticBackdropLabel">เพิ่มห้องเรียน</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -386,8 +386,8 @@ $room = $stmt->fetchAll();
                                         <div class="col-sm-3 col-12">
                                                     <div class="m-0">
                                                         <label class="form-label">เลือกชั้น</label>
-                                                        <select class="form-select" aria-label="Default select example" id="R_level">
-                                                            <option selected="">-- เลือกชั้น --</option>
+                                                        <select class="form-select" aria-label="Default select example" id="R_level" required>
+                                                            <option value="" selected="">-- เลือกชั้น --</option>
                                                             <option value="ปวช.">ปวช.</option>
                                                             <option value="ปวส.">ปวส.</option>
                                                         </select>
@@ -396,21 +396,19 @@ $room = $stmt->fetchAll();
                                         <div class="col-sm-3 col-12">
                                             <div class="m-0">
                                                 <label class="form-label">เลือกระดับชั้น</label>
-                                                <select class="form-select" aria-label="Default select example" id="R_level_number">
-                                                    <option selected="">-- เลือกระดับชั้น --</option>
-                                                    <option value="1">ปวช.1</option>
-                                                    <option value="2">ปวช.2</option>
-                                                    <option value="3">ปวช.3</option>
-                                                    <option value="1">ปวส.1</option>
-                                                    <option value="2">ปวส.2</option>
+                                                <select class="form-select" aria-label="Default select example" id="R_level_number" required>
+                                                    <option value="" selected="">-- เลือกระดับชั้น --</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-sm-3 col-12">
                                             <div class="m-0">
                                                 <label class="form-label">เลือกห้อง</label>
-                                                <select class="form-select" aria-label="Default select example" id="R_room">
-                                                    <option selected="">-- เลือกห้อง --</option>
+                                                <select class="form-select" aria-label="Default select example" id="R_room" required>
+                                                    <option value="" selected="">-- เลือกห้อง --</option>
                                                     <option value="1">ห้อง 1</option>
                                                     <option value="2">ห้อง 2</option>
                                                     <option value="3">ห้อง 3</option>
@@ -433,8 +431,8 @@ $room = $stmt->fetchAll();
                                         <div class="col-sm-3 col-12">
                                             <div class="m-0">
                                                 <label class="form-label">เลือกครูประจำห้อง</label>
-                                                <select class="form-select" aria-label="Default select example" id="T_ID">
-                                                    <option selected="">-- ครูประจำห้อง --</option>
+                                                <select class="form-select" aria-label="Default select example" id="T_ID" required>
+                                                    <option value="" selected="">-- ครูประจำห้อง --</option>
                                                     <?php foreach ($getTeacher as $teacher) : ?>
                                                         <option value="<?php echo $teacher['T_ID']; ?>"><?php echo $teacher['T_fname']; ?></option>
                                                     <?php endforeach; ?>

@@ -305,9 +305,14 @@ function getcompanyall($conn, $search = '') {
 
 function getcompany($conn,$company_ID) {
     try {
-        $sql = "SELECT * FROM company WHERE company_ID = $company_ID ";
+
+        $sql = "SELECT * FROM company WHERE company_ID = :company_ID ";
         $stmt = $conn->prepare($sql);
+        // กำหนดค่า parameter
+        $stmt->bindParam(':company_ID', $company_ID);
+        // ประมวลผลคำสั่ง SQL
         $stmt->execute();
+        // ดึงข้อมูลแบบ associative array
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         // ส่งข้อมูลกลับ
         return $result;

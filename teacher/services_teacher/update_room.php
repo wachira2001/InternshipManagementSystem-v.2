@@ -72,7 +72,7 @@ try {
         }
     } else {
         // แสดง SweetAlert2 กรณีข้อมูลที่ส่งมาไม่ครบ
-        echo 'โปรดกรอกข้อมูลที่จำเป็น';
+        echo 'กรุณากรอกข้อมูลให้ครบ';
     }
 } catch (PDOException $e) {
     // แสดง SweetAlert2 กรณีเกิด Exception

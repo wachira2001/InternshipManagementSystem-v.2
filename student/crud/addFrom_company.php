@@ -25,6 +25,37 @@ if (!isset($_SESSION['username']) || ($_SESSION['role'] !== 'student')) {
 }
 $user = getuserS($conn,$_SESSION['username']);
 $major = getmajor($conn);
+
+$stmt = $conn->prepare("SELECT company_ID FROM company ORDER BY company_ID DESC LIMIT 1");
+$stmt->execute();
+// ดึงข้อมูลแบบ associative array
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($result !== false) {
+    // ดึงรหัสปัจจุบัน
+    $currentCode = $result['company_ID'];
+
+    // แยกตัวเลขจากรหัส
+    $numericPart = (int)substr($currentCode, 1);
+
+    // เพิ่มขึ้นไป 1
+    $newNumericPart = $numericPart + 1;
+
+    // สร้างรหัสใหม่ (เปลี่ยนตัวเลขเป็นตัวอักษรทั้งหมด)
+    $newCode = 'C' . strtoupper(str_pad($newNumericPart, strlen($currentCode) - 1, '0', STR_PAD_LEFT));
+
+} else {
+    // กรณีไม่มีข้อมูล
+    $newCode = 'C0001';
+
+}
+
+
+
+
+
+
+
 //print_r($user);
 //return;
 // ปิดการเชื่อมต่อ
@@ -206,7 +237,7 @@ $conn = null;
                                             <div class="col-6">
                                                 <label for="inputName" class="form-label">รหัสสถานประกอบการ</label>
                                                 <input type="text" class="form-control" id="inputName"
-                                                       placeholder="กรุณาป้อนรหัสสถานประกอบการ" name="company_ID" maxlength="5" required>
+                                                       placeholder="กรุณาป้อนรหัสสถานประกอบการ" name="company_ID" value="<?php echo $newCode ?>" maxlength="5" readonly>
                                             </div>
 
                                             <div class="col-6">
